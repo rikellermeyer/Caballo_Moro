@@ -1,0 +1,624 @@
+---
+title: "CMC_graphics.rmd"
+output:
+  pdf_document: default
+  html_document: default
+  always_allow_html: true
+date: "2024-04-02"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#knitr::opts_chunk$set(dev = 'svg') # set output device to svg
+knitr::opts_chunk$set(echo = TRUE, fig.path="./", dev='svg')
+#knitr::opts_knit$set(root.dir = '/n/projects/rk2643/caballo_moro_genomics/streamlined/data/molino2/popgen')
+#/n/projects/rk2643/caballo_moro_genomics/streamlined/data/molino2/popgen
+library(BiocManager)
+library(tidyverse)
+library(plotly)
+library(here)
+library(gdsfmt)
+library(SNPRelate)
+library(qqman)
+library(htmlwidgets)
+library(grid)
+library(gridGraphics)
+library(ggplot2)
+library(ggrepel)
+library(gghighlight)
+library(VennDiagram)
+library(limma)
+library(eulerr)
+library(FactoMineR)
+library(cluster)
+library(factoextra)
+library(glue)
+```
+
+
+Stats were generated from [popgenWindows.py](https://github.com/simonhmartin/genomics_general/blob/master/popgenWindows.py) at 50kb intervals
+
+```{r popgenstats}
+#load data
+all_raw_stats <- read.table("../data/popgen/Amex3.0_surface.50kwin.output.csv", sep=',', header=TRUE)
+
+# make a new table with average pi of each population
+
+### genome-wide nucleotide diversity/pi
+eyeless_mean_pi = mean(all_raw_stats$pi_eyeless, na.rm=TRUE)
+#eyeless_density = density(eyeless_mean)
+
+eyed_mean_pi = mean(all_raw_stats$pi_eyed, na.rm=TRUE)
+
+surface_mean_pi = mean(all_raw_stats$pi_surface, na.rm=TRUE)
+
+
+### Rachels' initial data: "levels of differentiation between populations"
+# has a figure of Dxy by chromosome with each population overlayed
+# is a table of Dxy and Fst with iterative population comparisons (eyed vs eyeless, all CM vs sf.. etc)
+
+
+
+### Absolute sequence divergence/Dxy
+
+# Dxy is inherently comparative between populations
+# stats already have eyed vs eyeless; eyed vs sf ;eyeless vs sf
+# plot by chromosome
+
+#remove nas
+no_na_all_stats <- drop_na(all_raw_stats)
+
+#rename chromosomes
+chromosome_key <- read.table('../data/variant_calling/variants/Amex3.0_surface.renamechr.txt')
+
+fixed_chr_name <- inner_join(no_na_all_stats, chromosome_key, by=c("scaffold" = "V1")) 
+fixed_chr_name$V2 <- as.numeric(fixed_chr_name$V2)
+fixed_all_stats <- fixed_chr_name %>% filter(V2 <=25)
+
+
+#make this a function for each chromosome #
+
+chr21_only <- fixed_all_stats %>% filter(V2 == '21')
+gja8b_subset <- subset(chr21_only, mid == "25525014")
+
+#gja8b start:25500001 stop:25550000 mid:25525014
+chr21_plot <- ggplot(chr21_only, aes(x=mid, y=dxy_eyeless_surface)) +
+  geom_line() +
+  geom_point(data=gja8b_subset, colour = "red") 
+
+chr21_plot
+#fixed_all_stats <- no_na_all_stats$chr[match(chromosome_key$V1, no_na_all_stats$)]
+
+bychr_plot <- ggplot(fixed_all_stats, aes(x=as.factor(V2), y=dxy_eyed_surface), fill=factor(sites)) +
+  geom_line() +
+  scale_color_manual(values = rep(c("grey", "orange3"), 22 )) 
+
+
+bychr_plot
+
+#calculate mean pairwise
+mean_dxy_eyeless_eyed = mean(all_raw_stats$dxy_eyeless_eyed, na.rm=TRUE)
+
+mean_dxy_eyeless_sf = mean(all_raw_stats$dxy_eyeless_surface, na.rm = TRUE)
+
+mean_dxy_eyed_sf = mean(all_raw_stats$dxy_eyed_surface, na.rm = TRUE)
+
+mean_fst_eyeless_eyed = mean(all_raw_stats$Fst_eyeless_eyed, na.rm=TRUE)
+
+mean_fst_eyeless_sf = mean(all_raw_stats$Fst_eyeless_surface, na.rm= TRUE)
+
+mean_fst_eyed_sf = mean(all_raw_stats$Fst_eyed_surface, na.rm=TRUE)
+
+
+```
+
+
+
+
+Followed this tutorial for plotting PCAs: https://speciationgenomics.github.io/pca/
+
+```{r pca, echo=FALSE}
+#load data
+## removed M2 while running plink, major outlier
+#setwd("../data/molino2/popgen/pca")
+pca <- read.table("../data/popgen/pca/pruned.Amex3.0_surface.50.win.eigenvec", header =FALSE)
+
+eigenval <- scan("../data/popgen/pca/pruned.Amex3.0_surface.50.win.eigenval")
+
+pca <- pca[,-1]
+names(pca)[1] <- "ind"
+samples_list <- pca$ind
+#rename column names to PC1-...
+names(pca)[2:ncol(pca)] <- paste0("PC", 1:(ncol(pca)-1))
+
+
+
+population <- rep(NA, length(pca$ind)) 
+#grep here gives the index where it matches the pattern
+population[grep("^M", pca$ind)] <- "Molino"
+population[grep("^E", pca$ind)] <- "Eyed"
+population[grep("^C", pca$ind)] <- "Eyeless"
+population[grep("^S", pca$ind)] <- "Surface"
+
+pca_df <-as_tibble(data.frame(pca, population))
+
+
+#convert to percentage of variance explained
+pve <- data.frame(PC = 1:20, pve = eigenval/sum(eigenval)*100)
+```
+
+
+```{r plot_pca}
+t <- list(
+  family = "sans serif",
+  size = 14,
+  color = toRGB("grey50"))
+
+#bar plot for percentage variance
+pca_perc_var <- ggplot(pve, aes(PC, pve)) + geom_bar(stat = "identity")
+pca_perc_var + ylab("Percentage variance explained") + theme_light()
+
+# calculate the cumulative sum of the percentage variance explained
+cumsum(pve$pve)
+
+#plot the actual pca
+PC1 <- pca_df$PC1
+PC2 <- pca_df$PC2
+PC3 <- pca_df$PC3
+ind_names <- pca_df$ind
+
+PC1
+PC2
+
+
+
+
+### calculate k-means with euclidean distance
+# looking at: https://www.cfholbert.com/blog/cluster-pca/ for guidance
+
+# Euclidean distance
+pc_12_only <- cbind(pca_df$PC1,pca_df$PC2)
+pca_12<- prcomp(pc_12_only, scale=FALSE, center=TRUE)
+summary(pca_12)
+
+kmeans_12 <- kmeans(scale(pc_12_only),centers=3)$cluster
+
+kmeans_plot <- plot(pc_12_only, col=kmeans_12)
+fviz_nbclust(pc_12_only, kmeans)
+
+pc_12_df <- data.frame(pc_12_only)
+colnames(pc_12_df) <- c("PC1", "PC2")
+pc_12_df$groups <- pca_df$population
+
+#df_12.x <- as.data.frame(pca_12$x)
+#df_12.x$groups <- pca_df$population
+#centroids <- aggregate(df_12.x[,1:2],list(Type=df_12.x$groups),mean)
+#sem_centroids <- aggregate(df_12.x[,1:2],list(Type=df_12.x$groups),sd)
+
+centroids <- aggregate(pc_12_df[,1:2],list(Type=pc_12_df$groups),mean)
+sem_centroids <- aggregate(pc_12_df[,1:2],list(Type=pc_12_df$groups),sd)
+min_centers_PC1 <- centroids$PC1 - sem_centroids$PC1
+max_centers_PC1 <- centroids$PC1 + sem_centroids$PC1
+min_centers_PC2 <- centroids$PC2 - sem_centroids$PC2
+max_centers_PC2 <- centroids$PC2 + sem_centroids$PC2
+
+min_max_df <- data.frame(min_centers_PC1,max_centers_PC1,min_centers_PC2,max_centers_PC2)
+
+min_max_list <- cbind(min_centers_PC1,max_centers_PC1,min_centers_PC2,max_centers_PC2)
+center_df <- cbind(centroids,min_max_list)
+try_center_df <- center_df
+#center_df %>% mutate(Type=factor(Type, levels=c("Eyeless","Eyed","Surface"))) %>% arrange(Type)
+
+
+center_df$Type <- factor(center_df$Type, levels=c("Eyeless","Eyed","Surface"))
+center_df = center_df[order(center_df$Type),]
+rownames(center_df)<- 1:nrow(center_df)
+
+try_center_df$Type <- factor(try_center_df$Type, levels=c("Eyeless","Eyed","Surface"))
+try_center_df = try_center_df[order(try_center_df$Type),]
+rownames(try_center_df)<- 1:nrow(try_center_df)
+
+#DATA$This <- factor(DATA$This, levels=c("60", "90", "120", "OG"))
+#tab12 = tab12[order(tab12$Sector), ]
+#df %>% 
+#  mutate(sector = factor(sector, levels = c("Other", "Public", "Private"))) %>% 
+#  arrange(sector)
+#> rownames(df2_sample)<-1:nrow(df2_sample)
+
+center_df
+
+eyeless_sf <- dist(rbind(centroids[centroids$Type=='Eyeless',2:3],centroids[centroids$Type=='Surface',2:3]), method='euclidean') 
+
+eyed_sf <- dist(rbind(centroids[centroids$Type=='Eyed',2:3],centroids[centroids$Type=='Surface',2:3]), method='euclidean')
+
+eyed_eyeless <- dist(rbind(centroids[centroids$Type=='Eyeless',2:3],centroids[centroids$Type=='Eyed',2:3]), method='euclidean')
+
+glue('eyeless vs sf: {eyeless_sf}; eyed vs sf:{eyed_sf}; eyed vs eyeless: {eyed_eyeless}')
+
+
+###PLOT
+
+pca_plot <- plot_ly(x=PC1, y=PC2, type="scatter", mode="markers", color=~population, colors = c('#708CC7','#E9714A', "#55BDA2"), 
+                    marker = list(size =28), width=700, height = 400) %>% config(
+    toImageButtonOptions = list(
+      format = "svg",
+      filename = "pca_good",
+      width = 500,
+      height = 500)) # this worked swimmingly. Then open up the pca.html widget made below and you can easily download as a SVG!!!!!
+pca_plot
+saveWidget(ggplotly(pca_plot), file = "pca.html")
+
+
+#basic as hell
+pca_plot1<- ggplot(pca_df, mapping = aes(PC1, PC2, col = population)) + geom_point(size = 2) +
+  scale_colour_manual(values = c("black", "#636EFA", "#00CC96", "purple"))+
+  coord_equal() + 
+  theme_light() + 
+  xlab(paste0("PC1 (", signif(pve$pve[1], 3), "%)")) +
+  ylab(paste0("PC2 (", signif(pve$pve[2], 3), "%)")) +
+  geom_point(data=center_df, mapping=aes(PC1,PC2, col=Type)) +
+  #geom_line(data=center_df, aes(x=PC1,y=PC2, xlim= , ylim= , col='black')) +
+  geom_errorbar(data=center_df, aes(ymin=min_centers_PC2,ymax=max_centers_PC2,col=Type), width=.05) +
+  geom_errorbarh(data=center_df, aes(xmin=min_centers_PC1,xmax=max_centers_PC1, col=Type), linewidth=.5)
+
+
+pca_plot1
+
+x_label=paste0("PC1 (", signif(pve$pve[1], 3), "%)")
+y_label=paste0("PC2 (", signif(pve$pve[2], 3), "%)")
+
+new_df <- center_df %>%
+  complete(nesting(PC1,PC2),Type) %>%
+  select(Type, xend=PC1, yend=PC2) %>%
+  left_join(center_df, ., by='Type') %>%
+  filter(!(PC1==xend & PC2==yend)) %>%
+  
+  ggplot(., aes(x,y))+
+  scale_colour_manual(values = c("black", "#4F80FF", "#E9714A", "#0A6969"))+
+  
+  geom_segment(aes(x=PC1, y=PC2, xend=xend, yend=yend), show.legend=FALSE)+
+  
+  #geom_textsegment(aes(x=PC1, y=PC2, xend=xend, yend=yend, label=paste0("Distance:",)))+
+  geom_point(data=try_center_df, aes(x=PC1,y=PC2, col='black'), show.legend = FALSE)+
+  
+  geom_errorbar(data=try_center_df, aes(x=PC1,y=PC2,ymin=min_centers_PC2,ymax=max_centers_PC2,col='black'), width=.05)+
+  geom_errorbarh(data=try_center_df, aes(x=PC1,y=PC2,xmin=min_centers_PC1,xmax=max_centers_PC1, col='black'), linewidth=.5)+
+  
+  geom_point(data=pca_df, aes(PC1, PC2, col = population),size=3)+
+  coord_equal() + 
+  theme_light() +
+  
+  xlab(x_label)+
+  ylab(y_label)
+ggsave(file='pca_with_errorplots.svg', plot=new_df)
+
+  #ggsave(file="test.svg", plot=image, width=10, height=8)
+
+  #geom_errorbar(data=min_max_df, aes(ymin=min_centers_PC2,ymax=max_centers_PC2, width=.05)) +
+  
+
+```
+
+Admixture code from Garth
+```{r load_admixture}
+getwd()
+# make barplots of the admixture for below.
+setwd("../data/popgen/pca/admixture")
+Qfiles <- list.files('.', pattern = "Q$", full.names = T)
+
+colors <- c("#b2182b","#f46d43","gold","#ffffbf",
+            "#b8e186","#4d9221","#01665e","#92c5de","#2166ac",
+            "#b2abd2","#542788","#c51b7d","#f1b6da",
+            "#4d4d4d","black")
+
+get_files_in_window <- function(wk) {
+  return(list.files(".", pattern = paste0("pruned.Amex3.0_surface.", wk, sep=''), full.names = T))
+}
+
+# get the order of the sample names 
+samples_order <- samples_list
+
+# define windows 
+windows <-c("50.win.", "100.win.", "150.win.", "300.win.")
+k_values <-c("2.Q", "3.Q", "4.Q", "5.Q")
+win_k <- as.list(outer(windows, k_values, paste0))
+
+
+# get file paths per window
+files_per_window <- lapply(win_k, get_files_in_window)
+
+```
+
+```{r plot_admixture}
+getwd()
+setwd("../data/popgen/pca/admixture")
+
+
+  
+plot_per_k <- function(x) {
+  tbl <- read.table(x, sep='')
+  w <- unlist(strsplit(x[1], '[.]'))[5]
+  k <- unlist(strsplit(x[1], '[.]'))[7]
+  cat( paste('##### K=',k,' \n')) 
+  
+  # bar plot for each files
+  svg(paste0(filename="admixture",w,k,".svg")). # this saves in the wd, set above. format is bad but that's okay
+  par(cex.axis=0.75, las=2)
+  plot_maybe <- barplot(t(as.matrix(tbl)), 
+          main=paste(w,"base pair window, K=",k), 
+          xlab="", 
+          ylab="Ancestry",
+          col=colors, 
+          names = samples_order)
+  mtext(text = "sample", side = 1, line = 4)
+  cat('\n\n')
+  plot_maybe
+  #save_plot(paste0(filename="admixture",w,k,".svg"), fig = p, width=10, height=8)
+  dev.off()
+  #ggsave(paste0(filename="admixture",w,k,".svg"), device = "svg")
+}
+
+# apply above function over list of windows, calling the above function for each k
+plot_per_window <- function(x) {
+  samp <- unlist(str_split(x[1], 'pruned_'))[2]
+  w <- unlist(str_split(samp, "[.]"))[1]
+  cat( paste('#### Win=',w,'{.tabset .tabset-fade}  \n'))
+  lapply(x, plot_per_k)
+  cat('\n\n')
+}
+
+# return plots with tabset for each k in each window
+#plots <- lapply(files_per_window, plot_per_window)
+
+
+list_of_plots <- lapply(files_per_window, plot_per_window)
+#names(list_of_plots)
+#lapply(names(list_of_plots), 
+#       function(x) ggsave(filename=paste(x,".svg",sep=""), plot=list_of_plots[[x]]), device="svg")
+
+
+#### Issues with exporting the image but otherwise works fine
+# plots one barplot per tab for a list of files
+#plot_per_k <- function(x) {
+#  tbl <- read.table(x, sep='')
+#  w <- unlist(strsplit(x[1], '[.]'))[5]
+#  k <- unlist(strsplit(x[1], '[.]'))[7]
+#  cat( paste('##### K=',k,' \n')) 
+  
+  # bar plot for each files
+#  par(cex.axis=0.75, las=2)
+#  barplot(t(as.matrix(tbl)), 
+#          main=paste(w,"base pair window, K=",k), 
+#          xlab="", 
+#          ylab="Ancestry",
+#          col=colors, 
+#          names = samples_order)
+#  mtext(text = "sample", side = 1, line = 4)
+#  cat('\n\n')
+#}
+
+# apply above function over list of windows, calling the above function for each k
+#plot_per_window <- function(x) {
+#  samp <- unlist(str_split(x[1], 'pruned_'))[2]
+#  w <- unlist(str_split(samp, "[.]"))[1]
+#  cat( paste('#### Win=',w,'{.tabset .tabset-fade}  \n'))
+#  lapply(x, plot_per_k)
+#  cat('\n\n')
+#}
+
+```
+
+```{r qqplots}
+
+#input raw trend table
+qq_input <- read_table('../data/molino2/popgen/gwas/tests/CA_trend.model')
+no_na_ca <- drop_na(qq_input)
+trend_only <- no_na_ca[no_na_ca$TEST %in% c('TREND'),]
+trend_only <- trend_only %>% mutate_at(c('CHR','P'), as.numeric)
+
+qq(trend_only$P)
+qqplot(qnorm(trend_only$P), qcauchy(trend_only$P), main="Assoc. test QQ normalized")
+
+
+
+## Cochran-Armitage Trend test
+#it says pe8 but its actually p<1e-6
+trend_table_ca <- read_table('../data/molino2/popgen/gwas/tests/pe8_check_this.txt')
+no_na_ca <- drop_na(trend_table_ca)
+trend_test_only <- no_na_ca[no_na_ca$TEST %in% c('TREND'),]
+trend_test_only <- trend_test_only %>% mutate_at(c('CHR','P', 'BP'), as.numeric)
+
+gene_list_trend_test_pvalue <- filter(trend_test_only, -log10(P) <= 9 )
+p8_test <- filter(gene_list_trend_test_pvalue, -log10(P) >=8)
+uniq_p8_test <- p8_test %>% distinct(CHR, .keep_all = TRUE)
+p9_test <- filter(gene_list_trend_test_pvalue, -log10(P) >=9)
+uniq_p9_test <- p9_test %>% distinct(CHR, .keep_all = TRUE)
+
+write.table(p8_test, file='GWAS_pfiltered_output.tsv', quote=FALSE, sep='\t', row.names = FALSE)
+
+#make chr different colors
+ca_plot <- ggplot(data=trend_test_only, aes(x=as.factor(BP), y=-log10(P), fill=factor(CHR))) +  #x as factor can either parses/spaces by SNP/BP or by CHR #fill=?
+  scale_color_manual(values = rep(c("grey", "orange3"), 22 )) +
+  geom_hline(yintercept = 9, linetype="dotted") + #makes a p-value cut off
+  geom_point(stat="identity") +
+  geom_point(aes(colour = -log10(P) > 9),
+             show.legend = FALSE) +
+  facet_grid(~CHR, scales = 'free_x', space = 'free_x', switch = 'x') + 
+  theme_classic() + 
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        panel.spacing = unit(0, "lines")) +
+  #scale_x_continuous(expand = c(0, 0)) + #try with or without
+
+  labs(x="CHR", title="Cochran-Armitage")
+
+ggsave('Cochran-Armitage trend test.png', plot=ca_plot)
+
+
+```
+
+
+```{r Manhattan_plot}
+
+## Cochran-Armitage Trend test
+trend_table_ca <- read_table('../data/molino2/popgen/gwas/tests/CA_trend_withBP.model')
+no_na_ca <- drop_na(trend_table_ca)
+trend_test_only <- no_na_ca[no_na_ca$TEST %in% c('TREND'),]
+trend_test_only <- trend_test_only %>% mutate_at(c('CHR','P', 'BP'), as.numeric)
+
+
+gene_list_trend_test_pvalue <- filter(trend_test_only, -log10(P) >= 2.5 )
+
+ca_plot <- ggplot(data = gene_list_trend_test_pvalue, aes(x=as.factor(BP), y=-log10(P), colour = as.factor(CHR))) +
+  geom_point() +
+  geom_hline(yintercept = 9) +
+  facet_grid(~CHR, scales = 'free_x', space = 'free_x', switch = 'x')
+ca_plot
+ggsave('Cochran-Armitage trend test very good.svg', plot=ca_plot)
+
+
+#make chr different colors
+ca_plot <- ggplot(data=trend_test_only, aes(x=as.factor(BP), y=-log10(P), colour=factor(CHR))) +  #x as factor can either parses/spaces by SNP/BP or by CHR #fill=?
+  scale_color_manual(values = rep(c("grey", "orange3"), 22 )) +
+  geom_hline(yintercept = 9, linetype="dotted") + #makes a p-value cut off
+  geom_point(stat="identity") +
+  geom_point(aes(colour = -log10(P) > 9),
+             show.legend = FALSE) +
+  facet_grid(~CHR, scales = 'free_x', space = 'free_x', switch = 'x') + #makes the x axis have chr squares?
+  theme_classic() + 
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        panel.spacing = unit(0, "lines")) +
+  #scale_x_continuous(expand = c(0, 0)) + #try with or without
+
+  labs(x="CHR", title="Cochran-Armitage")
+#ca_plot
+gene_list = subset(trend_test_only, P<= 1e-9)
+ggsave('Cochran-Armitage trend test.png', plot=ca_plot)
+
+```
+```{r fr_manhattan}
+big_trend_table_filtered <- read_table('../data/molino2/popgen/gwas/tests/pe7up_filtered_annot_trend.txt')
+
+no_na_ca <- drop_na(big_trend_table_filtered)
+trend_test_only <- no_na_ca[no_na_ca$TEST %in% c('TREND'),]
+trend_test_only <- trend_test_only %>% mutate_at(c('CHR','P', 'SNP'), as.numeric)
+gene_list_trend_test_pvalue <- filter(trend_test_only, -log10(P) >= 2.5 )
+p9_only <- filter(trend_test_only, -log10(P) >=8)
+uniq_p9_only <- p9_only %>% distinct(gene, .keep_all = TRUE)
+
+ca_plot <- ggplot(data = gene_list_trend_test_pvalue, aes(x=as.factor(BP), y=-log10(P), colour = as.factor(CHR))) +
+  geom_point() +
+  geom_hline(yintercept = 8) +
+  facet_grid(~CHR, scales = 'free_x', space = 'free_x', switch = 'x')
+ca_plot
+ggsave('try_trend_test.png', plot=ca_plot)
+
+
+```
+
+
+
+
+```{r chr21}
+
+trend_table_filtered <- read_table('../data/molino2/popgen/gwas/tests/filtered_annot_trend.txt')
+
+#remove duplicates, filter to CHR 21
+uniq_trend <- unique(trend_table_filtered, .keep_all=TRUE)
+uniq_21_only <- uniq_trend %>% filter(CHR==21)
+chr21_try <- uniq_21_only %>% mutate_at(c('CHR','P', 'SNP'), as.numeric)
+
+
+uniq_gja8b_only <- subset(uniq_21_only, gene=='gja8b')
+#uniq_genes_only <- uniq_21_only %>% distinct(gene, .keep_all = TRUE)
+
+uniq_genes_only <- uniq_21_only %>% 
+  group_by(gene) %>%
+  arrange(P) %>%
+  slice(1)
+
+uniq_genes_names  <- uniq_genes_only %>% filter(!grepl("^LOC*", gene))
+
+#mydf %>%
+#    group_by(Sample) %>% # for each unique sample
+#    arrange(-total_reads) %>% # order by total_reads DESC
+#    slice(1) # select the first row, i.e. with highest total_reads
+
+char_vec_gja8b <- c('gja8b')
+trend_byCHR21_plot <- manhattan(uniq_21_only, main="Cochran-Armitage, CHR 21", bp='SNP', xlim=c(23000000,28529013), ylim = c(8, 10), highlight=uniq_gja8b_only$SNP, col = c('blue4', 'orange3', 'red'))
+
+#these are genes that only fall into CDS
+only_ch21_trend_table_filtered <- read_table('../data/molino2/popgen/gwas/tests/only_chr21/chr21_ready_for_r.txt')
+cds_chr21 <- subset(only_ch21_trend_table_filtered, position=='CDS')
+uniq_cds <- cds_chr21 %>% 
+  group_by(gene) %>%
+  arrange(P) %>%
+  slice(1)
+
+chr21_plot <- ggplot(data = chr21_try, aes(x=-log10(P), y=SNP), color=as.factor(gene)) +
+  geom_point() +
+  scale_y_continuous(expand=c(0.5,0.5)) +
+  geom_jitter(data=uniq_gja8b_only, aes(x=-log10(P), y=SNP), colour="orange", size=4) +
+  geom_text_repel(data=uniq_cds, aes(x=-log10(P), y=SNP, label=gene), force=0.5,max.overlaps = Inf, force_pull =0, hjust=0,nudge_x=1,direction="y", segment.size=0.2) +
+  labs(x="CHR 21", title="CHR 21 - Cochran-Armitage Trend Test")
+chr21_plot
+ggsave('Chr21_cochrane-armitage.png', plot=chr21_plot)
+
+
+#ca_21_plot + gghighlight(SNP>25499267 & SNP <25504161)
+#ca_21_plot
+
+
+#figure out how to export
+
+print('Gja8b = 21:c25504161 - 25499267
+		- S89: 21:25503021/22 p = 1.301 e-9')
+```
+
+
+
+
+```{r assoc tests}
+### Basic assoc. test ###
+plink_assoc_file <- read_table('../data/molino2/popgen/gwas/tests/assoc_test.assoc')
+paired_down <- subset(plink_assoc_file, select = -c(`X14`) )
+plink_assoc_file_no_na <- drop_na(paired_down)
+
+manhattan(plink_assoc_file_no_na, main = "Association Test", annotatePval = 1e-9, suggestiveline = 1e-9, genomewideline= 0.0001, col = c('blue4', 'orange3'))
+qq(plink_assoc_file_no_na$P, main = "Association Test")
+qqplot(qnorm(plink_assoc_file_no_na$P), qcauchy(plink_assoc_file_no_na$P), main="Assoc. test QQ normalized")
+
+
+
+#fdr adjusted
+plink_fdr_file <- read_table('../data/molino2/popgen/gwas/tests/fdr_withBP.assoc.adjusted')
+#paired_down <- subset(plink_fdr_file, select = -c(X11) )
+plink_fdr_file_no_na <- drop_na(plink_fdr_file)
+manhattan(plink_fdr_file_no_na, main= "FDR-adjusted", p="FDR_BH", col = c('blue4', 'orange3'), annotatePval = 1e-8, suggestiveline = 1e-8, genomewideline = 0.0001)
+qq(plink_fdr_file_no_na$FDR_BH, main= "FDR-adjusted")
+qqplot(qnorm(plink_fdr_file_no_na$FDR_BH), qcauchy(plink_fdr_file_no_na$FDR_BH))
+
+
+#ways to fst plot: https://stackoverflow.com/questions/36038453/how-can-i-indicate-groups-such-as-chromosomes-on-a-continuous-axis-using-ggplot
+#or here https://owensgl.github.io/biol525D/Topic_8-9/fst.html
+#fst by family
+plink_fst_file <- read_table('../data/molino2/popgen/gwas/tests/assoc_fst.fst')
+plink_fst_file_no_na <- plink_fst_file[!plink_fst_file$FST == "nan",] %>% drop_na() %>% na.omit()
+plink_fst_file_no_na <- plink_fst_file_no_na %>% mutate_at(c('CHR','FST'), as.numeric)
+
+manhattan(plink_fst_file_no_na, ylim=c(-1,1), p = "FST", snp="POS", bp="POS")
+
+#ggplot(data=plink_fst_file_no_na, aes(x=as.factor(POS), y=FST, fill=factor(POS))) +
+  #geom_point(stat="identity") +
+#  labs(x="chromosomes", title="FST across chromosomes")
+
+#plot(plink_fst_file_no_na$FST, col=as.factor(plink_fst_file_no_na$CHR))
+#plot(plink_fst_file_no_na$POS, plink_fst_file_no_na$FST)
+#manhattan(plink_fst_file_no_na, main = "Fst", p="FST", fst = "FST",bp="POS", logp=TRUE, annotatePval = 0.0001, suggestiveline = 0.00001, col = c('blue4', 'orange3'))
+#qq(plink_fst_file_no_na$FST, main = "Fst")
+
+
+```
+
+

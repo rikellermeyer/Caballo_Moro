@@ -1,0 +1,810 @@
+UniProtKB:A0A0G2KW99	Retinal G protein-coupled receptor b	rgrb
+UniProtKB:A0A2R8Q3L6	Uncharacterized protein	A0A2R8Q3L6
+UniProtKB:A0A2R8Q4L2	Rhodopsin-sensitive cGMP 3',5'-cyclic phosphodiesterase subunit gamma	A0A2R8Q4L2
+UniProtKB:A0A2R8Q815	Uncharacterized protein	A0A2R8Q815
+UniProtKB:A0A2R8Q9L7	Eyes absent homolog	A0A2R8Q9L7
+UniProtKB:A0A2R8QFJ6	Uncharacterized protein	A0A2R8QFJ6
+UniProtKB:A0A2R8QJ84	GMP_PDE_delta domain-containing protein	unc119.2
+UniProtKB:A9C3R8	Retinal Mueller cells isomerohydrolase	rpe65c
+UniProtKB:E7FDW8	Tudor domain-containing protein 7B	tdrd7b
+ZFIN:ZDB-GENE-000201-18	pre-B-cell leukemia transcription factor 4	pbx4
+ZFIN:ZDB-GENE-000208-4	zic family member 1 (odd-paired homolog, Drosophila)	zic1
+ZFIN:ZDB-GENE-000328-3	frizzled class receptor 8a	fzd8a
+ZFIN:ZDB-GENE-000403-1	axin 1	axin1
+ZFIN:ZDB-GENE-000405-1	pre-B-cell leukemia homeobox 1a	pbx1a
+ZFIN:ZDB-GENE-000405-3	pre-B-cell leukemia homeobox 3b	pbx3b
+ZFIN:ZDB-GENE-000405-5	pre-B-cell leukemia homeobox 2	pbx2
+ZFIN:ZDB-GENE-000406-6	COPI coat complex subunit zeta 1	copz1
+ZFIN:ZDB-GENE-000426-1	fibronectin 1a	fn1a
+ZFIN:ZDB-GENE-000427-4	vertebrate ancient long opsin a	valopa
+ZFIN:ZDB-GENE-000501-1	cugbp, Elav-like family member 1	celf1
+ZFIN:ZDB-GENE-000616-14	phosphoribosylglycinamide formyltransferase	gart
+ZFIN:ZDB-GENE-000616-15	forkhead box H1	foxh1
+ZFIN:ZDB-GENE-000616-16	heat shock transcription factor 1	hsf1
+ZFIN:ZDB-GENE-000616-6	myogenic factor 5	myf5
+ZFIN:ZDB-GENE-000616-8	peripherin 2a (retinal degeneration, slow)	prph2a
+ZFIN:ZDB-GENE-000616-9	peripherin 2b (retinal degeneration, slow)	prph2b
+ZFIN:ZDB-GENE-000710-4	zic family member 2 (odd-paired homolog, Drosophila), a	zic2a
+ZFIN:ZDB-GENE-000926-1	atonal bHLH transcription factor 7	atoh7
+ZFIN:ZDB-GENE-001019-1	roundabout, axon guidance receptor, homolog 2 (Drosophila)	robo2
+ZFIN:ZDB-GENE-001031-1	paired box 6b	pax6b
+ZFIN:ZDB-GENE-001103-2	SRY-box transcription factor 9b	sox9b
+ZFIN:ZDB-GENE-001205-1	colony stimulating factor 1 receptor, a	csf1ra
+ZFIN:ZDB-GENE-001207-7	eph receptor A4a	epha4a
+ZFIN:ZDB-GENE-001221-1	nuclear respiratory factor 1	nrf1
+ZFIN:ZDB-GENE-001222-1	visual system homeobox 2	vsx2
+ZFIN:ZDB-GENE-010130-2	C-terminal binding protein 2a	ctbp2a
+ZFIN:ZDB-GENE-010131-2	cyclin dependent kinase 5	cdk5
+ZFIN:ZDB-GENE-010131-8	cathepsin D	ctsd
+ZFIN:ZDB-GENE-010302-1	forkhead box C1a	foxc1a
+ZFIN:ZDB-GENE-010302-2	forkhead box C1b	foxc1b
+ZFIN:ZDB-GENE-010306-3	slit homolog 2 (Drosophila)	slit2
+ZFIN:ZDB-GENE-010320-1	cyclin dependent kinase 1	cdk1
+ZFIN:ZDB-GENE-010328-8	claudin 3c	cldn3c
+ZFIN:ZDB-GENE-010403-1	cone-rod homeobox	crx
+ZFIN:ZDB-GENE-010406-2	myeloid ecotropic viral integration site 3	meis3
+ZFIN:ZDB-GENE-010501-6	euchromatic histone-lysine N-methyltransferase 2	ehmt2
+ZFIN:ZDB-GENE-010508-1	beta-carotene oxygenase 1	bco1
+ZFIN:ZDB-GENE-010509-1	beta-carotene 15, 15-dioxygenase 2, like	bco2l
+ZFIN:ZDB-GENE-010607-3	gap junction protein alpha 8 paralog b	gja8b
+ZFIN:ZDB-GENE-010614-1	chemokine (C-X-C motif), receptor 4b	cxcr4b
+ZFIN:ZDB-GENE-010618-2	ephrin-B1	efnb1
+ZFIN:ZDB-GENE-010702-1	LIM domain only 4a	lmo4a
+ZFIN:ZDB-GENE-010717-1	zinc finger protein 703	znf703
+ZFIN:ZDB-GENE-010813-1	crystallin, beta B1	crybb1
+ZFIN:ZDB-GENE-010816-1	ornithine decarboxylase 1	odc1
+ZFIN:ZDB-GENE-011010-3	aldehyde dehydrogenase 1 family, member A2	aldh1a2
+ZFIN:ZDB-GENE-011101-3	mab-21-like 2	mab21l2
+ZFIN:ZDB-GENE-011105-1	protein kinase C, iota	prkci
+ZFIN:ZDB-GENE-011108-2	secreted frizzled-related protein 5	sfrp5
+ZFIN:ZDB-GENE-011128-10	guanine nucleotide binding protein (G protein), alpha transducing activity polypeptide 2	gnat2
+ZFIN:ZDB-GENE-011128-11	guanine nucleotide binding protein (G protein), alpha transducing activity polypeptide 1	gnat1
+ZFIN:ZDB-GENE-011128-6	guanylate cyclase activator 1B	guca1b
+ZFIN:ZDB-GENE-011128-7	guanylate cyclase 2F, retinal	gucy2f
+ZFIN:ZDB-GENE-011128-8	guanylyl cyclase 2	gc2
+ZFIN:ZDB-GENE-011128-9	guanylate cyclase 2D, retinal	gucy2d
+ZFIN:ZDB-GENE-011207-1	SRY-box transcription factor 10	sox10
+ZFIN:ZDB-GENE-011212-6	transcription factor AP-2 alpha	tfap2a
+ZFIN:ZDB-GENE-011213-1	hairy-related 9	her9
+ZFIN:ZDB-GENE-020103-1	iroquois homeobox 7	irx7
+ZFIN:ZDB-GENE-020107-1	protein tyrosine phosphatase receptor type A	ptpra
+ZFIN:ZDB-GENE-020114-1	protein tyrosine kinase 2ab	ptk2ab
+ZFIN:ZDB-GENE-020117-1	diencephalon/mesencephalon homeobox 1a	dmbx1a
+ZFIN:ZDB-GENE-020122-1	Meis homeobox 1 b	meis1b
+ZFIN:ZDB-GENE-020122-2	Meis homeobox 2a	meis2a
+ZFIN:ZDB-GENE-020122-3	Meis homeobox 1 a	meis1a
+ZFIN:ZDB-GENE-020213-2	makorin, ring finger protein, 2	mkrn2
+ZFIN:ZDB-GENE-020418-1	cyclin A2	ccna2
+ZFIN:ZDB-GENE-020419-11	ATPase H+ transporting V1 subunit E1b	atp6v1e1b
+ZFIN:ZDB-GENE-020419-23	ATPase H+ transporting V0 subunit ca	atp6v0ca
+ZFIN:ZDB-GENE-020419-24	minichromosome maintenance complex component 2	mcm2
+ZFIN:ZDB-GENE-020419-32	histone deacetylase 1	hdac1
+ZFIN:ZDB-GENE-020419-33	VPS18 core subunit of CORVET and HOPS complexes	vps18
+ZFIN:ZDB-GENE-020419-4	minichromosome maintenance complex component 3	mcm3
+ZFIN:ZDB-GENE-020419-5	chaperonin containing TCP1, subunit 3 (gamma)	cct3
+ZFIN:ZDB-GENE-020423-2	ATPase H+ transporting accessory protein 1b	atp6ap1b
+ZFIN:ZDB-GENE-020503-1	insulin-like growth factor 1a receptor	igf1ra
+ZFIN:ZDB-GENE-020503-2	insulin-like growth factor 1b receptor	igf1rb
+ZFIN:ZDB-GENE-020507-3	VANGL planar cell polarity protein 2	vangl2
+ZFIN:ZDB-GENE-020508-1	crystallin, alpha A	cryaa
+ZFIN:ZDB-GENE-020516-1	mab-21-like 1	mab21l1
+ZFIN:ZDB-GENE-020712-1	protein associated with LIN7 1, MAGUK p55 family member a	pals1a
+ZFIN:ZDB-GENE-020801-1	Bardet-Biedl syndrome 2	bbs2
+ZFIN:ZDB-GENE-020809-4	adenylate cyclase activating polypeptide 1a	adcyap1a
+ZFIN:ZDB-GENE-020910-1	inhibitor of DNA binding 2a	id2a
+ZFIN:ZDB-GENE-020919-3	unc-45 myosin chaperone B	unc45b
+ZFIN:ZDB-GENE-021030-4	carbamoyl-phosphate synthetase 2, aspartate transcarbamylase, and dihydroorotase	cad
+ZFIN:ZDB-GENE-021030-5	RAN binding protein 9	ranbp9
+ZFIN:ZDB-GENE-021115-7	polo-like kinase 1 (Drosophila)	plk1
+ZFIN:ZDB-GENE-021115-9	Kruppel like factor 6a	klf6a
+ZFIN:ZDB-GENE-021120-2	glutamate receptor, metabotropic 6b	grm6b
+ZFIN:ZDB-GENE-021125-1	SWI/SNF related, matrix associated, actin dependent regulator of chromatin, subfamily a, member 5	smarca5
+ZFIN:ZDB-GENE-021217-1	mediator complex subunit 29	med29
+ZFIN:ZDB-GENE-021219-2	ATPase H+ transporting V1 subunit H	atp6v1h
+ZFIN:ZDB-GENE-021220-6	integrator complex subunit 7	ints7
+ZFIN:ZDB-GENE-021226-1	laminin, beta 1a	lamb1a
+ZFIN:ZDB-GENE-021226-2	laminin, beta 4	lamb4
+ZFIN:ZDB-GENE-021226-3	laminin, gamma 1	lamc1
+ZFIN:ZDB-GENE-030131-1033	agrin	agrn
+ZFIN:ZDB-GENE-030131-1249	dehydrogenase/reductase (SDR family) member 9	dhrs9
+ZFIN:ZDB-GENE-030131-1473	ubiquitin protein ligase E3 component n-recognin 3	ubr3
+ZFIN:ZDB-GENE-030131-1531	ATPase H+ transporting V0 subunit d1	atp6v0d1
+ZFIN:ZDB-GENE-030131-1723	trafficking protein particle complex subunit 11	trappc11
+ZFIN:ZDB-GENE-030131-1768	activated leukocyte cell adhesion molecule b	alcamb
+ZFIN:ZDB-GENE-030131-1798	opticin	optc
+ZFIN:ZDB-GENE-030131-1921	myristoylated alanine-rich protein kinase C substrate b	marcksb
+ZFIN:ZDB-GENE-030131-2005	scinderin like a	scinla
+ZFIN:ZDB-GENE-030131-2046	TLC domain containing 3Ba	tlcd3ba
+ZFIN:ZDB-GENE-030131-2165	nuclear transcription factor Y, gamma	nfyc
+ZFIN:ZDB-GENE-030131-2281	collagen, type IV, alpha 5 (Alport syndrome)	col4a5
+ZFIN:ZDB-GENE-030131-2341	mediator complex subunit 24	med24
+ZFIN:ZDB-GENE-030131-2365	phosducin-like	pdcl
+ZFIN:ZDB-GENE-030131-2492	splicing factor 1	sf1
+ZFIN:ZDB-GENE-030131-2845	serine/threonine kinase 3 (STE20 homolog, yeast)	stk3
+ZFIN:ZDB-GENE-030131-2921	dihydrolipoamide S-acetyltransferase (E2 component of pyruvate dehydrogenase complex)	dlat
+ZFIN:ZDB-GENE-030131-3127	chondroitin sulfate synthase 1	chsy1
+ZFIN:ZDB-GENE-030131-3827	eukaryotic translation initiation factor 3, subunit E, a	eif3ea
+ZFIN:ZDB-GENE-030131-3980	RAB18A, member RAS oncogene family	rab18a
+ZFIN:ZDB-GENE-030131-4108	dynein, cytoplasmic 1, light intermediate chain 1	dync1li1
+ZFIN:ZDB-GENE-030131-4218	protocadherin 19	pcdh19
+ZFIN:ZDB-GENE-030131-443	ATPase H+ transporting V0 subunit b	atp6v0b
+ZFIN:ZDB-GENE-030131-5143	pre-mRNA splicing tri-snRNP complex factor PRPF4	prpf4
+ZFIN:ZDB-GENE-030131-5243	ring finger protein 2	rnf2
+ZFIN:ZDB-GENE-030131-5335	leucine-rich repeats and WD repeat domain containing 1	lrwd1
+ZFIN:ZDB-GENE-030131-5338	OTU deubiquitinase 4	otud4
+ZFIN:ZDB-GENE-030131-5455	DnaJ heat shock protein family (Hsp40) member B1b	dnajb1b
+ZFIN:ZDB-GENE-030131-5584	karyopherin alpha 4 (importin alpha 3)	kpna4
+ZFIN:ZDB-GENE-030131-5736	craniofacial development protein 1	cfdp1
+ZFIN:ZDB-GENE-030131-574	intraflagellar transport 88 homolog	ift88
+ZFIN:ZDB-GENE-030131-6129	aldehyde dehydrogenase 7 family, member A1	aldh7a1
+ZFIN:ZDB-GENE-030131-616	G protein nucleolar 3	gnl3
+ZFIN:ZDB-GENE-030131-6223	suppressor of fused homolog (Drosophila)	sufu
+ZFIN:ZDB-GENE-030131-6244	zinc finger protein 644a	znf644a
+ZFIN:ZDB-GENE-030131-6313	WD repeat containing, antisense to TP73	wrap73
+ZFIN:ZDB-GENE-030131-6401	topoisomerase I binding, arginine/serine-rich a	toporsa
+ZFIN:ZDB-GENE-030131-6560	BOC cell adhesion associated, oncogene regulated	boc
+ZFIN:ZDB-GENE-030131-666	proteasome 26S subunit, ATPase 3	psmc3
+ZFIN:ZDB-GENE-030131-6710	microfibril associated protein 2	mfap2
+ZFIN:ZDB-GENE-030131-7050	dynein, cytoplasmic 1, heavy chain 1	dync1h1
+ZFIN:ZDB-GENE-030131-7293	proprotein convertase subtilisin/kexin type 7	pcsk7
+ZFIN:ZDB-GENE-030131-7349	suppressor of cytokine signaling 3a	socs3a
+ZFIN:ZDB-GENE-030131-7591	retinol binding protein 4, like	rbp4l
+ZFIN:ZDB-GENE-030131-7635	unc-119 lipid binding chaperone B homolog 2	unc119.2
+ZFIN:ZDB-GENE-030131-7637	LBH regulator of WNT signaling pathway, like	lbhl
+ZFIN:ZDB-GENE-030131-7696	guided entry of tail-anchored proteins factor 1	get1
+ZFIN:ZDB-GENE-030131-7732	crystallin, gamma MX	crygmx
+ZFIN:ZDB-GENE-030131-7951	regulator of chromosome condensation (RCC1) and BTB (POZ) domain containing protein 1	rcbtb1
+ZFIN:ZDB-GENE-030131-8004	sema domain, transmembrane domain (TM), and cytoplasmic domain, (semaphorin) 6A	sema6a
+ZFIN:ZDB-GENE-030131-8039	beta-carotene oxygenase 2a	bco2a
+ZFIN:ZDB-GENE-030131-8290	SRY-box transcription factor 4a	sox4a
+ZFIN:ZDB-GENE-030131-8434	granulin a	grna
+ZFIN:ZDB-GENE-030131-8783	cell division cycle 42	cdc42
+ZFIN:ZDB-GENE-030131-9123	matrix metallopeptidase 2	mmp2
+ZFIN:ZDB-GENE-030131-9180	synaptojanin 1	synj1
+ZFIN:ZDB-GENE-030131-9512	coronin, actin binding protein, 1A	coro1a
+ZFIN:ZDB-GENE-030131-9582	muscleblind-like splicing regulator 2	mbnl2
+ZFIN:ZDB-GENE-030131-9686	stem-loop histone mRNA binding protein	slbp
+ZFIN:ZDB-GENE-030131-9710	Yes1 associated transcriptional regulator	yap1
+ZFIN:ZDB-GENE-030131-9762	phosphoribosylaminoimidazole carboxylase, phosphoribosylaminoimidazole succinocarboxamide synthetase	paics
+ZFIN:ZDB-GENE-030131-977	chaperonin containing TCP1, subunit 5 (epsilon)	cct5
+ZFIN:ZDB-GENE-030131-9774	leucine rich repeat containing 17	lrrc17
+ZFIN:ZDB-GENE-030131-9818	premelanosome protein a	pmela
+ZFIN:ZDB-GENE-030131-9895	zinc finger protein 513a	znf513a
+ZFIN:ZDB-GENE-030219-130	unc-119 homolog 1	unc119.1
+ZFIN:ZDB-GENE-030314-2	opsin 4.1	opn4.1
+ZFIN:ZDB-GENE-030318-1	chemokine (C-X-C motif) ligand 12a (stromal cell-derived factor 1)	cxcl12a
+ZFIN:ZDB-GENE-030318-2	CHM Rab escort protein	chm
+ZFIN:ZDB-GENE-030318-3	myosin VIb	myo6b
+ZFIN:ZDB-GENE-030321-1	GLI family zinc finger 1	gli1
+ZFIN:ZDB-GENE-030327-4	iodothyronine deiodinase 2	dio2
+ZFIN:ZDB-GENE-030328-41	iodothyronine deiodinase 1	dio1
+ZFIN:ZDB-GENE-030404-2	MIB E3 ubiquitin protein ligase 1	mib1
+ZFIN:ZDB-GENE-030516-1	gonadotropin-releasing hormone 2	gnrh2
+ZFIN:ZDB-GENE-030519-2	neuropilin 1a	nrp1a
+ZFIN:ZDB-GENE-030605-1	SWI/SNF related, matrix associated, actin dependent regulator of chromatin, subfamily a, member 4a	smarca4a
+ZFIN:ZDB-GENE-030616-132	MYC binding protein 2	mycbp2
+ZFIN:ZDB-GENE-030616-134	parapinopsin b	parapinopsinb
+ZFIN:ZDB-GENE-030616-37	N-ethylmaleimide-sensitive factor a	nsfa
+ZFIN:ZDB-GENE-030616-42	phosphodiesterase 6A, cGMP-specific, rod, alpha	pde6a
+ZFIN:ZDB-GENE-030616-450	erythrocyte membrane protein band 4.1 like 5	epb41l5
+ZFIN:ZDB-GENE-030616-538	tubulin gamma complex component 3	tubgcp3
+ZFIN:ZDB-GENE-030616-554	solute carrier family 17 member 6b	slc17a6b
+ZFIN:ZDB-GENE-030616-579	pancreas associated transcription factor 1a	ptf1a
+ZFIN:ZDB-GENE-030616-74	arrestin 3b, retinal (X-arrestin)	arr3b
+ZFIN:ZDB-GENE-030707-2	hairy and enhancer of split-related 15, tandem duplicate 1	her15.1
+ZFIN:ZDB-GENE-030708-1	fibroblast growth factor 24	fgf24
+ZFIN:ZDB-GENE-030710-1	reticulon 4a	rtn4a
+ZFIN:ZDB-GENE-030710-2	reticulon 4b	rtn4b
+ZFIN:ZDB-GENE-030716-3	teleost multiple tissue opsin a	tmtopsa
+ZFIN:ZDB-GENE-030721-1	chemokine (C-X-C motif) ligand 12b (stromal cell-derived factor 1)	cxcl12b
+ZFIN:ZDB-GENE-030721-2	DIX domain containing 1a	dixdc1a
+ZFIN:ZDB-GENE-030722-8	histone 2, H3ca1	hist2h3ca1
+ZFIN:ZDB-GENE-030724-4	gonadotropin-releasing hormone 3	gnrh3
+ZFIN:ZDB-GENE-030724-5	prickle homolog 1a	prickle1a
+ZFIN:ZDB-GENE-030724-6	prickle homolog 2b	prickle2b
+ZFIN:ZDB-GENE-030728-5	opsin 1 (cone pigments), medium-wave-sensitive, 2	opn1mw2
+ZFIN:ZDB-GENE-030728-6	opsin 1 (cone pigments), medium-wave-sensitive, 3	opn1mw3
+ZFIN:ZDB-GENE-030729-32	fibroblast growth factor 19	fgf19
+ZFIN:ZDB-GENE-030730-1	neuronal differentiation 4	neurod4
+ZFIN:ZDB-GENE-030826-33	major vault protein	mvp
+ZFIN:ZDB-GENE-030827-2	nidogen 2a (osteonidogen)	nid2a
+ZFIN:ZDB-GENE-030901-1	matrix metallopeptidase 14a (membrane-inserted)	mmp14a
+ZFIN:ZDB-GENE-030902-1	cytochrome P450, family 1, subfamily B, polypeptide 1	cyp1b1
+ZFIN:ZDB-GENE-030904-1	phosphodiesterase 6G, cGMP-specific, rod, gamma, paralog b	pde6gb
+ZFIN:ZDB-GENE-030904-3	G protein-coupled receptor kinase 7b	grk7b
+ZFIN:ZDB-GENE-030904-8	ventral anterior homeobox 2	vax2
+ZFIN:ZDB-GENE-030904-9	ventral anterior homeobox 1	vax1
+ZFIN:ZDB-GENE-030909-1	SRY-box transcription factor 2	sox2
+ZFIN:ZDB-GENE-030909-14	heparan sulfate 6-O-sulfotransferase 2	hs6st2
+ZFIN:ZDB-GENE-030911-7	dispatched homolog 1 (Drosophila)	disp1
+ZFIN:ZDB-GENE-030912-15	retinol dehydrogenase 1	rdh1
+ZFIN:ZDB-GENE-030925-47	par-3 family cell polarity regulator alpha, b	pard3ab
+ZFIN:ZDB-GENE-031002-48	talin 1	tln1
+ZFIN:ZDB-GENE-031023-1	phosducin a	pdca
+ZFIN:ZDB-GENE-031023-2	phosducin b	pdcb
+ZFIN:ZDB-GENE-031112-11	flap structure-specific endonuclease 1	fen1
+ZFIN:ZDB-GENE-031112-7	APC regulator of WNT signaling pathway	apc
+ZFIN:ZDB-GENE-031113-5	zinc finger protein 503	znf503
+ZFIN:ZDB-GENE-031116-52	integrin, alpha 5 (fibronectin receptor, alpha polypeptide)	itga5
+ZFIN:ZDB-GENE-031117-1	recombination signal binding protein for immunoglobulin kappa J region a	rbpja
+ZFIN:ZDB-GENE-031118-54	POC1 centriolar protein B	poc1b
+ZFIN:ZDB-GENE-031118-57	clusterin-like 1 (retinal)	clul1
+ZFIN:ZDB-GENE-031126-2	forkhead box I2	foxi2
+ZFIN:ZDB-GENE-031210-1	solute carrier family 24 member 5	slc24a5
+ZFIN:ZDB-GENE-031217-3	gap junction protein, alpha 3	gja3
+ZFIN:ZDB-GENE-031218-1	pre-B-cell leukemia homeobox 3a	pbx3a
+ZFIN:ZDB-GENE-040116-3	platelet-activating factor acetylhydrolase 1b, regulatory subunit 1b	pafah1b1b
+ZFIN:ZDB-GENE-040121-1	mitogen-activated protein kinase 3	mapk3
+ZFIN:ZDB-GENE-040128-2	fibroblast growth factor receptor like 1a	fgfrl1a
+ZFIN:ZDB-GENE-040308-1	tnf receptor-associated factor 4a	traf4a
+ZFIN:ZDB-GENE-040310-5	secreted frizzled-related protein 1a	sfrp1a
+ZFIN:ZDB-GENE-040408-1	BCL6 corepressor	bcor
+ZFIN:ZDB-GENE-040419-1	period circadian clock 1b	per1b
+ZFIN:ZDB-GENE-040426-1006	sigma non-opioid intracellular receptor 1	sigmar1
+ZFIN:ZDB-GENE-040426-1038	proteasome 26S subunit, non-ATPase 6	psmd6
+ZFIN:ZDB-GENE-040426-1073	retinal outer segment membrane protein 1b	rom1b
+ZFIN:ZDB-GENE-040426-1083	Bardet-Biedl syndrome 5	bbs5
+ZFIN:ZDB-GENE-040426-1087	ADP-ribosylation factor-like 6 interacting protein 1	arl6ip1
+ZFIN:ZDB-GENE-040426-1131	phosphatase and actin regulator 4b	phactr4b
+ZFIN:ZDB-GENE-040426-1146	TNF receptor-associated factor 3 interacting protein 1	traf3ip1
+ZFIN:ZDB-GENE-040426-1181	forkhead box L1	foxl1
+ZFIN:ZDB-GENE-040426-1191	beta-carotene oxygenase 1, like	bco1l
+ZFIN:ZDB-GENE-040426-1274	SRY-box transcription factor 4b	sox4b
+ZFIN:ZDB-GENE-040426-1279	dynactin 2 (p50)	dctn2
+ZFIN:ZDB-GENE-040426-1282	SIX homeobox 6a	six6a
+ZFIN:ZDB-GENE-040426-1285	tetraspanin 12	tspan12
+ZFIN:ZDB-GENE-040426-1314	reticulon 4 interacting protein 1	rtn4ip1
+ZFIN:ZDB-GENE-040426-1315	hypoxia inducible factor 1 subunit alpha, like	hif1al
+ZFIN:ZDB-GENE-040426-1421	chaperonin containing TCP1, subunit 4 (delta)	cct4
+ZFIN:ZDB-GENE-040426-1446	iroquois homeobox 2a	irx2a
+ZFIN:ZDB-GENE-040426-1480	proteasome 26S subunit ubiquitin receptor, non-ATPase 2	psmd2
+ZFIN:ZDB-GENE-040426-1527	VPS28 subunit of ESCRT-I	vps28
+ZFIN:ZDB-GENE-040426-1538	S-antigen; retina and pineal gland (arrestin) a	saga
+ZFIN:ZDB-GENE-040426-1561	PRP31 pre-mRNA processing factor 31 homolog (yeast)	prpf31
+ZFIN:ZDB-GENE-040426-1569	elongation factor Tu GTP binding domain containing 2	eftud2
+ZFIN:ZDB-GENE-040426-1577	guanylate cyclase activator 1Ab.1	guca1ab.1
+ZFIN:ZDB-GENE-040426-1601	mediator complex subunit 27	med27
+ZFIN:ZDB-GENE-040426-1621	zinc finger DHHC-type palmitoyltransferase 16a	zdhhc16a
+ZFIN:ZDB-GENE-040426-1662	retinaldehyde binding protein 1a	rlbp1a
+ZFIN:ZDB-GENE-040426-1663	calcium and integrin binding family member 2	cib2
+ZFIN:ZDB-GENE-040426-1664	phosphodiesterase 6C, cGMP-specific, cone, alpha prime	pde6c
+ZFIN:ZDB-GENE-040426-1678	ADP ribosylation factor like GTPase 3, like 2	arl3l2
+ZFIN:ZDB-GENE-040426-1696	BCL6A transcription repressor a	bcl6aa
+ZFIN:ZDB-GENE-040426-1708	regulator of G protein signaling 9b	rgs9b
+ZFIN:ZDB-GENE-040426-1717	retinoid isomerohydrolase RPE65 a	rpe65a
+ZFIN:ZDB-GENE-040426-1740	fascin actin-bundling protein 2b, retinal	fscn2b
+ZFIN:ZDB-GENE-040426-1754	phosphodiesterase 6H, cGMP-specific, cone, gamma, paralog a	pde6ha
+ZFIN:ZDB-GENE-040426-1765	retinal outer segment membrane protein 1a	rom1a
+ZFIN:ZDB-GENE-040426-1777	phosphodiesterase 6H, cGMP-specific, cone, gamma, paralog b	pde6hb
+ZFIN:ZDB-GENE-040426-1784	cilia and flagella associated protein 20	cfap20
+ZFIN:ZDB-GENE-040426-1810	insulinoma-associated 1a	insm1a
+ZFIN:ZDB-GENE-040426-1828	plexin D1	plxnd1
+ZFIN:ZDB-GENE-040426-1870	retinaldehyde binding protein 1b	rlbp1b
+ZFIN:ZDB-GENE-040426-1933	sema domain, transmembrane domain (TM), and cytoplasmic domain, (semaphorin) 6Ca	sema6ca
+ZFIN:ZDB-GENE-040426-1943	clusterin associated protein 1	cluap1
+ZFIN:ZDB-GENE-040426-1947	chromatin assembly factor 1, subunit B	chaf1b
+ZFIN:ZDB-GENE-040426-2039	ubiquitin-like with PHD and ring finger domains 1	uhrf1
+ZFIN:ZDB-GENE-040426-2103	tudor domain containing 7 a	tdrd7a
+ZFIN:ZDB-GENE-040426-2126	kirre like nephrin family adhesion molecule 1a	kirrel1a
+ZFIN:ZDB-GENE-040426-2146	MARCKS-like 1a	marcksl1a
+ZFIN:ZDB-GENE-040426-2236	dehydrodolichyl diphosphate synthase	dhdds
+ZFIN:ZDB-GENE-040426-2308	SIX homeobox 1b	six1b
+ZFIN:ZDB-GENE-040426-2315	MARCKS-like 1b	marcksl1b
+ZFIN:ZDB-GENE-040426-2317	G protein nucleolar 2	gnl2
+ZFIN:ZDB-GENE-040426-2340	activating transcription factor 4a	atf4a
+ZFIN:ZDB-GENE-040426-2434	microspherule protein 1	mcrs1
+ZFIN:ZDB-GENE-040426-2449	intraflagellar transport 122 homolog (Chlamydomonas)	ift122
+ZFIN:ZDB-GENE-040426-2536	CDP-diacylglycerol--inositol 3-phosphatidyltransferase (phosphatidylinositol synthase)	cdipt
+ZFIN:ZDB-GENE-040426-2646	cytochrome P450, family 20, subfamily A, polypeptide 1	cyp20a1
+ZFIN:ZDB-GENE-040426-2649	SEC13 homolog, nuclear pore and COPII coat complex component	sec13
+ZFIN:ZDB-GENE-040426-2655	TIMP metallopeptidase inhibitor 2b	timp2b
+ZFIN:ZDB-GENE-040426-2681	ubiquitin-like modifier activating enzyme 2	uba2
+ZFIN:ZDB-GENE-040426-2704	mucolipin TRP cation channel 1a	mcoln1a
+ZFIN:ZDB-GENE-040426-2731	protein phosphatase, Mg2+/Mn2+ dependent, 1Na (putative)	ppm1na
+ZFIN:ZDB-GENE-040426-2795	RP2 activator of ARL3 GTPase	rp2
+ZFIN:ZDB-GENE-040426-2857	sorting nexin 5	snx5
+ZFIN:ZDB-GENE-040426-2896	adiponectin receptor 1b	adipor1b
+ZFIN:ZDB-GENE-040426-2904	ER membrane protein complex subunit 3	emc3
+ZFIN:ZDB-GENE-040426-2951	v-crk avian sarcoma virus CT10 oncogene homolog-like	crkl
+ZFIN:ZDB-GENE-040426-59	thymidylate synthetase	tyms
+ZFIN:ZDB-GENE-040426-741	RNA binding protein, mRNA processing factor 2b	rbpms2b
+ZFIN:ZDB-GENE-040426-748	DNA methyltransferase 1 associated protein 1	dmap1
+ZFIN:ZDB-GENE-040426-752	NIMA-related kinase 2	nek2
+ZFIN:ZDB-GENE-040426-757	MKKS centrosomal shuttling protein	mkks
+ZFIN:ZDB-GENE-040426-766	pannexin 1a	panx1a
+ZFIN:ZDB-GENE-040426-775	protein associated with LIN7 2, MAGUK p55 family member b	pals2b
+ZFIN:ZDB-GENE-040426-972	polymerase (RNA) III (DNA directed) polypeptide F	polr3f
+ZFIN:ZDB-GENE-040428-1	retinoblastoma 1	rb1
+ZFIN:ZDB-GENE-040429-1	SRY-box transcription factor 21b	sox21b
+ZFIN:ZDB-GENE-040526-1	DAZ interacting zinc finger protein 1	dzip1
+ZFIN:ZDB-GENE-040614-1	intraflagellar transport 57 homolog (Chlamydomonas)	ift57
+ZFIN:ZDB-GENE-040624-11	blood vessel epicardial substance	bves
+ZFIN:ZDB-GENE-040624-6	adhesion G protein-coupled receptor V1	adgrv1
+ZFIN:ZDB-GENE-040625-141	DNA-damage regulated autophagy modulator 2b	dram2b
+ZFIN:ZDB-GENE-040625-145	crystallin, gamma M2d6	crygm2d6
+ZFIN:ZDB-GENE-040625-154	crystallin, gamma M2d18	crygm2d18
+ZFIN:ZDB-GENE-040625-176	tRNA nucleotidyl transferase, CCA-adding, 1	trnt1
+ZFIN:ZDB-GENE-040625-24	lumican	lum
+ZFIN:ZDB-GENE-040625-8	crystallin, beta A2a	cryba2a
+ZFIN:ZDB-GENE-040628-1	RNA binding motif protein 24a	rbm24a
+ZFIN:ZDB-GENE-040704-15	IMP (inosine 5'-monophosphate) dehydrogenase 1a	impdh1a
+ZFIN:ZDB-GENE-040704-56	TatD DNase domain containing 1	tatdn1
+ZFIN:ZDB-GENE-040707-1	iroquois homeobox 1a	irx1a
+ZFIN:ZDB-GENE-040709-2	cleavage and polyadenylation specific factor 1	cpsf1
+ZFIN:ZDB-GENE-040718-100	deoxyribonuclease I-like 1-like	dnase1l1l
+ZFIN:ZDB-GENE-040718-102	arrestin 3a, retinal (X-arrestin)	arr3a
+ZFIN:ZDB-GENE-040718-104	lens intrinsic membrane protein 2.4	lim2.4
+ZFIN:ZDB-GENE-040718-105	crystallin, gamma M2d13	crygm2d13
+ZFIN:ZDB-GENE-040718-106	RNA binding protein, mRNA processing factor 2a	rbpms2a
+ZFIN:ZDB-GENE-040718-107	crystallin, beta A1a	cryba1a
+ZFIN:ZDB-GENE-040718-141	opsin 1 (cone pigments), long-wave-sensitive, 2	opn1lw2
+ZFIN:ZDB-GENE-040718-194	olfactomedin 1a	olfm1a
+ZFIN:ZDB-GENE-040718-205	synaptophysin b	sypb
+ZFIN:ZDB-GENE-040718-220	cyclin dependent kinase 5, regulatory subunit 1b (p35)	cdk5r1b
+ZFIN:ZDB-GENE-040718-249	tyrosinase-related protein 1b	tyrp1b
+ZFIN:ZDB-GENE-040718-259	ATPase H+ transporting V1 subunit F	atp6v1f
+ZFIN:ZDB-GENE-040718-266	RAB11 family interacting protein 4 (class II) a	rab11fip4a
+ZFIN:ZDB-GENE-040718-321	crystallin, gamma M2d8	crygm2d8
+ZFIN:ZDB-GENE-040718-322	crystallin, gamma M2d15	crygm2d15
+ZFIN:ZDB-GENE-040718-324	crystallin, beta A2b	cryba2b
+ZFIN:ZDB-GENE-040718-326	crystallin, beta A1b	cryba1b
+ZFIN:ZDB-GENE-040718-327	lens intrinsic membrane protein 2.3	lim2.3
+ZFIN:ZDB-GENE-040718-330	phospholipase A and acyltransferase 1	plaat1
+ZFIN:ZDB-GENE-040718-419	crystallin, alpha B, b	cryabb
+ZFIN:ZDB-GENE-040718-422	spliceosome associated factor 1, recruiter of U4/U6.U5 tri-snRNP	sart1
+ZFIN:ZDB-GENE-040718-463	phosphodiesterase 6D, cGMP-specific, rod, delta	pde6d
+ZFIN:ZDB-GENE-040718-81	intraflagellar transport 74	ift74
+ZFIN:ZDB-GENE-040724-103	retinal degeneration 3, GUCY2D regulator	rd3
+ZFIN:ZDB-GENE-040724-41	vertebrate ancient long opsin b	valopb
+ZFIN:ZDB-GENE-040801-111	SUV39H1 histone lysine methyltransferase a	suv39h1a
+ZFIN:ZDB-GENE-040801-148	v-crk avian sarcoma virus CT10 oncogene homolog	crk
+ZFIN:ZDB-GENE-040801-16	crystallin, gamma N2	crygn2
+ZFIN:ZDB-GENE-040801-163	galectin-related inter-fiber protein	grifin
+ZFIN:ZDB-GENE-040801-185	RAB18B, member RAS oncogene family	rab18b
+ZFIN:ZDB-GENE-040801-205	suppressor of cytokine signaling 1a	socs1a
+ZFIN:ZDB-GENE-040801-41	major intrinsic protein of lens fiber a	mipa
+ZFIN:ZDB-GENE-040801-90	DnaJ heat shock protein family (Hsp40) member B1a	dnajb1a
+ZFIN:ZDB-GENE-040809-2	RNA binding motif protein 42	rbm42
+ZFIN:ZDB-GENE-040823-3	PRP3 pre-mRNA processing factor 3 homolog (yeast)	prpf3
+ZFIN:ZDB-GENE-040824-3	replication factor C (activator 1) 4	rfc4
+ZFIN:ZDB-GENE-040827-1	intraflagellar transport 172	ift172
+ZFIN:ZDB-GENE-040831-4	GLE1 RNA export mediator	gle1
+ZFIN:ZDB-GENE-040907-1	replication factor C (activator 1) 5	rfc5
+ZFIN:ZDB-GENE-040912-132	fatty acid binding protein 4a	fabp4a
+ZFIN:ZDB-GENE-040912-24	EYA transcriptional coactivator and phosphatase 2	eya2
+ZFIN:ZDB-GENE-040912-3	aldehyde dehydrogenase 8 family, member A1	aldh8a1
+ZFIN:ZDB-GENE-040912-94	retinal pigment epithelium-derived rhodopsin homolog	rrh
+ZFIN:ZDB-GENE-040912-98	receptor accessory protein 6	reep6
+ZFIN:ZDB-GENE-040924-4	cadherin-related family member 1a	cdhr1a
+ZFIN:ZDB-GENE-040924-6	retinal G protein coupled receptor a	rgra
+ZFIN:ZDB-GENE-040924-7	WD repeat domain 55	wdr55
+ZFIN:ZDB-GENE-041001-109	spectrin repeat containing, nuclear envelope 2a	syne2a
+ZFIN:ZDB-GENE-041001-147	peripherin 2-like b	prph2lb
+ZFIN:ZDB-GENE-041001-179	opsin 5	opn5
+ZFIN:ZDB-GENE-041008-136	DNA topoisomerase II beta	top2b
+ZFIN:ZDB-GENE-041010-133	ATPase H+ transporting V0 subunit e1	atp6v0e1
+ZFIN:ZDB-GENE-041010-40	crystallin, beta A1, like 2	cryba1l2
+ZFIN:ZDB-GENE-041010-5	parkinson protein 7	park7
+ZFIN:ZDB-GENE-041010-89	adenylate cyclase activating polypeptide 1b	adcyap1b
+ZFIN:ZDB-GENE-041014-171	Kruppel like factor 7b	klf7b
+ZFIN:ZDB-GENE-041014-270	MIA SH3 domain ER export factor 3	mia3
+ZFIN:ZDB-GENE-041024-6	crystallin, gamma M5	crygm5
+ZFIN:ZDB-GENE-041026-4	myosin IIIA	myo3a
+ZFIN:ZDB-GENE-041111-243	centrosomal protein 290	cep290
+ZFIN:ZDB-GENE-041114-138	cell adhesion molecule 4	cadm4
+ZFIN:ZDB-GENE-041114-63	nuclear receptor subfamily 2, group E, member 3	nr2e3
+ZFIN:ZDB-GENE-041114-91	progesterone receptor membrane component 1	pgrmc1
+ZFIN:ZDB-GENE-041124-2	exostosin-like glycosyltransferase 3	extl3
+ZFIN:ZDB-GENE-041124-3	exostosin glycosyltransferase 2	ext2
+ZFIN:ZDB-GENE-041210-165	keratocan	kera
+ZFIN:ZDB-GENE-041210-173	synthesis of cytochrome C oxidase 2	sco2
+ZFIN:ZDB-GENE-041210-21	transcription factor EC	tfec
+ZFIN:ZDB-GENE-041210-213	calcium channel, voltage-dependent, alpha 2/delta subunit 4a	cacna2d4a
+ZFIN:ZDB-GENE-041212-50	intraflagellar transport 80 homolog (Chlamydomonas)	ift80
+ZFIN:ZDB-GENE-041212-55	nucleoredoxin like 2	nxnl2
+ZFIN:ZDB-GENE-041219-2	ADP-ribosylation factor-like 6	arl6
+ZFIN:ZDB-GENE-041229-4	paired-like homeodomain 3	pitx3
+ZFIN:ZDB-GENE-050114-2	LIM homeobox transcription factor 1, beta b	lmx1bb
+ZFIN:ZDB-GENE-050114-3	LIM homeobox transcription factor 1, beta a	lmx1ba
+ZFIN:ZDB-GENE-050119-3	kinesin family member 3B	kif3b
+ZFIN:ZDB-GENE-050120-1	guanylate cyclase activator 1g	guca1g
+ZFIN:ZDB-GENE-050126-3	crystallin, gamma S2	crygs2
+ZFIN:ZDB-GENE-050201-2	unc-119 homolog b (C. elegans)	unc119b
+ZFIN:ZDB-GENE-050208-114	vitrin	vit
+ZFIN:ZDB-GENE-050208-411	retinol dehydrogenase 5 (11-cis/9-cis)	rdh5
+ZFIN:ZDB-GENE-050208-428	C3 and PZP like alpha-2-macroglobulin domain containing 8	cpamd8
+ZFIN:ZDB-GENE-050208-498	si:ch211-246m6.4	si:ch211-246m6.4
+ZFIN:ZDB-GENE-050210-1	outer mitochondrial membrane lipid metabolism regulator OPA3	opa3
+ZFIN:ZDB-GENE-050213-1	solute carrier family 35 member B2	slc35b2
+ZFIN:ZDB-GENE-050214-1	protocadherin-related 15b	pcdh15b
+ZFIN:ZDB-GENE-050221-2	xin actin binding repeat containing 1	xirp1
+ZFIN:ZDB-GENE-050223-2	crystallin, gamma S4	crygs4
+ZFIN:ZDB-GENE-050223-3	crystallin, gamma S3	crygs3
+ZFIN:ZDB-GENE-050223-4	crystallin, gamma S1	crygs1
+ZFIN:ZDB-GENE-050225-1	crystallin, gamma N1	crygn1
+ZFIN:ZDB-GENE-050306-18	heat shock transcription factor 4	hsf4
+ZFIN:ZDB-GENE-050309-223	serpin peptidase inhibitor, clade E (nexin, plasminogen activator inhibitor type 1), member 3	serpine3
+ZFIN:ZDB-GENE-050320-5	integrin, alpha 6b	itga6b
+ZFIN:ZDB-GENE-050320-92	cadherin 6	cdh6
+ZFIN:ZDB-GENE-050320-94	lens intrinsic membrane protein 2.5	lim2.5
+ZFIN:ZDB-GENE-050320-95	immunoglobulin superfamily containing leucine-rich repeat 2	islr2
+ZFIN:ZDB-GENE-050327-84	ring finger protein 152	rnf152
+ZFIN:ZDB-GENE-050327-93	EYA transcriptional coactivator and phosphatase 4	eya4
+ZFIN:ZDB-GENE-050410-16	retinoid isomerohydrolase RPE65 b	rpe65b
+ZFIN:ZDB-GENE-050410-7	nuclear receptor subfamily 1, group H, member 3	nr1h3
+ZFIN:ZDB-GENE-050417-22	cyclin dependent kinase 5, regulatory subunit 2a (p39)	cdk5r2a
+ZFIN:ZDB-GENE-050417-249	crystallin, beta A1, like 1	cryba1l1
+ZFIN:ZDB-GENE-050417-260	heat shock protein, alpha-crystallin-related, b2	hspb2
+ZFIN:ZDB-GENE-050417-27	exosome component 2	exosc2
+ZFIN:ZDB-GENE-050417-71	kinesin family member 3A	kif3a
+ZFIN:ZDB-GENE-050417-97	diencephalon/mesencephalon homeobox 1b	dmbx1b
+ZFIN:ZDB-GENE-050419-164	cyclic nucleotide gated channel subunit beta 1a	cngb1a
+ZFIN:ZDB-GENE-050419-191	ALX homeobox 1	alx1
+ZFIN:ZDB-GENE-050419-28	dynactin 1b	dctn1b
+ZFIN:ZDB-GENE-050419-45	GDP-mannose 4,6-dehydratase	gmds
+ZFIN:ZDB-GENE-050419-61	spermatogenesis associated 7	spata7
+ZFIN:ZDB-GENE-050420-109	signal-induced proliferation-associated 1 like 3	sipa1l3
+ZFIN:ZDB-GENE-050420-319	WT1 transcription factor b	wt1b
+ZFIN:ZDB-GENE-050425-1	FAT atypical cadherin 1a	fat1a
+ZFIN:ZDB-GENE-050516-10	crystallin, gamma M2b	crygm2b
+ZFIN:ZDB-GENE-050516-11	crystallin, gamma M2c	crygm2c
+ZFIN:ZDB-GENE-050516-5	crystallin, gamma M1	crygm1
+ZFIN:ZDB-GENE-050516-6	crystallin, gamma M3	crygm3
+ZFIN:ZDB-GENE-050516-7	crystallin, gamma M6	crygm6
+ZFIN:ZDB-GENE-050516-8	crystallin, gamma M7	crygm7
+ZFIN:ZDB-GENE-050516-9	crystallin, gamma M2a	crygm2a
+ZFIN:ZDB-GENE-050517-9	ATP binding cassette subfamily B member 6 (LAN blood group) a	abcb6a
+ZFIN:ZDB-GENE-050522-143	crystallin, beta A4	cryba4
+ZFIN:ZDB-GENE-050522-144	phosphodiesterase 6G, cGMP-specific, rod, gamma, paralog a	pde6ga
+ZFIN:ZDB-GENE-050522-145	myristoylated alanine-rich protein kinase C substrate a	marcksa
+ZFIN:ZDB-GENE-050522-160	leucine-rich repeat, immunoglobulin-like and transmembrane domains 2	lrit2
+ZFIN:ZDB-GENE-050522-242	protein O-linked mannose N-acetylglucosaminyltransferase 2 (beta 1,4-)	pomgnt2
+ZFIN:ZDB-GENE-050522-308	SIX homeobox 6b	six6b
+ZFIN:ZDB-GENE-050522-352	cystinosin, lysosomal cystine transporter	ctns
+ZFIN:ZDB-GENE-050522-392	crystallin, gamma MX, like 1	crygmxl1
+ZFIN:ZDB-GENE-050522-395	crystallin, gamma M2d1	crygm2d1
+ZFIN:ZDB-GENE-050522-396	thioredoxin related transmembrane protein 3a	tmx3a
+ZFIN:ZDB-GENE-050522-398	lens intrinsic membrane protein 2.1	lim2.1
+ZFIN:ZDB-GENE-050522-401	crystallin, gamma MX, like 2	crygmxl2
+ZFIN:ZDB-GENE-050522-43	vasorin a	vasna
+ZFIN:ZDB-GENE-050522-447	retinal G protein coupled receptor b	rgrb
+ZFIN:ZDB-GENE-050616-3	gap junction protein beta 1b	gjb1b
+ZFIN:ZDB-GENE-050706-86	major intrinsic protein of lens fiber b	mipb
+ZFIN:ZDB-GENE-050729-1	neural retina leucine zipper	nrl
+ZFIN:ZDB-GENE-050731-5	VPS11 core subunit of CORVET and HOPS complexes	vps11
+ZFIN:ZDB-GENE-050808-1	N-ethylmaleimide-sensitive factor b	nsfb
+ZFIN:ZDB-GENE-050809-19	Wolfram syndrome 1b (wolframin)	wfs1b
+ZFIN:ZDB-GENE-050809-23	inositol polyphosphate-5-phosphatase E	inpp5e
+ZFIN:ZDB-GENE-050823-1	G protein-coupled receptor kinase 1 a	grk1a
+ZFIN:ZDB-GENE-050824-1	G protein-coupled receptor kinase 7a	grk7a
+ZFIN:ZDB-GENE-050913-145	adenosine deaminase-like	adal
+ZFIN:ZDB-GENE-050913-98	S-antigen; retina and pineal gland (arrestin) b	sagb
+ZFIN:ZDB-GENE-051030-57	carbonic anhydrase XIV	ca14
+ZFIN:ZDB-GENE-051030-69	phosphatase and actin regulator 4a	phactr4a
+ZFIN:ZDB-GENE-051101-1	WW domain containing transcription regulator 1	wwtr1
+ZFIN:ZDB-GENE-051102-1	NPHS1 adhesion molecule, nephrin	nphs1
+ZFIN:ZDB-GENE-051113-296	double zinc ribbon and ankyrin repeat domains 1	dzank1
+ZFIN:ZDB-GENE-051127-39	actinin, alpha 2b	actn2b
+ZFIN:ZDB-GENE-051220-1	LIM homeobox 2b	lhx2b
+ZFIN:ZDB-GENE-060118-1	laminin, alpha 1	lama1
+ZFIN:ZDB-GENE-060124-1	lens intrinsic membrane protein 2.2	lim2.2
+ZFIN:ZDB-GENE-060126-1	Bardet-Biedl syndrome 1	bbs1
+ZFIN:ZDB-GENE-060126-2	Bardet-Biedl syndrome 4	bbs4
+ZFIN:ZDB-GENE-060130-1	crystallin, beta B2	crybb2
+ZFIN:ZDB-GENE-060130-2	crystallin, beta B3	crybb3
+ZFIN:ZDB-GENE-060216-2	norrin cystine knot growth factor NDP	ndp
+ZFIN:ZDB-GENE-060312-26	lengsin, lens protein with glutamine synthetase domain	lgsn
+ZFIN:ZDB-GENE-060312-41	Usher syndrome 1C	ush1c
+ZFIN:ZDB-GENE-060421-7448	beta-carotene oxygenase 2b	bco2b
+ZFIN:ZDB-GENE-060503-11	coiled-coil domain containing 126	ccdc126
+ZFIN:ZDB-GENE-060503-322	cactin	cactin
+ZFIN:ZDB-GENE-060503-358	tectonin beta-propeller repeat containing 2	tecpr2
+ZFIN:ZDB-GENE-060503-414	scleraxis bHLH transcription factor a	scxa
+ZFIN:ZDB-GENE-060503-526	vacuolar protein sorting 45 homolog	vps45
+ZFIN:ZDB-GENE-060503-794	Usher syndrome 2A (autosomal recessive, mild)	ush2a
+ZFIN:ZDB-GENE-060503-864	EYA transcriptional coactivator and phosphatase 3	eya3
+ZFIN:ZDB-GENE-060526-135	POC5 centriolar protein homolog (Chlamydomonas)	poc5
+ZFIN:ZDB-GENE-060526-204	sorting nexin 19a	snx19a
+ZFIN:ZDB-GENE-060526-333	opsin 7, group member c	opn7c
+ZFIN:ZDB-GENE-060601-2	T-box transcription factor 5b	tbx5b
+ZFIN:ZDB-GENE-060610-1	crumbs cell polarity complex component 2b	crb2b
+ZFIN:ZDB-GENE-060612-1	crumbs cell polarity complex component 2a	crb2a
+ZFIN:ZDB-GENE-060616-252	signaling receptor and transporter of retinol STRA6	stra6
+ZFIN:ZDB-GENE-060803-1	Abelson helper integration site 1	ahi1
+ZFIN:ZDB-GENE-060803-2	integrin, beta 1a	itgb1a
+ZFIN:ZDB-GENE-060823-1	tubulin folding cofactor D	tbcd
+ZFIN:ZDB-GENE-060824-1	arrestin, beta 1	arrb1
+ZFIN:ZDB-GENE-060825-117	family with sequence similarity 169 member Aa	fam169aa
+ZFIN:ZDB-GENE-060825-69	LLGL scribble cell polarity complex component 1	llgl1
+ZFIN:ZDB-GENE-060918-1	crystallin, gamma M2d2	crygm2d2
+ZFIN:ZDB-GENE-060918-2	crystallin, gamma M2d3	crygm2d3
+ZFIN:ZDB-GENE-060918-4	crystallin, gamma M2d5	crygm2d5
+ZFIN:ZDB-GENE-060918-5	crystallin, gamma M2d7	crygm2d7
+ZFIN:ZDB-GENE-060929-1226	Schwann cell-specific EGF-like repeat autocrine factor	seraf
+ZFIN:ZDB-GENE-060929-1234	nephronophthisis 1	nphp1
+ZFIN:ZDB-GENE-060929-1258	insulin-like growth factor 2 mRNA binding protein 1	igf2bp1
+ZFIN:ZDB-GENE-060929-268	abhydrolase domain containing 12, lysophospholipase	abhd12
+ZFIN:ZDB-GENE-060929-328	bone morphogenetic protein 7b	bmp7b
+ZFIN:ZDB-GENE-060929-898	zgc:153846	zgc:153846
+ZFIN:ZDB-GENE-061013-139	Pim-1 proto-oncogene, serine/threonine kinase	pim1
+ZFIN:ZDB-GENE-061013-747	tubulin tyrosine ligase-like family, member 11	ttll11
+ZFIN:ZDB-GENE-061026-3	nyctalopin	nyx
+ZFIN:ZDB-GENE-061207-74	dickkopf WNT signaling pathway inhibitor 3b	dkk3b
+ZFIN:ZDB-GENE-061214-6	forkhead box E3	foxe3
+ZFIN:ZDB-GENE-061215-7	atonal bHLH transcription factor 8	atoh8
+ZFIN:ZDB-GENE-070111-2	opsin 4a (melanopsin)	opn4a
+ZFIN:ZDB-GENE-070112-2132	N-ethylmaleimide-sensitive factor attachment protein, beta b	napbb
+ZFIN:ZDB-GENE-070112-342	guanine nucleotide binding protein (G protein), beta 5a	gnb5a
+ZFIN:ZDB-GENE-070112-422	shugoshin 1	sgo1
+ZFIN:ZDB-GENE-070112-902	G patch domain containing 3	gpatch3
+ZFIN:ZDB-GENE-070112-991	protein O-linked mannose N-acetylglucosaminyltransferase 1 (beta 1,2-)	pomgnt1
+ZFIN:ZDB-GENE-070117-2049	fade out	fad
+ZFIN:ZDB-GENE-070117-2205	dynactin 1a	dctn1a
+ZFIN:ZDB-GENE-070117-2249	partial optokinetic nystagmus a	poa
+ZFIN:ZDB-GENE-070117-2329	sallow	sll
+ZFIN:ZDB-GENE-070117-2412	sunbleached	sbl
+ZFIN:ZDB-GENE-070117-2460	washed out	wsh
+ZFIN:ZDB-GENE-070117-2474	yobo	yob
+ZFIN:ZDB-GENE-070117-2502	bumper	bum
+ZFIN:ZDB-GENE-070117-61	confused	cfs
+ZFIN:ZDB-GENE-070117-676	margin affected	mgf
+ZFIN:ZDB-GENE-070119-5	obscurin, cytoskeletal calmodulin and titin-interacting RhoGEF b	obscnb
+ZFIN:ZDB-GENE-070209-41	ciliary microtubule inner protein 2B	cimip2b
+ZFIN:ZDB-GENE-070216-1	orthopedia homeobox a	otpa
+ZFIN:ZDB-GENE-070410-101	inositol polyphosphate-5-phosphatase Ka	inpp5ka
+ZFIN:ZDB-GENE-070410-116	STRA6-like	stra6l
+ZFIN:ZDB-GENE-070410-2	crystallin beta gamma X	crybgx
+ZFIN:ZDB-GENE-070410-36	ATP synthase inhibitory factor subunit 1a	atp5if1a
+ZFIN:ZDB-GENE-070410-38	ceramide kinase-like	cerkl
+ZFIN:ZDB-GENE-070410-80	HPS5 biogenesis of lysosomal organelles complex 2 subunit 2	hps5
+ZFIN:ZDB-GENE-070424-11	pre-B-cell leukemia homeobox 1b	pbx1b
+ZFIN:ZDB-GENE-070424-115	nucleoredoxin like 1	nxnl1
+ZFIN:ZDB-GENE-070424-32	crystallin, gamma M2d20	crygm2d20
+ZFIN:ZDB-GENE-070424-6	rhodopsin, like	rhol
+ZFIN:ZDB-GENE-070511-1	protein kinase C, zeta	prkcz
+ZFIN:ZDB-GENE-070619-1	diacylglycerol lipase, alpha	dagla
+ZFIN:ZDB-GENE-070626-3	Bardet-Biedl syndrome 12	bbs12
+ZFIN:ZDB-GENE-070705-181	cyclin and CBS domain divalent metal cation transport mediator 4b	cnnm4b
+ZFIN:ZDB-GENE-070705-192	pannexin 1b	panx1b
+ZFIN:ZDB-GENE-070705-526	opsin 4xb	opn4xb
+ZFIN:ZDB-GENE-070705-53	iodothyronine deiodinase 3b	dio3b
+ZFIN:ZDB-GENE-070706-1	importin 13b	ipo13b
+ZFIN:ZDB-GENE-070706-2	myosin IIIB	myo3b
+ZFIN:ZDB-GENE-070718-2	tyrosinase-related protein 1a	tyrp1a
+ZFIN:ZDB-GENE-070720-9	crystallin, gamma M2d17	crygm2d17
+ZFIN:ZDB-GENE-070820-11	crystallin, beta B1, like 3	crybb1l3
+ZFIN:ZDB-GENE-070822-18	crystallin, beta B1, like 2	crybb1l2
+ZFIN:ZDB-GENE-070822-19	crystallin, gamma M2d12	crygm2d12
+ZFIN:ZDB-GENE-070822-20	crystallin, gamma M2d14	crygm2d14
+ZFIN:ZDB-GENE-070822-9	ictacalcin 2	icn2
+ZFIN:ZDB-GENE-070912-112	solute carrier family 7 member 14a	slc7a14a
+ZFIN:ZDB-GENE-070912-179	chromodomain helicase DNA binding protein 7	chd7
+ZFIN:ZDB-GENE-070912-197	adenylate cyclase 8 (brain)	adcy8
+ZFIN:ZDB-GENE-070912-578	DDB1 and CUL4 associated factor 8	dcaf8
+ZFIN:ZDB-GENE-070912-579	serine protease 56	prss56
+ZFIN:ZDB-GENE-070912-689	collagen, type XV, alpha 1b	col15a1b
+ZFIN:ZDB-GENE-070928-27	G protein-coupled receptor, class C, group 5, member C	gprc5c
+ZFIN:ZDB-GENE-071004-42	crystallin, gamma M2d11	crygm2d11
+ZFIN:ZDB-GENE-071004-53	crystallin, gamma M2d16	crygm2d16
+ZFIN:ZDB-GENE-071004-96	crystallin, gamma M2d10	crygm2d10
+ZFIN:ZDB-GENE-071119-2	nestin	nes
+ZFIN:ZDB-GENE-080102-3	intraflagellar transport 46 homolog (Chlamydomonas)	ift46
+ZFIN:ZDB-GENE-080104-1	leptin receptor	lepr
+ZFIN:ZDB-GENE-080110-7	interleukin 7 receptor	il7r
+ZFIN:ZDB-GENE-080204-119	heparin-binding EGF-like growth factor a	hbegfa
+ZFIN:ZDB-GENE-080204-126	exocyst complex component 5	exoc5
+ZFIN:ZDB-GENE-080204-34	kinesin family member 22	kif22
+ZFIN:ZDB-GENE-080204-54	H6 family homeobox 1	hmx1
+ZFIN:ZDB-GENE-080204-68	cytochrome P450, family 27, subfamily C, polypeptide 1	cyp27c1
+ZFIN:ZDB-GENE-080220-17	crystallin, gamma M2f	crygm2f
+ZFIN:ZDB-GENE-080225-11	Wolfram syndrome 1a (wolframin)	wfs1a
+ZFIN:ZDB-GENE-080227-16	opsin 3	opn3
+ZFIN:ZDB-GENE-080327-34	cell adhesion molecule 1b	cadm1b
+ZFIN:ZDB-GENE-080327-7	SLIT and NTRK-like family, member 2	slitrk2
+ZFIN:ZDB-GENE-080415-3	opsin 4b	opn4b
+ZFIN:ZDB-GENE-080505-2	cell adhesion molecule 1a	cadm1a
+ZFIN:ZDB-GENE-080506-3	cell adhesion molecule 2b	cadm2b
+ZFIN:ZDB-GENE-080520-2	ankyrin repeat domain 33Aa	ankrd33aa
+ZFIN:ZDB-GENE-080530-2	VPS39 subunit of HOPS complex	vps39
+ZFIN:ZDB-GENE-080707-1	solute carrier family 12 member 5b	slc12a5b
+ZFIN:ZDB-GENE-080724-12	kinesin family member 17	kif17
+ZFIN:ZDB-GENE-080724-2	cytoplasmic FMR1 interacting protein 2	cyfip2
+ZFIN:ZDB-GENE-080808-7	calcium channel, voltage-dependent, beta 2a	cacnb2a
+ZFIN:ZDB-GENE-081001-1	leptin a	lepa
+ZFIN:ZDB-GENE-081015-2	retinitis pigmentosa GTPase regulator b	rpgrb
+ZFIN:ZDB-GENE-081022-10	paired box 10	pax10
+ZFIN:ZDB-GENE-081022-124	tubulin gamma complex component 4	tubgcp4
+ZFIN:ZDB-GENE-081027-4	Bardet-Biedl syndrome 9	bbs9
+ZFIN:ZDB-GENE-081030-4	laminin, beta 2 (laminin S)	lamb2
+ZFIN:ZDB-GENE-081031-56	interphotoreceptor matrix proteoglycan 2b	impg2b
+ZFIN:ZDB-GENE-081104-176	cut-like homeobox 2b	cux2b
+ZFIN:ZDB-GENE-081104-199	ring finger protein 216	rnf216
+ZFIN:ZDB-GENE-081104-267	ATP/GTP binding carboxypeptidase 1	agtpbp1
+ZFIN:ZDB-GENE-081104-360	DNA-damage regulated autophagy modulator 2a	dram2a
+ZFIN:ZDB-GENE-081104-414	ADAM metallopeptidase with thrombospondin type 1 motif, 10	adamts10
+ZFIN:ZDB-GENE-081104-425	si:dkey-57a22.13	si:dkey-57a22.13
+ZFIN:ZDB-GENE-081104-426	si:dkey-57a22.14	si:dkey-57a22.14
+ZFIN:ZDB-GENE-081104-427	si:dkey-57a22.15	si:dkey-57a22.15
+ZFIN:ZDB-GENE-081104-81	RPGRIP1 like	rpgrip1l
+ZFIN:ZDB-GENE-081105-116	crystallin, gamma M2e	crygm2e
+ZFIN:ZDB-GENE-081105-125	5-hydroxytryptamine (serotonin) receptor 1Fa	htr1fa
+ZFIN:ZDB-GENE-081105-133	crystallin, gamma M2d21	crygm2d21
+ZFIN:ZDB-GENE-081105-81	crystallin, gamma M2d9	crygm2d9
+ZFIN:ZDB-GENE-081105-91	opsin 7, group member d	opn7d
+ZFIN:ZDB-GENE-090311-6	plexin A2	plxna2
+ZFIN:ZDB-GENE-090312-140	5-hydroxytryptamine (serotonin) receptor 1Fb	htr1fb
+ZFIN:ZDB-GENE-090313-131	WD repeat domain 17	wdr17
+ZFIN:ZDB-GENE-090313-191	PDZ domain containing 7a	pdzd7a
+ZFIN:ZDB-GENE-090313-268	lebercilin LCA5	lca5
+ZFIN:ZDB-GENE-090313-354	si:dkey-92j12.5	si:dkey-92j12.5
+ZFIN:ZDB-GENE-090421-2	phosphodiesterase 6B, cGMP-specific, rod, beta	pde6b
+ZFIN:ZDB-GENE-090507-4	tubulin, alpha 1a	tuba1a
+ZFIN:ZDB-GENE-090608-3	protocadherin 17	pcdh17
+ZFIN:ZDB-GENE-090617-1	Nance-Horan syndrome a (congenital cataracts and dental anomalies)	nhsa
+ZFIN:ZDB-GENE-090617-2	Nance-Horan syndrome b (congenital cataracts and dental anomalies)	nhsb
+ZFIN:ZDB-GENE-090629-2	coagulation factor VIII, procoagulant component	f8
+ZFIN:ZDB-GENE-090806-1	scleraxis bHLH transcription factor b	scxb
+ZFIN:ZDB-GENE-090814-1	transcription factor 4	tcf4
+ZFIN:ZDB-GENE-090831-4	cyclic nucleotide gated channel subunit beta 1b	cngb1b
+ZFIN:ZDB-GENE-090930-2	unc-119 homolog a (C. elegans)	unc119a
+ZFIN:ZDB-GENE-091118-50	teleost multiple tissue opsin b	tmtopsb
+ZFIN:ZDB-GENE-091118-95	family with sequence similarity 169 member Ab	fam169ab
+ZFIN:ZDB-GENE-091204-117	nephronophthisis 3	nphp3
+ZFIN:ZDB-GENE-091204-311	teleost multiple tissue opsin 3b	tmtops3b
+ZFIN:ZDB-GENE-091204-394	RPGR interacting protein 1	rpgrip1
+ZFIN:ZDB-GENE-091204-414	guanylate cyclase activator 1Ab.2	guca1ab.2
+ZFIN:ZDB-GENE-091204-439	BICD family like cargo adaptor 1	bicdl1
+ZFIN:ZDB-GENE-091204-466	fibrillin 1	fbn1
+ZFIN:ZDB-GENE-091204-67	rp1 like 1b	rp1l1b
+ZFIN:ZDB-GENE-091218-3	ubiquitin protein ligase E3D	ube3d
+ZFIN:ZDB-GENE-100112-3	crystallin, beta B1, like 1	crybb1l1
+ZFIN:ZDB-GENE-100211-2	ubiquitin specific peptidase 45	usp45
+ZFIN:ZDB-GENE-100226-1	matrix metallopeptidase 28	mmp28
+ZFIN:ZDB-GENE-100318-1	actin filament associated protein 1-like 2	afap1l2
+ZFIN:ZDB-GENE-100408-3	inositol polyphosphate-5-phosphatase Kb	inpp5kb
+ZFIN:ZDB-GENE-100422-18	calcium channel, voltage-dependent, alpha 2/delta subunit 4b	cacna2d4b
+ZFIN:ZDB-GENE-100426-3	microtubule-associated protein 1Ab	map1ab
+ZFIN:ZDB-GENE-100618-1	MIA SH3 domain ER export factor 2	mia2
+ZFIN:ZDB-GENE-100729-1	ankyrin repeat domain 33Ab	ankrd33ab
+ZFIN:ZDB-GENE-100805-1	adenylate cyclase 1b	adcy1b
+ZFIN:ZDB-GENE-100922-279	microfibril associated protein 5	mfap5
+ZFIN:ZDB-GENE-100922-48	potassium inwardly rectifying channel subfamily J member 14	kcnj14
+ZFIN:ZDB-GENE-101007-1	interphotoreceptor matrix proteoglycan 1b	impg1b
+ZFIN:ZDB-GENE-101104-10	photoreceptor cilium actin regulator 1	pcare1
+ZFIN:ZDB-GENE-101129-1	parapinopsin a	parapinopsina
+ZFIN:ZDB-GENE-101223-1	SHANK-associated RH domain interacting protein	sharpin
+ZFIN:ZDB-GENE-110310-7	SPARC related modular calcium binding 1	smoc1
+ZFIN:ZDB-GENE-110408-39	cyclic nucleotide gated channel subunit alpha 1b	cnga1b
+ZFIN:ZDB-GENE-110411-113	TUB like protein 1b	tulp1b
+ZFIN:ZDB-GENE-110411-122	TUB like protein 1a	tulp1a
+ZFIN:ZDB-GENE-110411-43	teleost multiple tissue opsin 2b	tmtops2b
+ZFIN:ZDB-GENE-110411-86	sema domain, immunoglobulin domain (Ig), transmembrane domain (TM) and short cytoplasmic domain, (semaphorin) 4Aa	sema4aa
+ZFIN:ZDB-GENE-110603-4	MYC-associated zinc finger protein a (purine-binding transcription factor)	maza
+ZFIN:ZDB-GENE-110621-1	ataxin 7	atxn7
+ZFIN:ZDB-GENE-110622-1	opsin 4xa	opn4xa
+ZFIN:ZDB-GENE-110713-1	heat shock cognate 70-kd protein, tandem duplicate 3	hsp70.3
+ZFIN:ZDB-GENE-110901-1	fascin actin-bundling protein 2a, retinal	fscn2a
+ZFIN:ZDB-GENE-110922-7	complement factor I	cfi
+ZFIN:ZDB-GENE-120117-1	solute carrier family 16 member 2	slc16a2
+ZFIN:ZDB-GENE-120203-3	creb3 regulatory factor	crebrf
+ZFIN:ZDB-GENE-120214-23	zinc finger protein 644b	znf644b
+ZFIN:ZDB-GENE-120215-238	si:ch73-167i17.6	si:ch73-167i17.6
+ZFIN:ZDB-GENE-120215-84	neuron navigator 1b	nav1b
+ZFIN:ZDB-GENE-120221-3	ALX homeobox 3	alx3
+ZFIN:ZDB-GENE-120229-1	G protein-coupled receptor 179	gpr179
+ZFIN:ZDB-GENE-120312-2	crystallin, gamma M4	crygm4
+ZFIN:ZDB-GENE-120711-1	rp1 like 1a	rp1l1a
+ZFIN:ZDB-GENE-121022-3	adenomatosis polyposis coli down-regulated 1-like	apcdd1l
+ZFIN:ZDB-GENE-121114-3	un-named t32233	unm_t32233
+ZFIN:ZDB-GENE-121114-4	un-named t32234	unm_t32234
+ZFIN:ZDB-GENE-121114-5	un-named t32235	unm_t32235
+ZFIN:ZDB-GENE-121114-6	un-named t32236	unm_t32236
+ZFIN:ZDB-GENE-121114-7	un-named t32237	unm_t32237
+ZFIN:ZDB-GENE-121114-9	chloride channel CLIC-like 1	clcc1
+ZFIN:ZDB-GENE-130129-3	teleost multiple tissue opsin 2a	tmtops2a
+ZFIN:ZDB-GENE-130514-1	mucolipin TRP cation channel 1b	mcoln1b
+ZFIN:ZDB-GENE-130530-548	peripherin 2-like a	prph2la
+ZFIN:ZDB-GENE-130530-563	FAT atypical cadherin 1b	fat1b
+ZFIN:ZDB-GENE-130530-589	zinc finger protein 408	znf408
+ZFIN:ZDB-GENE-130530-760	ADAM metallopeptidase with thrombospondin type 1 motif, 16	adamts16
+ZFIN:ZDB-GENE-130530-768	ninein-like	ninl
+ZFIN:ZDB-GENE-130530-850	opsin 7, group member b	opn7b
+ZFIN:ZDB-GENE-130530-959	eyes shut homolog	eys
+ZFIN:ZDB-GENE-130613-5	DEAH (Asp-Glu-Ala-His) box polypeptide 32b	dhx32b
+ZFIN:ZDB-GENE-130828-1	teleost multiple tissue opsin 3a	tmtops3a
+ZFIN:ZDB-GENE-131004-1	pinkie	pk
+ZFIN:ZDB-GENE-131004-3	tiger stripe	ts
+ZFIN:ZDB-GENE-131121-26	spectrin, beta, non-erythrocytic 5	sptbn5
+ZFIN:ZDB-GENE-131121-533	CECR2 histone acetyl-lysine reader	cecr2
+ZFIN:ZDB-GENE-140106-137	plexin A1a	plxna1a
+ZFIN:ZDB-GENE-140106-15	opsin 7, group member a	opn7a
+ZFIN:ZDB-GENE-140106-7	nuclear factor of activated T cells 5b	nfat5b
+ZFIN:ZDB-GENE-150109-14	tudor domain containing 7 b	tdrd7b
+ZFIN:ZDB-GENE-160113-49	SIL1 nucleotide exchange factor	sil1
+ZFIN:ZDB-GENE-160512-1	protein phosphatase with EF-hand domain 2b	ppef2b
+ZFIN:ZDB-GENE-160512-2	protein phosphatase with EF-hand domain 2a	ppef2a
+ZFIN:ZDB-GENE-160728-150	membrane frizzled-related protein	mfrp
+ZFIN:ZDB-GENE-180105-1	dual specificity phosphatase 26	dusp26
+ZFIN:ZDB-GENE-980526-104	tenascin Cb	tncb
+ZFIN:ZDB-GENE-980526-166	sonic hedgehog signaling molecule a	shha
+ZFIN:ZDB-GENE-980526-170	cadherin 11, type 2, OB-cadherin (osteoblast)	cdh11
+ZFIN:ZDB-GENE-980526-176	cyclin D1	ccnd1
+ZFIN:ZDB-GENE-980526-178	fibroblast growth factor 3	fgf3
+ZFIN:ZDB-GENE-980526-192	collagen, type II, alpha 1a	col2a1a
+ZFIN:ZDB-GENE-980526-196	patched 1	ptch1
+ZFIN:ZDB-GENE-980526-27	orthodenticle homeobox 2a	otx2a
+ZFIN:ZDB-GENE-980526-280	distal-less homeobox 3b	dlx3b
+ZFIN:ZDB-GENE-980526-320	early growth response 1	egr1
+ZFIN:ZDB-GENE-980526-332	wingless-type MMTV integration site family, member 8a	wnt8a
+ZFIN:ZDB-GENE-980526-347	LIM homeobox 1a	lhx1a
+ZFIN:ZDB-GENE-980526-373	growth differentiation factor 6a	gdf6a
+ZFIN:ZDB-GENE-980526-395	SRY-box transcription factor 11a	sox11a
+ZFIN:ZDB-GENE-980526-400	orthodenticle homeobox 1	otx1
+ZFIN:ZDB-GENE-980526-406	orthodenticle homeobox 2b	otx2b
+ZFIN:ZDB-GENE-980526-419	LIM domain only 2 (rhombotin-like 1)	lmo2
+ZFIN:ZDB-GENE-980526-44	patched 2	ptch2
+ZFIN:ZDB-GENE-980526-466	SRY-box transcription factor 11b	sox11b
+ZFIN:ZDB-GENE-980526-484	LIM homeobox 5	lhx5
+ZFIN:ZDB-GENE-980526-515	MAF bZIP transcription factor Ba	mafba
+ZFIN:ZDB-GENE-980526-561	myogenic differentiation 1	myod1
+ZFIN:ZDB-GENE-980526-68	signal transducer and activator of transcription 3 (acute-phase response factor)	stat3
+ZFIN:ZDB-GENE-980526-89	smoothened, frizzled class receptor	smo
+ZFIN:ZDB-GENE-980605-30	transcription factor 7 like 1a	tcf7l1a
+ZFIN:ZDB-GENE-990415-122	pancreatic and duodenal homeobox 1	pdx1
+ZFIN:ZDB-GENE-990415-127	SIX homeobox 3a	six3a
+ZFIN:ZDB-GENE-990415-128	SIX homeobox 3b	six3b
+ZFIN:ZDB-GENE-990415-169	netrin 1a	ntn1a
+ZFIN:ZDB-GENE-990415-171	cadherin 2, type 1, N-cadherin (neuronal)	cdh2
+ZFIN:ZDB-GENE-990415-172	neuronal differentiation 1	neurod1
+ZFIN:ZDB-GENE-990415-180	cleavage and polyadenylation specific factor 4	cpsf4
+ZFIN:ZDB-GENE-990415-181	nodal-related 2	ndr2
+ZFIN:ZDB-GENE-990415-198	teratocarcinoma-derived growth factor 1	tdgf1
+ZFIN:ZDB-GENE-990415-200	paired box 6a	pax6a
+ZFIN:ZDB-GENE-990415-205	visual system homeobox 1 homolog, chx10-like	vsx1
+ZFIN:ZDB-GENE-990415-217	frizzled class receptor 4	fzd4
+ZFIN:ZDB-GENE-990415-218	frizzled class receptor 5	fzd5
+ZFIN:ZDB-GENE-990415-22	dharma	dharma
+ZFIN:ZDB-GENE-990415-236	retinal homeobox gene 1	rx1
+ZFIN:ZDB-GENE-990415-237	retinal homeobox gene 2	rx2
+ZFIN:ZDB-GENE-990415-238	retinal homeobox gene 3	rx3
+ZFIN:ZDB-GENE-990415-253	nuclear receptor subfamily 2, group F, member 5	nr2f5
+ZFIN:ZDB-GENE-990415-256	nodal-related 1	ndr1
+ZFIN:ZDB-GENE-990415-267	forkhead box G1a	foxg1a
+ZFIN:ZDB-GENE-990415-268	thyroid hormone receptor beta	thrb
+ZFIN:ZDB-GENE-990415-271	rhodopsin	rho
+ZFIN:ZDB-GENE-990415-277	forkhead box N4	foxn4
+ZFIN:ZDB-GENE-990415-279	wingless-type MMTV integration site family, member 8b	wnt8b
+ZFIN:ZDB-GENE-990415-30	activated leukocyte cell adhesion molecule a	alcama
+ZFIN:ZDB-GENE-990415-44	cytochrome P450, family 26, subfamily A, polypeptide 1	cyp26a1
+ZFIN:ZDB-GENE-990415-46	nucleoporin 93	nup93
+ZFIN:ZDB-GENE-990415-50	distal-less homeobox 4b	dlx4b
+ZFIN:ZDB-GENE-990415-67	ephrin-B2a	efnb2a
+ZFIN:ZDB-GENE-990415-72	fibroblast growth factor 8a	fgf8a
+ZFIN:ZDB-GENE-990415-8	paired box 2a	pax2a
+ZFIN:ZDB-GENE-990415-88	RAN, member RAS oncogene family	ran
+ZFIN:ZDB-GENE-990415-91	heat shock cognate 70-kd protein, tandem duplicate 1	hsp70.1
+ZFIN:ZDB-GENE-990603-12	wnt 11, family member 2	wnt11f2
+ZFIN:ZDB-GENE-990604-40	opsin 1 (cone pigments), short-wave-sensitive 2	opn1sw2
+ZFIN:ZDB-GENE-990604-41	opsin 1 (cone pigments), long-wave-sensitive, 1	opn1lw1
+ZFIN:ZDB-GENE-990604-42	opsin 1 (cone pigments), medium-wave-sensitive, 1	opn1mw1
+ZFIN:ZDB-GENE-990604-43	opsin 1 (cone pigments), medium-wave-sensitive, 4	opn1mw4
+ZFIN:ZDB-GENE-990616-47	forkhead box B1a	foxb1a
+ZFIN:ZDB-GENE-990706-8	GLI family zinc finger 2a	gli2a
+ZFIN:ZDB-GENE-990712-11	DNA (cytosine-5-)-methyltransferase 3 beta, duplicate b.2	dnmt3bb.2
+ZFIN:ZDB-GENE-990712-18	EYA transcriptional coactivator and phosphatase 1	eya1
+ZFIN:ZDB-GENE-990714-15	DNA (cytosine-5-)-methyltransferase 1	dnmt1
+ZFIN:ZDB-GENE-990714-19	teneurin transmembrane protein 3	tenm3
+ZFIN:ZDB-GENE-990714-27	paired-like homeodomain 2	pitx2
+ZFIN:ZDB-GENE-990715-2	sema domain, immunoglobulin domain (Ig), short basic domain, secreted, (semaphorin) 3D	sema3d
+ZFIN:ZDB-GENE-990726-27	T-box transcription factor 2b	tbx2b
+ZFIN:ZDB-GENE-990825-28	SIX homeobox 7	six7
+ZFIN:ZDB-GENE-990910-11	melanocyte inducing transcription factor a	mitfa
+ZFIN:ZDB-GENE-991026-3	tyrosinase	tyr
+ZFIN:ZDB-GENE-991109-25	opsin 1 (cone pigments), short-wave-sensitive 1	opn1sw1
+ZFIN:ZDB-GENE-991110-14	v-myb avian myeloblastosis viral oncogene homolog	myb
+ZFIN:ZDB-GENE-991119-2	crystallin, alpha B, a	cryaba
+ZFIN:ZDB-GENE-991119-4	presenilin 1	psen1
+ZFIN:ZDB-GENE-991124-7	T-box transcription factor 5a	tbx5a
+ZFIN:ZDB-GENE-991207-1	cadherin 4, type 1, R-cadherin (retinal)	cdh4
+ZFIN:ZDB-GENE-991229-12	extra-ocular rhodopsin	exorh
+ZFIN:ZDB-LNCRNAG-200408-1	conserved lncRNA, nonimprinting regions, brain 1	lnc.cnib1

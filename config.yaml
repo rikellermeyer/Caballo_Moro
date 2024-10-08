@@ -1,0 +1,63 @@
+GENOME: "Amex3.0_surface"
+
+GENOME_PATH: "/n/projects/rk2643/caballo_moro_genomics/streamlined/genome"
+
+GATK_GENOME_PATH: "/n/projects/rk2643/caballo_moro_genomics/streamlined/genome/old_genome_format"
+
+DATA_PATH: "/n/projects/rk2643/caballo_moro_genomics/streamlined/data"
+
+CODE_PATH: "/n/projects/rk2643/caballo_moro_genomics/streamlined/code"
+
+#FASTQ_PATH: "/n/projects/rk2643/caballo_moro_genomics/streamlined/data/fastq/adhoc_molino/molino2"
+
+SAMPLES:
+  C1
+  C1_Rnd3
+  C2
+  C2_Rnd3
+  C3
+  C3_Rnd2
+  C3_Rnd3
+  C4
+  C4_Rnd2
+  C4_Rnd3
+  C5
+  C5_Rnd2
+  C5_Rnd3
+  C6
+  C6_Rnd2
+  C6_Rnd3
+  C7
+  C7_Rnd2
+  C7_Rnd3
+  E1
+  E10_Rnd2
+  E11_Rnd2
+  E12_Rnd2
+  E13_Rnd2
+  E14_Rnd2
+  E15_Rnd2
+  E16_Rnd2
+  E2
+  E3
+  E4
+  E5
+  E6
+  E7
+  E8
+  E8_Rnd2
+  E9_Rnd2
+  S1
+  S2
+  S3
+  Sr1
+  Sr2
+  Sr3
+
+POPULATIONS:
+  Eyeless
+  Eyed
+  Surface
+
+CM_VCF_PATH: "/n/projects/rk2643/caballo_moro_genomics/streamlined/data/variant_calling/variants"
+
