@@ -1,11 +1,10 @@
-test
 # Caballo Moro pipeline
 The Caballo Moro Astyanax mexicanus cave population consists of both eyed and eyeless individuals. The purpose of this pipeline is to compare/contrast genomic differences within this population. We sequenced 42 indiviudals- eyed cavefish (E series sample names), eyeless cavefish (C series sample names), and surface fish (S and Sr sample names). 
 
 `config.yaml` is easily editable to define new genomes, paths, samples, etc. 
 
 ## Alignment
-`align_scripts.py`: fastq files > align with bwa-mem2 > mark duplicates > rename to biological sample name
+`alignment_scripts.py`: fastq files > align with bwa-mem2 > mark duplicates > rename to biological sample name
 
 ## Variant Calling
 `variant_calling.py`: Splits aligned genomes to mapped/unmapped > genotypes (Ref vs. Alt with haplotype caller) > Combines gvcfs across all individuals > joint calling

@@ -24,20 +24,18 @@ with open("../config.yaml", "r") as f:
 
 
 ### File locations ###
-data_path_base = config["DATA_PATH"]
-data_path = f'{data_path_base}/molino2'
+data_path = config["DATA_PATH"]
 code_path = config["CODE_PATH"]
 genome = config["GENOME"]
 genome_path = config["GENOME_PATH"]
 gatk_genome_path = config["GATK_GENOME_PATH"]
-fastq_dir = config["M_FASTQ_PATH"] # this is the adding molino one, edit for MOLNGs
+fastq_dir = config["FASTQ_PATH"] # this is the adding molino one, edit for MOLNGs
 
 sha_bang = '#!/usr/bin/bash'
-script_path = f'{code_path}/alignment/scripts/molino2'
-script_errors = f'{script_path}/error_logs' # idk if these are necessary or should go to slurmout/*.err
+script_path = f'{code_path}/alignment/scripts'
 mem2_genome_path = f'{genome_path}/{genome}.fna' #for bwa-mem2
 gatk_genome_format = f'{gatk_genome_path}/{genome}.fna' #for any gatk
-sample_info = config["MOLINO_SAMPLES"] # this is a dictionary of seq_id:sample_name
+sample_info = config["SAMPLES"] # this is a dictionary of seq_id:sample_name
 
 
 ### SBATCH parameters ###
@@ -69,7 +67,7 @@ def check_paths(new_path): #always use new_path as a list, even if only one entr
 ### This is the kinda beta way to do this, next time use the config["SAMPLES"] dictionary
     ##Stowers: n_{lane}_{read}_{barcode}.fastq.gz  w/ barcode specific to the individual and is consistent across flowcells within one MOLNG
 
-    ##UMN: ***_R1|2_001.fastq.qz (What is I1?/L1?)
+    ##UMN: ***_R1|2_001.fastq.qz
     ## for molino running ~12/2023, SRR#_1|2.fastq.gz (1/2 is reads for each individual)
 
 def read_group_info(fastq_dir):
@@ -96,8 +94,7 @@ def alignment(seq_id, n, x):
     output_path = f'{data_path}/alignment/bam'
     output_file= f'{output_path}/{seq_id}.sorted.bam'
     inter_out = f'{output_path}/{seq_id}.unsorted.bam'
-    #sorted_output_file= f'{output_path}/{seq_id}.sorted.bam'
-    check_paths([output_path, script_path, script_errors])
+    check_paths([output_path, script_path])
 
     script_name = f'{seq_id}_bwa.sh'
     
@@ -112,7 +109,6 @@ def alignment(seq_id, n, x):
 
     bwa_cmd = f'bwa-mem2 mem -t 16 -M -R "{read_group}" {mem2_genome_path} {read1} {read2} | samtools view -b > {inter_out}' 
     sort_cmd = f'samtools sort -@ 8 -o {output_file} -T {seq_id} {inter_out}'
-    ### STUPID PROBLEM: calling samtools view: -b indicates .bam output... not the output file name!! Need >
     
     bwa_cmds = [script_name, read_group]
 
@@ -139,7 +135,6 @@ def mark_duplicates(seq_id):
 
     metrics_file = f'{output_path}/{seq_id}.metrics.txt'
     output_file = f'{output_path}/{seq_id}.marked.bam'
-    error_file = f'{script_errors}/{seq_id}.markdups.err'
 
     #seems to be a picard problem with the cerebro module, unsure about conda install
     pre_markdups_run = f'touch {metrics_file} \n touch {output_file}'
@@ -153,10 +148,10 @@ def mark_duplicates(seq_id):
                     SORTING_COLLECTION_SIZE_RATIO=0.05\
                     ASSUME_SORTED=true\
                     CREATE_INDEX=TRUE\
-                    TMP_DIR={temp_space}\
-                    2> {error_file}'
+                    TMP_DIR={temp_space}'
 
-    mark_dups_check = f"""if "grep -e 'fail' -e 'error' -e 'killed' -e 'FAIL' -e 'ERROR' {error_file}"; then \n echo 'check on {output_file}' > {error_file}.lookout.errors \n exit 1 \n fi"""
+    #if this doesn't work, check the original "caballo_moro_genomics/streamlined/code/alignment/alignment_scripts.py version"
+    mark_dups_check = f"""if "grep -e 'fail' -e 'error' -e 'killed' -e 'FAIL'; then \n echo 'check on {output_file}' \n exit 1 \n fi"""
     
     with open(f'{script_path}/{seq_id}_markdups.sh', 'w') as file:
         file.write(f'{sha_bang}\n{pre_markdups_run}\n{mark_dups_cmd}')

@@ -12,8 +12,6 @@ import yaml
 import logging
 import os
 import glob
-import sys
-import re
 from pathlib import Path
 
 
@@ -32,8 +30,7 @@ genome = config["GENOME"]
 gatk_genome_path = config["GATK_GENOME_PATH"]
 
 sha_bang = '#!/usr/bin/bash'
-script_path = f'{code_path}/variant_calling/scripts/molino2/variant_calling'
-script_errors = f'{script_path}/error_logs' # idk if these are necessary or should go to slurmout/*.err
+script_path = f'{code_path}/variant_calling/scripts/variant_calling'
 gatk_genome_format = f'{gatk_genome_path}/{genome}.fna' #for any gatk
 sample_info = config["MOLINO_SAMPLES"] # this is a dictionary of seq_id:sample_name
 
@@ -72,16 +69,14 @@ def split_to_mapped(sample_name, n):
 
     input_file = f'{data_path}/alignment/renamed/{sample_name}.marked.bam'
     output_path = f'{data_path}/alignment/mapped'    
-    unmapped_error_file = f'{script_errors}/{sample_name}.unmapped.err'
 
-    mapped_error_file = f'{script_errors}/{sample_name}.mapped.err'
     check_paths([output_path, script_path])
     unmapped_out_file = f'{output_path}/{sample_name}.unmapped.bam'
 
     mapped_out_file = f'{output_path}/{sample_name}.mapped.bam'
 
-    unmapped_cmd = f'samtools view -b -f 4 {input_file} > {unmapped_out_file} 2> {unmapped_error_file}'
-    mapped_cmd = f'samtools view -b -F 4 {input_file} > {mapped_out_file} 2> {mapped_error_file}'
+    unmapped_cmd = f'samtools view -b -f 4 {input_file} > {unmapped_out_file}'
+    mapped_cmd = f'samtools view -b -F 4 {input_file} > {mapped_out_file}'
     index_cmd = f'samtools index {mapped_out_file}'
     
 
@@ -95,7 +90,6 @@ def haplotype_caller(sample_name, n):
     input_file = f'{data_path}/alignment/mapped/{sample_name}.mapped.bam'
     temp_space = f'{data_path}/scratch'
     output_path = f'{data_path}/variant_calling/haplotype_caller'
-    error_path = f'{script_errors}/{sample_name}.haplo.err'
     check_paths([output_path])
 
     bam_out_file = f'{output_path}/{sample_name}.bam'
@@ -131,7 +125,6 @@ def combine_gvcfs(input_file_2):
 
     output_path = f'{data_path}/variant_calling/combined_gvcf'
     output_file = f'{output_path}/all.g.vcf.gz'
-    error_file = f'{script_errors}/combine.gvcfs.err'
     check_paths([output_path])
     temp_space = f'{data_path}/scratch'
 
@@ -139,7 +132,7 @@ def combine_gvcfs(input_file_2):
         {all_the_inputs}\
         -R {gatk_genome_format}\
         -O {output_file}\
-        --tmp-dir {temp_space} 2> {error_file}'
+        --tmp-dir {temp_space}'
     
     return(combine_cmd)  
 
@@ -149,15 +142,13 @@ def joint_call():
     output_path = f'{data_path}/variant_calling/joint_call'
     check_paths([output_path])
     output_file = f'{output_path}/jointcall.vcf.gz'
-    error_file = f'{script_errors}/joint_call.err'
-
     
 
     joint_call_cmd = f'gatk GenotypeGVCFs \
         -R {gatk_genome_format}\
         -V {input_file}\
         -O {output_file}\
-        --include-non-variant-sites 2>{error_file}'
+        --include-non-variant-sites'
     return(joint_call_cmd)
 
 # Batch scripts for splitting mapped/unmapped > joint calling

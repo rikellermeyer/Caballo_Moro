@@ -10,12 +10,7 @@
 ### 
 
 import yaml
-import logging
 import os
-import glob
-import sys
-import re
-from pathlib import Path
 
 
 ### Admin ###
@@ -33,8 +28,7 @@ gatk_genome_path = config["GATK_GENOME_PATH"]
 sample_info = config["MOLINO_SAMPLES"]
 
 sha_bang = '#!/usr/bin/bash'
-script_path = f'{code_path}/variant_calling/scripts/molino2/hard_filtering'
-script_errors = f'{script_path}/error_logs' # idk if these are necessary or should go to slurmout/*.err
+script_path = f'{code_path}/variant_calling/scripts/hard_filtering'
 gatk_genome_format = f'{gatk_genome_path}/{genome}.fna' #for any gatk
 
 input_all_vcf = f'{data_path}/variant_calling/joint_call/jointcall.vcf.gz'
