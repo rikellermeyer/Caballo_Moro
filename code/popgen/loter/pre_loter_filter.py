@@ -4,6 +4,7 @@
 ## Filters to SNP / populations
 ## and phases with beagle
 
+
 import yaml
 
 
@@ -15,13 +16,12 @@ genome_path = config["GATK_GENOME_PATH"]
 genome_file = f'{genome_path}/Amex3.0_surface.fna'
 
 code_path_prefix = config["CODE_PATH"]
-code_path = f'{code_path_prefix}/popgen/scripts/emma/loter_msi'
+code_path = f'{code_path_prefix}/popgen/scripts/loter'
 
 data_path = config["DATA_PATH"]
-#all_vcf_input = f'/home/mcgaughs/robac028/files_for_Riley/CabMoroProject_ALLpopulations_ALLsites.vcf.gz'
-all_vcf_input = f'{data_path}/variant_calling/variants/original_vcf/2025_Amex3.0_surface.all.filtered.vcf.gz' #10152025
-#vcf_int_output = f'{data_path}/variant_calling/variants/pop_filter'
-vcf_int_output = f'{data_path}/variant_calling/variants/original_vcf/pop_filter' #10152025
+
+all_vcf_input = f'{data_path}/variant_calling/variants/pop_filter/CabMoroProject_ALLpopulations_ALLsites.vcf.gz'
+vcf_int_output = f'{data_path}/variant_calling/variants/pop_filter' #10152025
 
 sha_bang = "#!/usr/bin/bash"
 
@@ -53,7 +53,7 @@ def pop_filter(pop_keys):
         sv_cmd = f'gatk SelectVariants\
         -R {genome_file}\
         -V {all_vcf_input}\
-        -O {vcf_int_output}/Amex3.0_surface.filtered.snps.{pop}.vcf.gz \ 
+        -O {vcf_int_output}/Amex3.0_surface.filtered.snps.{pop}.vcf.gz \
         --sample-expressions {expr} \
         --select-type-to-include SNP' #.snps = 10152023 #running to get original loter 10152025 - incl snps here
         print(sv_cmd)

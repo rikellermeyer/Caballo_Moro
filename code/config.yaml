@@ -1,16 +1,16 @@
 GENOME: "Amex3.0_surface"
 
-GENOME_PATH: "/n/projects/rk2643/caballo_moro_genomics/streamlined/genome"
+GENOME_PATH: "/projects/standard/mcgaughs/shared/kell3262/CaballoMoroOfficial/Caballo_Moro/genome"
 
-GATK_GENOME_PATH: "/n/projects/rk2643/caballo_moro_genomics/streamlined/genome/old_genome_format"
+GATK_GENOME_PATH: "/projects/standard/mcgaughs/shared/kell3262/CaballoMoroOfficial/Caballo_Moro/old_genome_format"
 
-DATA_PATH: "/n/projects/rk2643/caballo_moro_genomics/streamlined/data"
+DATA_PATH: "/projects/standard/mcgaughs/shared/kell3262/CaballoMoroOfficial/Caballo_Moro/data"
 
-CODE_PATH: "/n/projects/rk2643/caballo_moro_genomics/streamlined/code"
+CODE_PATH: "/projects/standard/mcgaughs/shared/kell3262/CaballoMoroOfficial/Caballo_Moro/code"
 
-FASTQ_PATH: "/n/projects/rk2643/caballo_moro_genomics/streamlined/data/fastq/"
+FASTQ_PATH: "/projects/standard/mcgaughs/shared/kell3262/CaballoMoroOfficial/Caballo_Moro/data/fastq/"
 
-CM_VCF_PATH: "/n/projects/rk2643/caballo_moro_genomics/streamlined/data/variant_calling/variants"
+CM_VCF_PATH: "/projects/standard/mcgaughs/shared/kell3262/CaballoMoroOfficial/Caballo_Moro/data/variant_calling/variants"
 
 SAMPLES:
   C1
@@ -121,7 +121,7 @@ MO_POPULATIONS:
 #### specific for adhoc adding molino to CMC genomics ###
 
 
-MOLINO_VCF_PATH: "/n/projects/rk2643/caballo_moro_genomics/streamlined/data/molino2/variant_calling/variants"
+#MOLINO_VCF_PATH: "/projects/standard/mcgaughs/shared/kell3262/CaballoMoroOfficial/Caballo_Moro/data/molino2/variant_calling/variants"
 
 #M_FASTQ_PATH: "/n/projects/rk2643/caballo_moro_genomics/streamlined/data/fastq/adhoc_molino/molino2"
 

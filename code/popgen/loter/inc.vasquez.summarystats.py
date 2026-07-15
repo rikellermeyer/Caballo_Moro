@@ -1,5 +1,8 @@
 #!/users/9/kell3262/miniforge3/envs/new_loter/bin/python
 
+### This script takes the loter files generated in inc.vasquez.loter_ancestry.py
+## And calculates the statistics: tract length summaries, haplotype summaries, and confirms calculations
+
 import yaml
 import allel
 import numpy as np
@@ -42,7 +45,7 @@ def log_memory(tag=""):
 # and columns = 0 (eyeless) or 1 (eyed) for each SNP (53108128)
 
 ### First, find tract lengths - continuous SNPs for 0's and 1's
-# from copilot
+
 
 def analyze_loter_tracts(pop_to_run):
 
@@ -175,14 +178,16 @@ def haplo_stats(pop_to_run):
             #])
 
             hap_writer.writerow([
-                'Haplotype_ID\tNum_0_Tracts\tMin_0_Length\tMax_0_Length\tTotal_0_Lengths\tMean_0_Length\
-                \tStd_0_Lengths\tNum_1_Tracts\tMin_1_Length\tMax_1_Length\tTotal_1_Lengths\tMean_1_Length\tStd_1_Lengths\tPercent_0_ancestry\tTadmix'
+                'Haplotype_ID, Num_0_Tracts, Min_0_Length, Max_0_Length, Total_0_Lengths, Mean_0_Length\
+                , Std_0_Lengths, Num_1_Tracts, Min_1_Length, Max_1_Length, Total_1_Lengths, Mean_1_Length, Std_1_Lengths, Percent_0_ancestry, Tadmix'
             ])
 
             #length of all 0 and 1 tracts per haplotype
             all_tract_len_0 = []
             all_tract_len_1 = []
             all_Tadmix = []
+            means_tracts_0 = []
+            means_tracts_1 = []
 
             eyedCM_tracts_only = []
             eyelessCM_tracts_only = []
@@ -209,6 +214,7 @@ def haplo_stats(pop_to_run):
 
                 #list of all tract length
                 lengths_0 = tract_lengths_by_ancestry.get(0, [])
+                #print(lengths_0)
                 #the number of tract lengths
                 num_0 = len(lengths_0)
                 #the longest tract length
@@ -224,7 +230,9 @@ def haplo_stats(pop_to_run):
 
                 #add the list of tract lengths [213, 2333, ...] to a master list of tract lengths for 0
                 all_tract_len_0.extend(lengths_0)
+                means_tracts_0.append(mean_0)
                 print(f'all_tract_len_0, tail: {all_tract_len_0[-3:]}; length:{len(all_tract_len_0)}')
+                print(f'means_tracts_0, tail: {means_tracts_0[-3:]}; length:{len(means_tracts_0)}')
                 #print(all_tract_len_0)
 
                 # Stats for ancestry 1 - surface
@@ -238,7 +246,7 @@ def haplo_stats(pop_to_run):
 
                 all_tract_len_1.extend(lengths_1)
 
-                
+                means_tracts_1.append(mean_1)
 
 
                 # Proportion stats
@@ -285,11 +293,11 @@ def haplo_stats(pop_to_run):
                 #'Haplotype_ID\tNum_0_Tracts\tMin_0_Length\tMax_0_Length\tTotal_0_Lengths\tMean_0_Length\
                 #\tStd_0_Lengths\tNum_1_Tracts\tMin_1_Length\tMax_1_Length\tTotal_1_Lengths\tMean_1_Length\tStd_1_Lengths\tPercent_0_ancestr\tTadmix'
             
-                write_list = [f"Hap{row_index+1}",
-                    num_0, min_0, max_0, total_0, f"{mean_0:.2f}", f"{std_0:.2f}",  
-                    num_1, min_1, max_1, total_1, f"{mean_1:.2f}", f"{std_1:.2f}", 
-                    f"{percent_of_0s:.2f}", f"{Tadmix:.2f}"]
-                #print(write_list)
+                write_list = [f"Hap{row_index+1},{num_0},{min_0},{max_0},{total_0},\
+            {mean_0:.2f},{std_0:.2f},{num_1},{min_1},{max_1},{total_1},{mean_1:.2f},\
+            {std_1:.2f},{percent_of_0s:.2f},{Tadmix:.2f}"]
+
+
                 
                 hap_writer.writerow(write_list)
 
@@ -306,10 +314,12 @@ def haplo_stats(pop_to_run):
             # this calculates the average tract length of zeros and 1s across all samples 
             # and the standard deviation of all the samples compared to the mean
             mean_length_of_all_0s = sum(all_tract_len_0) / len(all_tract_len_0)
-            std_of_all_0s = np.std(all_tract_len_0)
+            std_of_all_0s = np.std(means_tracts_0)
 
             mean_length_of_all_1s = sum(all_tract_len_1) / len(all_tract_len_1)
-            std_of_all_1s = np.std(all_tract_len_1)
+            print('surface tracts, total:', all_tract_len_1[0:10], sum(all_tract_len_1), len(all_tract_len_1))
+            std_of_all_1s = np.std(means_tracts_1)
+            print('std of sf tracts', std_of_all_1s)
 
             #this calculates the percentage of 0's compared to all the SNPs across all the haplotypes
             percent_of_0s_in_all_samples = (sum(all_tract_len_0) / (sum(all_tract_len_0) + sum(all_tract_len_1))) * 100
@@ -329,17 +339,29 @@ def haplo_stats(pop_to_run):
 
 
             #Write full summary stats to file
-            hap_writer.writerow([f'\nMean eyeless tract length: {mean_length_of_all_0s:.2f} \n\
+            if pop_to_run == 'normal' or pop_to_run == 'othersurface':
+                hap_writer.writerow([f'\nMean eyeless tract length: {mean_length_of_all_0s:.2f} \n\
             SE of eyeless tract lengths: {std_of_all_0s:.2f} \n \
             Mean surface tract length: {mean_length_of_all_1s:.2f} \n \
             SE of surface tract lengths: {std_of_all_1s:.2f} \n \
             Total percent of 0s: {percent_of_0s_in_all_samples:.2f} \n \
+            SE percent of 0s: {std_of_percent_0s_in_eyedCM} \n\
             Time since admixture (Tadmix): {mean_Tadmix:.2f} \n \
             Tadmix SEM: {Admix_SE:.2f} \n \n \
-            Percent of eyeless tracts in eyeless CM fish (19 fish): {average_percent_0s_in_eyelessCM:.2f} \n \t \
-            SD of percent 0s in eyeless fish: {std_of_percent_0s_in_eyelessCM:.2f}\n \
             Percent of eyeless tracts in eyed CM fish (17 fish): {average_percent_0s_in_eyedCM:.2f} \n \t \
             SD of percent 0s in eyed fish: {std_of_percent_0s_in_eyedCM:.2f}'])
+            else:
+                hap_writer.writerow([f'\nMean eyeless tract length: {mean_length_of_all_0s:.2f} \n\
+                SE of eyeless tract lengths: {std_of_all_0s:.2f} \n \
+                Mean surface tract length: {mean_length_of_all_1s:.2f} \n \
+                SE of surface tract lengths: {std_of_all_1s:.2f} \n \
+                Total percent of 0s: {percent_of_0s_in_all_samples:.2f} \n \
+                Time since admixture (Tadmix): {mean_Tadmix:.2f} \n \
+                Tadmix SEM: {Admix_SE:.2f} \n \n \
+                Percent of eyeless tracts in eyeless CM fish (19 fish): {average_percent_0s_in_eyelessCM:.2f} \n \t \
+                SD of percent 0s in eyeless fish: {std_of_percent_0s_in_eyelessCM:.2f}\n \
+                Percent of eyeless tracts in eyed CM fish (17 fish): {average_percent_0s_in_eyedCM:.2f} \n \t \
+                SD of percent 0s in eyed fish: {std_of_percent_0s_in_eyedCM:.2f}'])
 
             
     #Run all the functions!
@@ -398,58 +420,6 @@ def test_output_match(pop_to_run):
     match_loter_to_tracts(input_file_loter, num_individuals=3)
 
 
-### Depreciated
-#The number of generations since the onset of admixture (T admix ) 
-# can be estimated using the following equation:
-# where LM is the average ancestry tract length from the minor
-# parent in Morgans and pB is the proportion of the genome derived 
-# from the major parent (the probability of recombining) (31–33).
-#Tadmix = 1/LM*PB
-# PB(eyeless) = 0.88
-# bp to Morgans 1.16 cM/Mb (0.0000000116 Morgan/bp) 
-# LM = surface average bp * 1.13e-8
-
-def calculate_admix_time():
-    print('reading in eyeless and surface tract info')
-    eyeless_tracts =eyeless_parse_matrix(input_file)
-    #print(eyeless_tracts)
-
-    sf_ave_tracts = sf_parse_matrix(input_file)
-    #print(sf_ave_tracts)
-
-    #columns: mean SF length, SF SD, SF mean in morgans, mean cave percentage
-    for_calc = pd.DataFrame()
-    for_calc[['mean_SF_length','SD_SF_length']]=sf_ave_tracts
-    for_calc['mean_SF_Morgans']=for_calc['mean_SF_length']*0.0000000116
-
-    for_calc['proportion_eyeless']=eyeless_tracts['Eyeless_proportion']
-    print(for_calc)
-
-    for_calc['Tadmix']=(1/(for_calc['mean_SF_Morgans']*for_calc['proportion_eyeless']))
-
-    ave_Tadmix=statistics.mean(for_calc['Tadmix'])
-    sem_Tadmix=sem(for_calc['Tadmix'])
-    print(ave_Tadmix,sem_Tadmix)
-    SF_tract_ave=statistics.mean(for_calc['mean_SF_length'])
-    SF_tract_sem=statistics.mean(for_calc['SD_SF_length'])
-    eyeless_mean_proportion=statistics.mean(for_calc['proportion_eyeless'])
-
-    for_calc.to_csv(f'{output_path}/Admixture_calculation_out.csv',index=False)
-    with open(f'{output_path}/Admixture_calculation_out.csv','a') as file:
-        file.write(f"Surface tracts average: {SF_tract_ave}\n\
-                    Surface tracts sem: {SF_tract_sem}\n\
-                    Eyeless proportion average: {eyeless_mean_proportion}\n\
-                    Mean generations since admixture: {ave_Tadmix}\n\
-                    SEM:{sem_Tadmix}\n\
-                    NOTE:Rows are haplotypes of individuals")
-
-    """
-    LM_sf_ave= (7159*1e-8)
-    #LM_sf_ave=(381445*1e-8)
-    PB_eyeless_proportion=0.8851124802885144
-    Tadmix=(1/(LM_sf_ave*PB_eyeless_proportion))
-    print(LM_sf_ave,PB_eyeless_proportion,Tadmix, sem(Tadmix))
-    """
 
 if __name__=='__main__':
 
@@ -486,7 +456,7 @@ if __name__=='__main__':
         print(eyeless_pop_index, eyed_pop_index, choy_index, vasquez_index, molino_index)
     """
 
-    if pop_to_run == 'normal':
+    if pop_to_run == 'normal' or pop_to_run == 'othersurface':
         eyeless_pop_index = [0, 34]
         eyed_pop_index = [0, 34]
 
@@ -500,112 +470,203 @@ if __name__=='__main__':
     #test_output_match(pop_to_run)
 
 
+### Depreciated
+#The number of generations since the onset of admixture (T admix ) 
+# can be estimated using the following equation:
+# where LM is the average ancestry tract length from the minor
+# parent in Morgans and pB is the proportion of the genome derived 
+# from the major parent (the probability of recombining) (31–33).
+#Tadmix = 1/LM*PB
+# PB(eyeless) = 0.88
+# bp to Morgans 1.16 cM/Mb (0.0000000116 Morgan/bp) 
+# LM = surface average bp * 1.13e-8
+
+def calculate_admix_time():
+    print('reading in eyeless and surface tract info')
+    eyeless_tracts =eyeless_parse_matrix(input_file)
+    #print(eyeless_tracts)
+
+    sf_ave_tracts = sf_parse_matrix(input_file)
+    #print(sf_ave_tracts)
+
+    #columns: mean SF length, SF SD, SF mean in morgans, mean cave percentage
+    for_calc = pd.DataFrame()
+    for_calc[['mean_SF_length','SD_SF_length']]=sf_ave_tracts
+    for_calc['mean_SF_Morgans']=for_calc['mean_SF_length']*0.0000000116
+
+    for_calc['proportion_eyeless']=eyeless_tracts['Eyeless_proportion']
+    print(for_calc)
+
+    for_calc['Tadmix']=(1/(for_calc['mean_SF_Morgans']*for_calc['proportion_eyeless']))
+
+    ave_Tadmix=statistics.mean(for_calc['Tadmix'])
+    sem_Tadmix=sem(for_calc['Tadmix'])
+    print(ave_Tadmix,sem_Tadmix)
+    SF_tract_ave=statistics.mean(for_calc['mean_SF_length'])
+    SF_tract_sem=statistics.mean(for_calc['SD_SF_length'])
+    eyeless_mean_proportion=statistics.mean(for_calc['proportion_eyeless'])
+
+    for_calc.to_csv('Admixture_calculation_out.csv',index=False)
+    with open('Admixture_calculation_out.csv','a') as file:
+        file.write(f"Surface tracts average: {SF_tract_ave}\n\
+                    Surface tracts sem: {SF_tract_sem}\n\
+                    Eyeless proportion average: {eyeless_mean_proportion}\n\
+                    Mean generations since admixture: {ave_Tadmix}\n\
+                    SEM:{sem_Tadmix}\n\
+                    NOTE:Rows are haplotypes of individuals")
+
+    """
+    LM_sf_ave= (7159*1e-8)
+    #LM_sf_ave=(381445*1e-8)
+    PB_eyeless_proportion=0.8851124802885144
+    Tadmix=(1/(LM_sf_ave*PB_eyeless_proportion))
+    print(LM_sf_ave,PB_eyeless_proportion,Tadmix, sem(Tadmix))
+    """
+
+#depreciated
+def eyeless_parse_matrix(input_file):
+
+    #loter_np (from loter) has rows of haplotypes (2 per individual)
+    #each column is a score for eyeless/surface (0/1) at that SNP 
+
+    loter_np=np.loadtxt(input_file)
+    #print(loter_np.shape[1])
+
+    #make a df to store all of your stuff
+    by_row_0_positions=pd.DataFrame(0, np.arange(loter_np.shape[1]-1),np.arange(0,33)).astype(object)
+
+    index_key=0
+    for row in loter_np:
+
+        #take this explanation with a grain of salt... idk I got it from stack overflow
+        #so check your switches over: [0 0 0 1 1 1] in loter_df by position in by_row
+
+        #concatenate your zeros 
+        iszero=np.concatenate(([0],np.equal(row,0).view(np.int8),[0]))
+        #figure out where you not-zeros are
+        absdiff=np.abs(np.diff(iszero))
+        #find where the switch is
+        ranges=np.where(absdiff==1)[0].reshape(-1,2).tolist()
+
+        #print(ranges[0:5], type(ranges[0:5]))
+        by_row_0_positions.loc[:,index_key]=pd.Series(ranges)
+        index_key+=1
+
+    by_row_0_positions.dropna(axis=0,how='all',inplace=True)
+    by_row_0_positions.to_csv('eyeless_tracts.txt', index=False)
+    #print(by_row_0_positions)
+
+    #for each column, calculate eyeless tract length
+    #then average across each column
+    #print(by_row_0_positions.loc[1,0], by_row_0_positions.loc[1,0][1]-by_row_0_positions.loc[1,0][0])
+    
+    #probs terrible way to do this but lets try
+    eyeless_mn_sd_df=pd.DataFrame(columns=['Mean_eyeless_length','SD_eyeless_length','Eyeless_proportion'])
+    mean_list=[]
+    sd_list=[]
+    eyeless_proportion_list=[]
+    for column_name,column_list in by_row_0_positions.items():
+        #print(column_name)
+        #print(len(column_list))
+        column_list=column_list.dropna()
+        list_of_eyeless_tract_lengths=[]
+        for cell in column_list:
+            #print(cell)
+            length_value = cell[1]-cell[0]
+
+            list_of_eyeless_tract_lengths.append(length_value)
+        mean_list.append(statistics.mean(list_of_eyeless_tract_lengths))
+        sd_list.append(sem(list_of_eyeless_tract_lengths).item())
+        eyeless_proportion_list.append(sum(list_of_eyeless_tract_lengths)/loter_np.shape[1])
+        #print(eyeless_proportion_list)
+        #print(f'mean and sd list:{mean_list, sd_list}')
+
+    eyeless_mn_sd_df['Mean_eyeless_length']=mean_list
+    eyeless_mn_sd_df['SD_eyeless_length']=sd_list
+    eyeless_mn_sd_df['Eyeless_proportion']=eyeless_proportion_list
+    #print_this=f'total length of eyeless tracts: {sum(list_of_eyeless_tract_lengths)}\n\
+    #      Mean eyeless tract length: {statistics.mean(list_of_eyeless_tract_lengths)}\n\
+    #      SE of eyeless tract length:{sem(list_of_eyeless_tract_lengths)}\n\
+    #      Proportion of eyeless alleles: {(sum(list_of_eyeless_tract_lengths)/(loter_np.shape[1]*34))*100}'
+    #with open('eyeless_output.txt','w') as file:
+    #    file.write(print_this)
+    #print(list_of_eyeless_tract_lengths)
+    #print(eyeless_mn_sd_df)
+
+
+    return(eyeless_mn_sd_df)
+
+
+#depreciated
+def sf_parse_matrix(input_file):
+    loter_np=np.loadtxt(input_file)
+    #print(loter_np.shape[1])
+
+    by_row_0_positions=pd.DataFrame(0, np.arange(loter_np.shape[1]-1),np.arange(0,33)).astype(object)
+    
+    #this calculates the eyeless tract lengths same as above
+    index_key=0
+    for row in loter_np:
+        iszero=np.concatenate(([0],np.equal(row,0).view(np.int8),[0]))
+        absdiff=np.abs(np.diff(iszero))
+        ranges=np.where(absdiff==1)[0].reshape(-1,2).tolist()
+
+
+        by_row_0_positions.loc[:,index_key]=pd.Series(ranges)
+        index_key+=1
+    by_row_0_positions.dropna(axis=0,how='all',inplace=True)
+    by_row_0_positions.to_csv('surface_tracts.txt', index=False)
+    #print(by_row_0_positions)
+
+    #for each column, calculate surface tract length
+    #then average across each column?
+
+    #probs terrible way to do this but lets try
+    list_of_surface_tract_lengths=[]
+    sf_mean_sd_df=pd.DataFrame(columns=['Mean_SF_length','SD_SF_length'])
+    mean_list = []
+    sd_list = []
+    for column_name,column_content in by_row_0_positions.items():
+        #print(column_name)
+        new_column=column_content.dropna()
+
+        #subtract start from previous stop (calculate the length of 1's instead of 0's)
+        #this is how you subtract the row[x] start from row[x-1] stop
+        sf_length=[new_column[x][0]-new_column[x-1][1] for x in range(1,len(new_column))] 
+        #print(f'sf_length: {sf_length[0:5], len(sf_length), statistics.mean(sf_length)}')
+
+        list_of_surface_tract_lengths.append(sf_length)
+
+        #^ outputs a list of lists, so flatten it for calculation
+        output_list=[x for xs in list_of_surface_tract_lengths for x in xs]
+        #print(f'mean:{statistics.mean(output_list)}\n\
+        #    sem:{sem(output_list)}')
+        
+        mean_list.append(statistics.mean(sf_length))
+        sd_list.append(sem(sf_length))
+
+
+    sf_mean_sd_df['Mean_SF_length']=mean_list
+    sf_mean_sd_df['SD_SF_length']=sd_list
+
+    #print(f'mean: {statistics.mean(mean_list)}')
+    one_big_list=[x for xs in list_of_surface_tract_lengths for x in xs]
+    #print(len(list_of_surface_tract_lengths), len(one_big_list))
+    print_this=f'total length of surface tracts: {sum(one_big_list)}\n\
+          Mean surface tract length: {statistics.mean(one_big_list)}\n\
+          SE of surface tract length:{sem(one_big_list)}\n\
+          Proportion of surface alleles: {(sum(one_big_list)/(loter_np.shape[1]*34))*100}'
+    #with open ('surface_output.txt','w') as file:
+    #    file.write(print_this)
+    #print(sf_mean_sd_df)
+    #print(statistics.mean(sf_mean_sd_df['Mean_SF_length']))
+    #print(print_this)
+
+    return(sf_mean_sd_df)
 
 
 
 
-"""##### TESTING: 97% of CM are surface assigned...
-### VCF provided to Emma - 2025_Amex3.0_surface.all.filtered.vcf.gz
-SNPs: 25,928,337
-MNPs: 0
-multiallelic SNP sites:30,2531
-
-### Emma's ALLpops_ALLsites vcf stats:
-SNPs: 56,381,168
-MNPs: 0
-multiallelic SNP sites: 1,129,240
-
-### MSI pre-loter protocol 
-## 1. Amex3.0_surface.filtered.vasquez.vcf.gz
-SNPs:
-MNPs:
-multiallelic SNP sites:
-
-## 2. Amex3.0_surface.filtered.snps.vasquez.vcf.gz
-
-## 3. Amex3.0_surface.phased.snps.vasquez.vcf.gz
-
-### Testing SNPs from ^ with SNPs + MNPs in `test_different_loter_ins/Amex3.0_surface.filtered.snps.mnps.vasquez.vcf.gz`
-SNPs:
-MNPs:
-multiallelic SNP sites:
-
-
-
-######## TESTING: Loter assignment
-(Chr. 1 = NC_)
-Ind1: 1:28304 0:1042 1:34542
-Ind3: 1:28304 0:444 1:24387
-Ind72: 1:28304 0:1042 1:36907
-
-### Do 0/1 assignments match eyeless/surface genotypes?
-
-## Original vcf:
-
-
-####### Original normal summary stats (Stowers) vs. Emma's MSI run normal summary stats
-### `2025_Amex3.0_surface.all.filtered.vcf.gz` origin:
-Mean surface tract length: 7710.07
-SE surface tract length: 919.04
-Eyeless proportion average: 0.8851
-Mean generations since admixture (Tadmix): 15740.34
-Tadmix SEM: 1866.87
-
-### `normal_haplotype_summary.csv`, Emma origin:
-Mean eyeless tract length: 9213.84
-SE of eyeless tract lengths: 17667.67 ***SE IS SUPER HIGH, LOW CONFIDENCE IN MEAN EYELESS TRACT LENGTH***
-
-Mean surface tract length: 5228.96
-SE surface tract length: 9089.75   ***SE IS SUPER HIGH, LOW CONFIDENCE IN MEAN SF TRACT LENGTH***
-Eyeless proportion average: 0.6379
-Mean generations since admixture (Tadmix): 26507.47 
-Tadmix SEM: 1064.23
-
-# Why SE so high?? Here's the spread of mean tract lengths:
-0: 
-
-
-"""
-
-
-"""######This gets killed on loading
-    loter_np = np.loadtxt(input_file, dtype = int, mmap_mode = 'r')
-
-    # Function to extract tract lengths for a given value (0 or 1)
-    def get_tract_lengths(row, target_value):
-        is_target = np.concatenate(([0], np.equal(row, target_value).view(np.int8), [0]))
-        absdiff = np.abs(np.diff(is_target))
-        ranges = np.where(absdiff == 1)[0].reshape(-1, 2)
-        return [end - start for start, end in ranges]
-
-    # Process each row in parallel for both 0s and 1s
-    print(f'Processing tract lengths in parallel')
-
-    eyeless_lengths_all = Parallel(n_jobs=-1)(delayed(get_tract_lengths)(row, 0) for row in loter_np)
-    surface_lengths_all = Parallel(n_jobs=-1)(delayed(get_tract_lengths)(row, 1) for row in loter_np)
-
-    # Compute summary statistics
-    def summarize(lengths_list):
-        mean_list = [statistics.mean(lengths) if lengths else 0 for lengths in lengths_list]
-        sd_list = [sem(lengths).item() if lengths else 0 for lengths in lengths_list]
-        proportion_list = [sum(lengths)/loter_np.shape[1] for lengths in lengths_list]
-        return mean_list, sd_list, proportion_list
-
-    print('Summarizing statistics')
-    eyeless_mean, eyeless_sd, eyeless_prop = summarize(eyeless_lengths_all)
-    surface_mean, surface_sd, surface_prop = summarize(surface_lengths_all)
-
-    # Create summary DataFrame
-    summary_df = pd.DataFrame({
-        'Mean_eyeless_length': eyeless_mean,
-        'SD_eyeless_length': eyeless_sd,
-        'Eyeless_proportion': eyeless_prop,
-        'Mean_surface_length': surface_mean,
-        'SD_surface_length': surface_sd,
-        'Surface_proportion': surface_prop
-    })
-
-    return summary_df"""
 
 
 

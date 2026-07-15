@@ -17,5 +17,9 @@
 - Calculates the tract lengths of 0's (eyeless) and 1's (surface)
 - Then averagesq across haplotypes (not individuals!)
 - And calculates Tadmix
-
 - This script also has the depreciated code for running (collapse_ancestry)[https://github.com/armartin]
+
+
+# Adding additional populations
+- `inc.vasquez.loter_ancestry.py` reflects `loter_ancestry.py`
+- `inc.vasquez.summarystats.py` refelects `loter_output_analysis.py`
