@@ -1,4 +1,4 @@
-#!/home/rk2643/miniforge3/envs/gatk/bin/python
+#!/users/9/kell3262/miniforge3/envs/gatk/bin/python
 
 ## This makes scripts to filter by number of no calls
 ## Separates into phenotype (eyed, eyeless, surface)

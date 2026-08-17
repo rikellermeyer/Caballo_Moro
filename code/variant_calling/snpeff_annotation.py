@@ -1,4 +1,4 @@
-#!/home/rk2643/miniforge3/envs/gatk/bin/python
+#!/users/9/kell3262/miniforge3/envs/gatk/bin/python
 
 ## After filtering by genotype/intersection from `genotype_filter.py`
 ## Annotate the variants with snpEFF
