@@ -1,7 +1,7 @@
-#!/home/rk2643/miniforge3/envs/gatk/bin/python
+#!/users/9/kell3262/miniforge3/envs/gatk/bin/python
 
 ###
-# This makes a series of scripts (and SBATCH scripts) to variant calling
+# This makes a series of scripts (and SBATCH scripts) to do variant calling
 # Previous step: alignment_scripts.py
 # Split to mapped/unmapped > haplotype caller > combinegvcfs > joint calling 
 # Next step: hard_filtering.py
