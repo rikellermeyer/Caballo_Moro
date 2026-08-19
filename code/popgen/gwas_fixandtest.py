@@ -209,7 +209,8 @@ def trend_test():
 
     script_cmd = [test_name, assoc_cmd]
     file_name = single_script(script_cmd)    
-    return(f'{output_file}.model')
+    return(file_name)
+    #return(f'{output_file}.model') #this doesn't seem right - 08192026
 
 
 ##### Get gene names from chr:bp > GTF
