@@ -1,10 +1,10 @@
-#!/home/rk2643/miniforge3/envs/CMpop/bin/python
+#!/users/9/kell3262/miniforge3/envs/CMpop/bin/python
 
 # This takes the plink/bed files generated from `preplink.py`
 # Fixes the extra files: .fam, .ped, .map
-# NOTE that after running `ped_recode()` you have to run an awk script to do the replacing
+# NOTE that after running `ped_recode()` you have to run an awk script to do the replacing 
 # because it's super slow through python.
-# See ``{output_path}/gwas/replace_with_new.sh`` for this script
+# See `./replace_ped_code.sh` for this script 
 # And runs some statistical gwas tests for visualization with R
 # Pay attention to the gtf script. It does quite a bit to get the trend test usable for R
 
@@ -20,18 +20,16 @@ logging.basicConfig(level=logging.INFO, filename = '_plinkpca.log', filemode = '
 with open("../config.yaml", "r") as f:
     config = yaml.load(f, Loader=yaml.FullLoader)
 
-code_path = config["CODE_PATH"]
-code_path = f'{code_path}/popgen/scripts/gwas'
+code_path_prefix = config["CODE_PATH"]
+code_path = f'{code_path_prefix}/popgen/scripts/gwas_tests'
 
 data_path=config["DATA_PATH"]
-
-
-input_path = f'{data_path}/molino2/popgen/gwas'
+input_path = f'{data_path}/popgen/gwas'
 
 vcf_input_file = f'{input_path}/nomolino.Amex3.0_surface.vcf.gz'
 gwas_input_file = f'{input_path}/gwas.Amex3.0_surface'
 
-gwas_output_path = f'{data_path}/molino2/popgen/gwas'
+gwas_output_path = f'{data_path}/popgen/gwas'
 
 
 
@@ -43,9 +41,9 @@ def single_script(cmd_generator):
     
     batch_info=f'\n#SBATCH --job-name={prefix} \
         \n#SBATCH --cpus-per-task=4 \
-        \n#SBATCH --time="24-00:00" \
+        \n#SBATCH --time="2-00:00" \
         \n#SBATCH --mem=32G \
-        \n#SBATCH --mail-user=rk2643@stowers.org \
+        \n#SBATCH --mail-user=kell3262@umn.edu \
         \n#SBATCH --mail-type=FAIL \
         \n#SBATCH --mail-type=END\
         \n#SBATCH --output=./slurmout/{prefix}.%A.out \
@@ -74,11 +72,9 @@ def single_script(cmd_generator):
 fam_pheno_key = {'C':['C','2'], 'E':['E','1'], 'S':['S','1']}
 
 def fix_fam_file():
-    #ped_df = ped_recode(genome)
-    print('fixing fam files')
     fam_input = f'{gwas_input_file}.fam'
-    print(fam_input)
-    #fam_input= f'{output_path}/gwas/{genome}.pruned.fam'
+    #print(fam_input)
+
     fam_in_df = pd.read_csv(fam_input, header = None, sep=' ')
 
     #replace sample names in "FamilyID" with actual FamilyID; pheno with actual pheno
@@ -122,19 +118,28 @@ def make_ped_files():
 #This takes the existing .ped file and generates a new .ped file with the correct family id, sample id, and phenotype data
 #Then use a custom awk script in the output path to replace whole columns with the new .ped values here
 #Have to use the awk because the full size files are bananas big
+# ped files are: one sample per line; first 6 columns are the same as the .fam file: 
+# 1. Family ID ('FID'), 2. Within-family ID ('IID'; cannot be '0') 3. Within-family ID of father ('0' if father isn't in dataset)
+# 4. Within-family ID of mother ('0' if mother isn't in dataset), 5. Sex code ('1' = male, '2' = female, '0' = unknown)
+# 6. Phenotype value ('1' = control, '2' = case, '-9'/'0'/non-numeric = missing data if case/control)
+
 def ped_recode():
     ped_input = f'{gwas_output_path}/gwas.Amex3.0_surface.ped'
 
     col_names = ['FamilyID', 'SampleID', 'Phenotype']
     #edit id's to match fam_pheno_key
     values_to_edit = pd.read_csv(ped_input, sep=' ', usecols= [0,1,5], names=col_names,  header=None)    
+    #print(values_to_edit)
+
     new_values_dict={}
     new_index_list = []
     for index,row in values_to_edit.iterrows():
+        #print(f'index: {index}, row: {row}')
         fam_id = row["FamilyID"]
         samp_id = row["SampleID"]
 
         new_index_list.append(fam_id + '_' + samp_id)
+        #print(new_index_list)
     
         real_fam_id = fam_pheno_key[fam_id[0]][0]
         real_pheno_id = fam_pheno_key[fam_id[0]][1] 
@@ -146,8 +151,10 @@ def ped_recode():
         else:
             real_samp_id = samp_id
 
+        #print(real_samp_id)
+
         new_values_dict[index]=[real_fam_id, real_samp_id, real_pheno_id]
-    
+    print(new_values_dict)
     new_ped_df = pd.DataFrame.from_dict(new_values_dict, orient = "index")
     new_ped_df.columns = col_names
     new_ped_df.index = new_index_list
@@ -157,6 +164,8 @@ def ped_recode():
 
     #use a custom awk to replace each column. see `{output_path}/gwas/replace_with_new.sh`
     logging.info(f'old: {values_to_edit}, new: {new_ped_df}')
+
+    # NOTE: Replace columns 1, 2, & 6 with awk: `replace_ped_code.sh`
 
 
 #tests done:
@@ -432,13 +441,17 @@ if __name__ == '__main__':
 
     #print('fixing ped file')
     #ped_recode()
+    # NOTE: Replace columns 1, 2, & 6 with awk: `replace_ped_code.sh`
+
 
     #really the fix below is too too big for memory to handle
     #filter firrrsssttt then annotate
-    fix_gtf()
-    #print('association test scripts')
-    #test_cmd = f'sh {test_assoc()}&&\n sh {trend_test()} &&\n sh {fst_test()}'
-    #single_script(['all_tests', test_cmd])
+    #fix_gtf()
+
+
+    print('association test scripts')
+    test_cmd = f'sh {test_assoc()}&&\n sh {trend_test()} &&\n sh {fst_test()}'
+    single_script(['all_tests', test_cmd])
 
     #chr21_gtf()
     #go_filter_to_gene()
