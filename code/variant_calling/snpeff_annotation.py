@@ -76,6 +76,6 @@ def make_snpeff_script(filter_type, nocalls):
 
 
 if __name__ == '__main__':
-    filter_type = 'eyeless_dominant'
+    filter_type = 'eyeless_recessive'
     nocalls = '0'
     make_snpeff_script(filter_type, nocalls)

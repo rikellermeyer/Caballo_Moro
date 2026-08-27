@@ -1,0 +1,271 @@
+---
+title: "CMC_GWAS.rmd"
+output:
+  pdf_document: default
+  html_document: default
+  always_allow_html: true
+date: "2026-08-17"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#knitr::opts_chunk$set(dev = 'svg') # set output device to svg
+knitr::opts_chunk$set(echo = TRUE, fig.path="./", dev='svg')
+#knitr::opts_knit$set(root.dir = '/n/projects/rk2643/caballo_moro_genomics/streamlined/data/molino2/popgen')
+library(BiocManager)
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r load_table}
+trend_table_ca <- read_table('../data/popgen/gwas/tests/CA_trend.model')
+no_na_ca <- drop_na(trend_table_ca)
+```
+
+
+```{r Manhattan_plot}
+## Cochran-Armitage Trend test
+trend_test_only <- no_na_ca[no_na_ca$TEST %in% c('TREND'),]
+
+#have to turn SNP (CHR:BP:) into just BP
+trend_test_only <- trend_test_only %>%
+  mutate(SNP = str_extract(SNP, "(?<=:)[0-9]+(?=:)")) %>%
+  rename(BP = SNP)
+trend_test_only <- trend_test_only %>% mutate_at(c('CHR','P', 'BP'), as.numeric)
+
+
+gene_list_trend_test_pvalue <- filter(trend_test_only, -log10(P) >= 2.5 )
+
+
+chr_lengths <- read_table('../genome/per_chr_total_BP.tsv', col_names = c('Chromosome','length'))
+
+qtl <- read_table('../data/candidate_genes/original_QTL_analysis/wiese_eye_intervals.txt')
+
+ca_plot <- ggplot(data = gene_list_trend_test_pvalue, aes(x=as.factor(BP), y=-log10(P), colour = as.factor(CHR))) +
+  geom_point() +
+  geom_hline(yintercept = 9) +
+  #facet_grid(~CHR, scales = 'free_x', space = 'free_x', switch = 'x') 
+  geom_rect(
+    data = qtl,
+    aes(
+      xmin = Start,
+      xmax = Stop,
+      ymin = -0.5,
+      ymax = 0,
+      fill = Trait
+    ),
+    inherit.aes = FALSE
+  ) +
+
+  facet_grid(
+    ~CHR,
+    scales = "free_x",
+    space = "free_x",
+    switch = "x"
+  ) +
+  coord_cartesian(ylim = c(-0.5, NA))
+ca_plot
+ggsave('Cochran-Armitage_trend_test_wQTL.svg', plot=ca_plot)
+
+
+
+stop()
+#make chr different colors
+ca_plot <- ggplot(data=trend_test_only, aes(x=as.factor(BP), y=-log10(P), colour=factor(CHR))) +  #x as factor can either parses/spaces by SNP/BP or by CHR #fill=?
+  scale_color_manual(values = rep(c("grey", "orange3"), 22 )) +
+  geom_hline(yintercept = 9, linetype="dotted") + #makes a p-value cut off
+  geom_point(stat="identity") +
+  geom_point(aes(colour = -log10(P) > 9),
+             show.legend = FALSE) +
+  facet_grid(~CHR, scales = 'free_x', space = 'free_x', switch = 'x') + #makes the x axis have chr squares?
+  theme_classic() + 
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        panel.spacing = unit(0, "lines")) +
+  #scale_x_continuous(expand = c(0, 0)) + #try with or without
+
+  labs(x="CHR", title="Cochran-Armitage")
+#ca_plot
+gene_list = subset(trend_test_only, P<= 1e-9)
+ggsave('Cochran-Armitage trend test.png', plot=ca_plot)
+
+```
+
+```{r}
+
+chr_lengths <- read_table('../genome/per_chr_total_BP.tsv', col_names = c('Chromosome','length'))
+
+qtl <- read_table('../data/candidate_genes/original_QTL_analysis/wiese_eye_intervals.txt')
+
+
+
+qtl_bar <- ggplot() +
+
+  # chromosome outline
+  geom_rect(
+    data = chr_lengths,
+    aes(
+      xmin = 0,
+      xmax = length,
+      ymin = 0,
+      ymax = 1
+    ),
+    fill = "grey90",
+    color = "black"
+  ) +
+
+  # QTL intervals
+  geom_rect(
+    data = qtl,
+    aes(
+      xmin = Start,
+      xmax = Stop,
+      ymin = 0,
+      ymax = 1,
+      fill = Trait
+    )
+  ) +
+
+  facet_grid(
+    ~ Chromosome,
+    scales = "free_x",
+    space = "free_x"
+  ) +
+
+  theme_bw() +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  ) +
+  ylab(NULL)
+qtl_bar
+
+stop()
+qtl_bar <-  geom_rect(
+    data = qtl,
+    aes(
+      xmin = Start,
+      xmax = Stop,
+      ymin = -0.5,
+      ymax = 0,
+      fill = Trait
+    ),
+    inherit.aes = FALSE
+  )
+qtl_bar
+
+```
+
+```{r}
+## Cochran-Armitage Trend test
+trend_test_only <- no_na_ca[no_na_ca$TEST %in% c('TREND'),]
+
+#have to turn SNP (CHR:BP:) into just BP
+trend_test_only <- trend_test_only %>%
+  mutate(SNP = str_extract(SNP, "(?<=:)[0-9]+(?=:)")) %>%
+  rename(BP = SNP)
+trend_test_only <- trend_test_only %>% mutate_at(c('CHR','P', 'BP'), as.numeric)
+
+
+gene_list_trend_test_pvalue <- filter(trend_test_only, -log10(P) >= 2.5 )
+
+
+chr_lengths <- read_table('../genome/per_chr_total_BP.tsv', col_names = c('CHR','length'))
+
+qtl <- read_table('../data/candidate_genes/original_QTL_analysis/wiese_eye_intervals.txt')
+colnames(qtl) <- c('Trait', 'CHR', 'Start', 'Stop')
+
+col_names = c('Trait', 'CHR', 'Start', 'Stop')
+
+chr_ends <- data.frame(
+  CHR = chr_lengths$CHR,
+  BP = chr_lengths$length,
+  P = 1 # gives -log10(P)=0
+)
+
+# chromosome background bars
+chr_track <- data.frame(
+  CHR = chr_lengths$CHR,
+  xmin = 0,
+  xmax = chr_lengths$length,
+  ymin = -0.75,
+  ymax = -0.25
+)
+
+p <- ggplot(
+  gene_list_trend_test_pvalue,
+  aes(
+    x = BP,
+    y = -log10(P)
+    )
+  ) +
+  geom_point() +
+  geom_blank(data = chr_ends, aes(x=BP, y=0))+
+  
+
+  # chromosome outline/background
+  geom_rect(
+    data = chr_track,
+    aes(
+      xmin = xmin,
+      xmax = xmax,
+      ymin = ymin,
+      ymax = ymax
+    ),
+    inherit.aes = FALSE,
+    fill = "grey90",
+    colour = "black"
+  ) +
+
+  # QTL intervals
+  geom_rect(
+    data = qtl,
+    aes(
+      xmin = Start,
+      xmax = Stop,
+      ymin = -0.75,
+      ymax = -0.25
+    ),
+    inherit.aes = FALSE,
+    fill = "steelblue"
+  ) +
+
+  # GWAS points
+  geom_point(
+    aes(colour = factor(CHR)),
+    alpha = 0.7,
+    size = 1
+  ) +
+
+  geom_hline(yintercept = 9, linetype = 2) +
+
+  facet_grid(
+    ~CHR,
+    scales = "free_x",
+    space = "free_x",
+    switch = "x"
+  ) +
+
+  coord_cartesian(
+    ylim = c(-0.8, max(-log10(gene_list_trend_test_pvalue$P), na.rm=TRUE))
+  ) +
+
+  theme_bw() +
+  theme(
+    panel.spacing.x = unit(0.2, "lines"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    strip.background = element_blank(),
+    panel.border = element_blank(),
+    legend.position = "none"
+  ) +
+
+  xlab("Position (bp)") +
+  ylab(expression(-logP))
+
+p
+
+ggsave('CA_trend_and_QTL.svg', plot=p)
+ggsave('CA_trend_and_QTL.png', plot = p)
+```

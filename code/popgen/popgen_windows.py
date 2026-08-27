@@ -1,8 +1,7 @@
 #!/home/rk2643/miniforge3/envs/CMpop/bin/python
 
 #This is a script to set up and run popgenWindows.py from https://github.com/simonhmartin/genomics_general#processing-vcf-files
-#Use on cerebro, conda env CMpop
-#popgenWindows from above has to be in the current directory for this script
+#popgenWindows from above has to be in the current directory for this script, scripts are output to this directory
 
 import yaml
 import subprocess as sbp
@@ -36,7 +35,7 @@ geno_script_path = f'{code_path}/popgen/smartin_genomics'
 
 ### STEPS ###
 # install, add to path
-# parse VCF with smartin_genomics/parseVCF.py which takes .all.vcf.gz file and makes a .geno file
+# parse VCF with smartin_genomics/parseVCF.py which takes .all.vcf.gz file and makes a .geno file - see 
 # .geno file is a "genotype matrix" specific to the genomics_general code from smartin
 # gzip .geno file > .geno.gz
 # generate a population file "sample_name \t population_name \n"
@@ -113,24 +112,6 @@ def run_popgen():
         file.write(f'{sha_bang}\n{sbatch_params}\
                    \n{pop_gen_window_cmd}')
     return(output_file)
-
-    #From Rachel
-    #python popgenWindows.py -w 50000 -m 5000 -g 
-    # OL_vs_NL_biSNPs_wInvar.geno.gz -o May2022_OL_vs_NL_50k_popgenWindows.output.csv.gz 
-    # -f phased -T 24  -p NLC -p NLS -p OLC -p OLS --popsFile OL_NL_samples_tabs.txt\
-    ### explanation
-    #-w = window size sites in bases; -m = minimum good sites for a window; 
-    # -g = input.geno.gz; -o= outputfile.csv.gz' -f= phased/haplo/diplo/pairs; 
-    # T = threads; -p = population names; --popsFile = see above
-
-# Average dxy, pi, fst across all sites, 
-# scaffold,start,end,mid,sites,
-#pi_eyeless,pi_eyed,pi_surface,
-#dxy_eyeless_eyed,dxy_eyeless_surface,dxy_eyed_surface,
-#Fst_eyeless_eyed,Fst_eyeless_surface,Fst_eyed_surface
-def average_across_sites():
-    csv_file = run_popgen()
-    
 
 
 if __name__ == '__main__':
