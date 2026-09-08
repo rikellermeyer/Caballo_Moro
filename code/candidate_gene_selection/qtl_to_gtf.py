@@ -10,7 +10,7 @@ import csv
 
 ####
 #Load config settings
-with open("../../config.yaml", "r") as f:
+with open("../config.yaml", "r") as f:
     config = yaml.load(f, Loader=yaml.FullLoader)
 
 genome = config["GENOME"]
@@ -19,78 +19,73 @@ genome_path = config["GENOME_PATH"]
 code_path_prefix = config["CODE_PATH"]
 code_path = f'{code_path_prefix}/candidate_gene_selection'
 
-output_path_prefix = config["DATA_PATH"]
-data_path = f'{output_path_prefix}/candidate_gene_selection'
+data_path = config["DATA_PATH"]
+output_path_prefix = f'{data_path}/candidate_genes/QTLs'
 
-### first fix chromosome name from gtf
-def fix_chr_names(file_to_fix):
-    key_names = ['chr', 'old_chrom']
-    column_dtypes = {'chr': str, 'old_chrom': str}
-    chr_match = pd.read_csv(chr_key, names = key_names, sep = '\t', dtype=column_dtypes)
+def filter_qtl():
+    #read in original QTL csv file
+    raw_qtl = pd.read_csv(f'{output_path_prefix}/original_QTL_analysis/wiese_qtl_supp5.csv')
+    #print(raw_qtl, raw_qtl.columns)
 
-    gtf_key_names = ['old_chrom', 'gene_start', 'gene_end', 'gene']
-    gtf_original = pd.read_csv(file_to_fix, names = gtf_key_names, sep = '\t', dtype=column_dtypes)
+    #print(raw_qtl['Trait'].unique())
 
-    merged_chr_name_df = gtf_original.merge(chr_match, on = 'old_chrom', how = 'left')
+    eye_filter = raw_qtl[raw_qtl['Category'] == 'Eye'] 
 
-    gtf_coord_ready = merged_chr_name_df.dropna().drop('old_chrom', axis = 1)
+    eye_filter.to_csv(f'{output_path_prefix}/original_QTL_analysis/wiese_eye_qtl_total.csv', index = False)
 
-    gtf_list_of_tuples = list(gtf_coord_ready[['chr','gene_start','gene_end','gene']].itertuples(index=False, name=None))
-    #genes = list(gene_df[["chromosome", "gene_start", "gene_end", "gene_name"]].itertuples(index=False, name=None))
+    #print(eye_filter, eye_filter['Trait'].unique())
 
-    #print(gtf_list_of_tuples)
+    eye_filter = eye_filter.dropna(subset = ['Chromosome', 'Start', 'Stop'])
 
-    return gtf_list_of_tuples
+    #print(eye_filter)
+    eye_filter.to_csv(f'{output_path_prefix}/original_QTL_analysis/wiese_eye_qtl_no_na.csv', index = False)
+
+    #['trait', 'CHR', 'qtlStart', 'qtlStop']
+    final_df = eye_filter[['Trait', 'Chromosome', 'Start', 'Stop']]
+
+    final_df.to_csv(f'{output_path_prefix}/original_QTL_analysis/copywiese_eye_interval.txt', index = False, sep = ' ')
 
 
-def simple_qtl_regions(gtf_coord_file, qtl_coord_file):
-    genes = fix_chr_names(gtf_coord_file)
+def janitor_join():
 
-    # Load QTL regions
-    qtl_regions = []
-    with open(qtl_coord_file) as qtl_file:
-        next(qtl_file) #skip the header
-        for line in qtl_file:
-            chrom, start, end = line.strip().split(" ")
-            #print(chrom, '\t', start, '\t', end)
-            #print(type(chrom), type(start), type(end))
-            qtl_regions.append((chrom, int(start), int(end)))
-    
+    gtf_col_names = ['CHR', 'geneStart', 'geneStop', 'geneID']
+    gtf_site_df = pd.read_csv(gtf_file, skiprows=1, names = gtf_col_names) 
 
-    # Find genes within QTLs
-    genes_in_qtls = []
-    n=1
-    for qtl_chrom, qtl_start, qtl_end in qtl_regions:
-        #print(qtl_chrom, qtl_start, qtl_end)
-        for gene_chrom, gene_start, gene_end, gene_name in genes:
-            #print(gene_chrom, gene_start, gene_end, gene_name)
-            if qtl_chrom == gene_chrom and gene_start >= qtl_start and gene_end <= qtl_end:
-                #print(f'For {qtl_chrom}/{gene_chrom}:\n \
-                #gene_start {gene_start}>= qtl_start {qtl_start} \n\
-                #gene_end {gene_end} <= qtl_end {qtl_end}')
-                genes_in_qtls.append((qtl_chrom, gene_start, gene_end, gene_name))
-                if n==1:
-                    print((qtl_chrom, gene_start, gene_end, gene_name))
-                    n+=1
-            
-    #print(genes_in_qtls)
 
-    # Output results
-    #for gene in genes_in_qtls:
-    #    print("\t".join(map(str, gene)))
+    qtl_col_names = ['trait', 'CHR', 'qtlStart', 'qtlStop']
+    qtl_df = pd.read_csv(qtl_file, skiprows=1, sep = '\s', names = qtl_col_names)
 
-    with open(f"{output_path_prefix}/genes_in_eye_qtls.txt", "w", newline="") as outfile:
-        writer = csv.writer(outfile, delimiter="\t")
-        writer.writerow(["chromosome", "gene_start", "gene_end", "gene_name"])  # Optional header
-        writer.writerows(genes_in_qtls)
+    #remove MelEyes
+    qtl_df = qtl_df[qtl_df['trait'] != 'MelEyes']
+
+    qtl_to_gene_df = gtf_site_df.conditional_join(qtl_df, 
+                                          ('geneStart', 'qtlStart', '>='),
+                                          ('geneStop', 'qtlStop', '<='),
+                                          ('CHR', 'CHR', '=='),
+                                          how='inner')
+
+    print(qtl_to_gene_df)
+
+    qtl_to_gene_df = qtl_to_gene_df.drop(columns=[('right', 'CHR')]).dropna()
+    qtl_to_gene_df.columns = qtl_to_gene_df.columns.get_level_values(1)
+
+    qtl_to_gene_df.to_csv(f'{output_path_prefix}/QTL_gene_matches.txt', index = False)
+    print(qtl_to_gene_df)
+
+
+    uniq_output = qtl_to_gene_df.drop_duplicates(subset = 'geneID', keep = 'first')
+    print(uniq_output)
+
+    uniq_output['geneID'].to_csv(f'{output_path_prefix}/QTL_geneIDs_only.txt', index = False)
+
 
 
 if __name__ == '__main__':
+    qtl_file = f'{output_path_prefix}/original_QTL_analysis/wiese_eye_intervals.txt'
+    gtf_file = f'{genome_path}/gtf_new_chrom.txt' # made from `gwas_to_gtf.py`
 
-    qtl_coord_file = f'{data_path}/intermediate_files/qtl_eye_chr_start_stop.txt'
-    gtf_coord_file = f'{genome_path}/genes_and_pos.{genome}.csv'
-    chr_key = f'{genome_path}/chr_key.txt' # new \t old
+    #Filter the raw QTL file from Supplemental Table 5 - Wiese
+    filter_qtl()
 
-    #fix_chr_names(gtf_coord_file)
-
-    simple_qtl_regions(gtf_coord_file, qtl_coord_file)
+    #Match QTL regions to gene names
+    janitor_join()
