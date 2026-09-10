@@ -16,15 +16,7 @@ The Caballo Moro Astyanax mexicanus cave population consists of both eyed and ey
 `snpeff_annotation.py`: Generates a basic script to take a genotype-filtered vcf and run snpEff.
 
 ## Pop gen analysis
-`popgen_windows.py`: Runs [Simon Martins' popgenWindows.py](https://github.com/simonhmartin/genomics_general/blob/master/popgenWindows.py) to calculate Dxy, Fst, and pi across windows of the genome.
-
-
-### PCA, Admixture, Loter, and GWAS
-`preplink.py`: Generates plink files that are common to both the GWAS analysis and the population structure analysis. It converts RefSeq chromosomes to common chromosomes and filters for linkage disequilibrium.  It also runs the population stratification analysis: pca and admixture. This script also makes the plot for cross-validation error of the admixture because I don't like R (literally that's the only reason, if I could do all the plotting in python without having to use jupyter notebooks, I would).
-
-`gwas_fixandtest.py`: Does the gwas trend analysis. This includes some prep work to get the family, map, etc files ready. Then it does a variety of gwas tests depending on what you need. The most important one is the ".model" test, which tests a variety of models for trend. The important one is called "TREND" which is a Cochran-Armitage trend test. The script also filters down to just the trend test and pulls in gene information from the `.gtf` file found in `~/genome` that has been narrowed to just accession and gene name. There's some weirdness around assigning (or reassigning) chromosome names and positions, which this handles.
-
-`popgen/loter`: has it's own README.md for running and analyzing local ancestry inference with Loter.
+- Has it's own README
 
 ## Candidate gene selection
 - Has it's own README.md
