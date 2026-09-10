@@ -21,6 +21,7 @@ from matplotlib_venn import venn2
 import matplotlib.pyplot as plt
 from upsetplot import UpSet, from_memberships
 from venn import venn
+import openpyxl
 
 ####
 #Load config settings
@@ -149,7 +150,7 @@ def shared_genes():
     shared_genes = set.intersection(*group_sets.values)
     #print("Shared genes across all groups:", shared_genes)
     #print(f'{len(shared_genes)} shared across all groups')
-    with open(f'{output_path_prefix}/tempintersect_all.txt', 'w') as file:
+    with open(f'{output_path_prefix}/intersect_all.txt', 'w') as file:
         file.write('\n'.join(shared_genes))
 
     summary = list(shared_genes)
@@ -198,7 +199,7 @@ def pairwise_genes(graph_y_or_no):
 
         summary.append(f'{g1} vs. {g2}: {len(shared)}')
 
-        with open(f'{output_path_prefix}/tempshared_{g1}v{g2}.txt', 'w') as file:
+        with open(f'{output_path_prefix}/shared_{g1}v{g2}.txt', 'w') as file:
             file.write('\n'.join(shared))
 
         if graph_y_or_no == 'yes':
@@ -229,15 +230,181 @@ def pairwise_genes(graph_y_or_no):
     return summary
 
 
+### This is to conglomerate all the cool bits of data from each original data entry
+# for the top candidate genes (5) into one excel file so you can browse all the evidence at once
+# This is also way more complicated than it needs to be - once you export the "super_multi" (multi-indexed dataframe of all the data) it's hard to read.
+def cand_to_total_info():
+    print('Making a table for all candidate gene info')
+
+    #multi-index header layout
+
+    # geneID #Geno-filter #GWAS #QTL #sweeps
+    # geneID #TranscriptId	BioType	variants_impact_HIGH	variants_impact_LOW	variants_impact_MODERATE	variants_impact_MODIFIER	variants_effect_3_prime_UTR_variant	variants_effect_5_prime_UTR_premature_start_codon_gain_variant	variants_effect_5_prime_UTR_variant	variants_effect_downstream_gene_variant	variants_effect_intron_variant	variants_effect_missense_variant	variants_effect_splice_region_variant	variants_effect_stop_gained	variants_effect_synonymous_variant	variants_effect_upstream_gene_variant
+    # geneID #CHR,SNP,A1,A2,TEST,AFF,UNAFF,CHISQ,DF,P,acc_chr,source,feature,start,end,score,strand,frame,attribute,gene_id
+    # geneID #Study,Trait,Cross,Map,LG.original,Peak_cM,Peak_marker,Lower_bound_cM,Upper_bound_cM,Lower_marker,Upper_marker,LOD,PVE,pval,Mapped_to_AstMex3_surface,Chromosome,Start,Stop,Peak_or_CI,Checked,Category
+    # geneID #Gene_ID,Gene_Symbol,Scaffold,Start,End,Pachon_5kb_diplo_filtered,Tinaja_5kb_diplo_filtered,Yerbaniz_5kb_diplo_filtered,Molino_5kb_diplo_filtered,Vasquez_5kb_diplo_filtered,Jineo_5kb_diplo_filtered,Escondido_5kb_diplo_filtered,Peroles_5kb_diplo_filtered,Rascon_5kb_diplo_filtered,Mante_5kb_diplo_filtered,Choy_5kb_diplo_filtered
+
+    genes_colnames = ['geneID']
+    genes = pd.read_csv(f'{output_path_prefix}/intersect_all.txt', names = genes_colnames)
+    genes_list = genes['geneID'].to_list()
+    #print(genes_list)
+
+    ###### 
+    geno_filter = pd.read_csv(f'{data_path}/variant_calling/variants/geno_filter/eyeless_recessive/snpeff/eyeless_recessive.0nocalls.summary.genes.txt', sep = '\t', header =1)
+    geno_filter.rename(columns={'GeneId':'geneID'}, inplace = True)
+    geno_filter = geno_filter.drop(columns=['#GeneName'])
+    geno_ready = (geno_filter[geno_filter['geneID'].isin(genes_list)].copy())
+
+    ### This entry bit here is because some genes have multiple entries in each dataset (ie. multiple SNPs in the GWAS)
+    # So this helps set the gene + number of entries as the index.
+    geno_ready['entry'] = (geno_ready.groupby('geneID').cumcount())
+
+    geno_multi = geno_ready.copy()
+    geno_multi.columns = pd.MultiIndex.from_tuples([
+        ('Genotype filter', c) if c not in ['geneID', 'entry']
+        else ('Key', c)
+        for c in geno_multi.columns
+    ])
+
+    geno_multi = geno_multi.set_index([('Key', 'geneID'), ('Key', 'entry')])
+
+    #GWAS
+    gwas_raw_file = pd.read_csv(f'{output_path_prefix}/GWAS/GWAS_to_genes.txt')
+    gwas_raw_file.rename(columns = {'gene_id':'geneID'}, inplace = True)
+    gwas_ready = (gwas_raw_file[gwas_raw_file['geneID'].isin(genes_list)].copy())
+    gwas_ready['entry'] = (gwas_ready.groupby('geneID').cumcount())
+
+    gwas_multi = gwas_ready.copy()
+    gwas_multi.columns = pd.MultiIndex.from_tuples([
+        ('GWAS', c) if c not in ['geneID', 'entry']
+        else ('Key', c)
+        for c in gwas_multi.columns
+    ])
+
+    gwas_multi = gwas_multi.set_index([('Key', 'geneID'), ('Key', 'entry')])
+
+    #QTL
+    qtl_eye_genes_file = pd.read_csv(f'{output_path_prefix}/QTLs/QTL_gene_matches.txt')
+    qtl_eye_genes_ready = (qtl_eye_genes_file[qtl_eye_genes_file['geneID'].isin(genes_list)].copy())
+    #print(qtl_eye_genes_ready, qtl_eye_genes_ready.columns)
+
+    qtl_raw_file = pd.read_csv(f'{output_path_prefix}/QTLs/original_QTL_analysis/wiese_eye_qtl_total.csv')
+    qtl_raw_file.rename(columns = {'Start':'qtlStart', 'Stop':'qtlStop', 'Chromosome':'CHR'}, inplace = True)
+
+    #print(qtl_raw_file, qtl_raw_file.columns)
+
+    qtl_ready = pd.merge(qtl_eye_genes_ready, qtl_raw_file, how = 'left', on = ['CHR', 'qtlStart', 'qtlStop'])
+    qtl_ready['entry'] = (qtl_ready.groupby('geneID').cumcount())
+    #print(qtl_ready)
+
+    qtl_multi = qtl_ready.copy()
+    qtl_multi.columns = pd.MultiIndex.from_tuples([
+        ('QTL', c) if c not in ['geneID', 'entry']
+        else ('Key', c)
+        for c in qtl_multi.columns
+    ])
+
+    qtl_multi = qtl_multi.set_index([('Key', 'geneID'), ('Key', 'entry')])
+
+
+    #sweeps
+    sweeps_raw_file = pd.read_csv(f'{output_path_prefix}/sweeps/Moran_sweeps_supp.csv')
+    sweeps_raw_file.rename(columns = {'Gene_Symbol':'geneID'}, inplace = True)
+    sweeps_raw_file= sweeps_raw_file.drop(columns = 'Gene_ID')
+    #print(sweeps_raw_file)
+
+    sweeps_ready = (sweeps_raw_file[sweeps_raw_file['geneID'].isin(genes_list)].copy())
+    sweeps_ready['entry'] = (sweeps_ready.groupby('geneID').cumcount())
+
+    sweeps_multi = sweeps_ready.copy()
+    sweeps_multi.columns = pd.MultiIndex.from_tuples([
+        ('Sweeps', c) if c not in ['geneID', 'entry']
+        else ('Key', c)
+        for c in sweeps_ready.columns
+    ])
+
+    sweeps_multi = sweeps_multi.set_index([('Key', 'geneID'), ('Key', 'entry')])
+
+    #print(geno_multi.columns, gwas_multi.columns, qtl_multi.columns, sweeps_multi.columns)
+
+    super_multi = geno_multi.join([gwas_multi, qtl_multi, sweeps_multi], how = 'outer')
+    super_multi = super_multi.sort_index()
+    print(super_multi)
+
+    super_multi.to_excel(f'{output_path_prefix}/top_candidate_genes_all_info.xlsx', merge_cells = True)
+
+    with pd.ExcelWriter(
+        f'{output_path_prefix}/candidate_genes_all_info.xlsx',
+        engine='openpyxl'
+    ) as writer:
+        geno_multi.to_excel(
+            writer,
+            sheet_name='GenotypeFilter',
+            merge_cells=True
+        )
+
+        gwas_multi.to_excel(
+            writer,
+            sheet_name='GWAS',
+            merge_cells=True
+        )
+
+        qtl_multi.to_excel(
+            writer,
+            sheet_name='QTL',
+            merge_cells=True
+        )
+
+        sweeps_multi.to_excel(
+            writer,
+            sheet_name='Sweeps',
+            merge_cells=True
+        )
+
+        super_multi.to_excel(
+            writer,
+            sheet_name='Combined',
+            merge_cells=True
+        )
+
+
+
+
+## Compare the SNPs identified by genotype filtering and GWAS to get the total candidate ID just by the CM dataset
+def gwas_geno_snps_compare():
+    # all the GWAS identified sites
+    gwas_snp_sites = pd.read_csv(f'{output_path_prefix}/GWAS/CA_trend.filtered.fixedBP.tsv')
+    print(gwas_snp_sites)
+
+    #all the snpeff identified sites
+    snpeff_col_names = ['acc_chr', 'SNP']
+    snpeff_geno_sites = pd.read_csv(f'{data_path}/variant_calling/variants/geno_filter/eyeless_recessive/snpeff/chr_and_pos_only.txt', names = snpeff_col_names, sep = '\s')
+    print(snpeff_geno_sites)
+
+    #chr key for accession
+    chr_key_col_names = ['CHR', 'acc_chr']
+    chr_key = pd.read_csv(f'{genome_path}/chr_key.txt', sep = '\t', names = chr_key_col_names)
+
+    snpeff_w_chr = pd.merge(snpeff_geno_sites, chr_key, on = 'acc_chr', how = 'left')
+
+
+    snpeff_and_gwas = pd.merge(snpeff_w_chr, gwas_snp_sites, on = ['CHR', 'SNP'], how = 'inner')
+    snpeff_and_gwas_no_match = pd.merge(snpeff_w_chr, gwas_snp_sites, on = ['CHR', 'SNP'], how = 'outer', indicator=True)
+    print(snpeff_and_gwas)
+    print(snpeff_and_gwas_no_match[snpeff_and_gwas_no_match['_merge']=='right_only'])
+
+    ###Answer - all 203 SNPs from the genotype filter are found in the GWAS filtered by p-value (which makes sense)
+
+
 if __name__ == '__main__':
+
     #input files
     gwas_file = f'{output_path_prefix}/GWAS/GWAS_genes_only.txt'
     geno_filter_file = f'{output_path_prefix}/geno_filter/geno_filter_gene_id_only.txt'
-    gwas_and_geno_file = f'{output_path_prefix}/gwas_and_geno_filter_hits.txt'
-    #qtl_file = f'{output_path_prefix}/QTLs/genes_in_eye_qtl_list.txt'
     qtl_file = f'{output_path_prefix}/QTLs/QTL_geneIDs_only.txt'
     zf_db_file = f'{output_path_prefix}/GOTerm/ZF_DB_eye_genes.txt'
     raw_sweeps_file = f'{output_path_prefix}/sweeps/Moran_sweeps_supp.csv'
+
 
     ### Run once to process sweeps file ###
     #process_sweeps_file(raw_sweeps_file)
@@ -253,11 +420,15 @@ if __name__ == '__main__':
 
     summary_dict['Number of unique genes per group:'] = unique_genes()
     
-    summary_dict['Number of shared genes, pairwise:'] = pairwise_genes('no')
+    summary_dict['Number of shared genes, pairwise:'] = pairwise_genes('yes')
 
     summary_dict['Genes shared in all datasets:'] = shared_genes()
 
 
-    with open(f'{output_path_prefix}/tempIntersection_Summary.txt', 'w') as file:
+    with open(f'{output_path_prefix}/Intersection_Summary.txt', 'w') as file:
         for key, value in summary_dict.items():
             file.write(f'###{key}\n{'\n'.join(value)}\n\n')
+
+    #This just pulls out the information from each dataset for the top candidate genes and outputs it to an excel.
+    #cand_to_total_info()
+

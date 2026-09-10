@@ -25,25 +25,22 @@ output_path_prefix = f'{data_path}/candidate_genes/QTLs'
 def filter_qtl():
     #read in original QTL csv file
     raw_qtl = pd.read_csv(f'{output_path_prefix}/original_QTL_analysis/wiese_qtl_supp5.csv')
-    #print(raw_qtl, raw_qtl.columns)
-
+    print(raw_qtl, raw_qtl.columns)
     #print(raw_qtl['Trait'].unique())
 
     eye_filter = raw_qtl[raw_qtl['Category'] == 'Eye'] 
-
-    eye_filter.to_csv(f'{output_path_prefix}/original_QTL_analysis/wiese_eye_qtl_total.csv', index = False)
-
+    #eye_filter.to_csv(f'{output_path_prefix}/original_QTL_analysis/wiese_eye_qtl_total.csv', index = False)
     #print(eye_filter, eye_filter['Trait'].unique())
 
     eye_filter = eye_filter.dropna(subset = ['Chromosome', 'Start', 'Stop'])
-
     #print(eye_filter)
-    eye_filter.to_csv(f'{output_path_prefix}/original_QTL_analysis/wiese_eye_qtl_no_na.csv', index = False)
+    #eye_filter.to_csv(f'{output_path_prefix}/original_QTL_analysis/wiese_eye_qtl_no_na.csv', index = False)
 
     #['trait', 'CHR', 'qtlStart', 'qtlStop']
     final_df = eye_filter[['Trait', 'Chromosome', 'Start', 'Stop']]
+    print(final_df.shape)
 
-    final_df.to_csv(f'{output_path_prefix}/original_QTL_analysis/copywiese_eye_interval.txt', index = False, sep = ' ')
+    #final_df.to_csv(f'{output_path_prefix}/original_QTL_analysis/copywiese_eye_interval.txt', index = False, sep = ' ')
 
 
 def janitor_join():
@@ -77,7 +74,6 @@ def janitor_join():
     print(uniq_output)
 
     uniq_output['geneID'].to_csv(f'{output_path_prefix}/QTL_geneIDs_only.txt', index = False)
-
 
 
 if __name__ == '__main__':

@@ -37,3 +37,6 @@ Input file: `data_files/ZF_DB_eye_genes.txt`: Database of zebrafish (D. rerio) e
 4. Finds genes shared between each pairwise dataset: `shared_{g1}v{g2}.txt`. Plots venn diagrams to `reports/candidate_genes_venn`
 5. Finds genes that are shared between all datasets: `intersect_all.txt`
 6. Outputs a summary file with the number of genes present in each: `Intersection_summary.txt`
+Optional:
+7. Test which of the variants identified in the Caballo Moro specific dataset are shared between the GWAS analysis and the genotype filtering analysis (answer: all of them)
+8. Take the top candidate genes from #5 and pulls out the dataset values from each line of inquiry into an excel file. 
