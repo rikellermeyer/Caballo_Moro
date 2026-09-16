@@ -15,15 +15,14 @@ knitr::opts_chunk$set(echo = TRUE, fig.path="./", dev='svg')
 library(BiocManager)
 library(tidyverse)
 library(ggplot2)
+library(patchwork)
 ```
 
+# Load GWAS data
 ```{r load_table}
 trend_table_ca <- read_table('../data/popgen/gwas/tests/CA_trend.model')
 no_na_ca <- drop_na(trend_table_ca)
-```
 
-
-```{r Manhattan_plot}
 ## Cochran-Armitage Trend test
 trend_test_only <- no_na_ca[no_na_ca$TEST %in% c('TREND'),]
 
@@ -32,14 +31,17 @@ trend_test_only <- trend_test_only %>%
   mutate(SNP = str_extract(SNP, "(?<=:)[0-9]+(?=:)")) %>%
   rename(BP = SNP)
 trend_test_only <- trend_test_only %>% mutate_at(c('CHR','P', 'BP'), as.numeric)
+```
 
+# 
+```{r Manhattan_plot}
 
 gene_list_trend_test_pvalue <- filter(trend_test_only, -log10(P) >= 2.5 )
 
 
 chr_lengths <- read_table('../genome/per_chr_total_BP.tsv', col_names = c('Chromosome','length'))
 
-qtl <- read_table('../data/candidate_genes/original_QTL_analysis/wiese_eye_intervals.txt')
+qtl <- read_table('../data/candidate_genes/QTLs/original_QTL_analysis/wiese_eye_intervals.txt')
 
 ca_plot <- ggplot(data = gene_list_trend_test_pvalue, aes(x=as.factor(BP), y=-log10(P), colour = as.factor(CHR))) +
   geom_point() +
@@ -65,7 +67,7 @@ ca_plot <- ggplot(data = gene_list_trend_test_pvalue, aes(x=as.factor(BP), y=-lo
   ) +
   coord_cartesian(ylim = c(-0.5, NA))
 ca_plot
-ggsave('Cochran-Armitage_trend_test_wQTL.svg', plot=ca_plot)
+#ggsave('Cochran-Armitage_trend_test_wQTL.svg', plot=ca_plot)
 
 
 
@@ -91,72 +93,204 @@ ggsave('Cochran-Armitage trend test.png', plot=ca_plot)
 
 ```
 
-```{r}
-
-chr_lengths <- read_table('../genome/per_chr_total_BP.tsv', col_names = c('Chromosome','length'))
-
-qtl <- read_table('../data/candidate_genes/original_QTL_analysis/wiese_eye_intervals.txt')
 
 
 
-qtl_bar <- ggplot() +
+# Per chromosome GWAS and QTL with sweeps below
+```{r Chrom_plots_sep}
+### Per chromosome plot:
+# CA Trend test
+# QTL LOD
+# Sweeps hard/soft
 
-  # chromosome outline
-  geom_rect(
-    data = chr_lengths,
-    aes(
-      xmin = 0,
-      xmax = length,
-      ymin = 0,
-      ymax = 1
+#smaller GWAS
+gene_list_trend_test_pvalue9 <- filter(trend_test_only, -log10(P) >= 8 )
+
+#Load QTL
+qtl_raw <- read.table('../data/candidate_genes/QTLs/original_QTL_analysis/wiese_eye_qtl_for_graph.csv', sep = ',', header = TRUE)
+qtl_no_na <- qtl_raw %>% drop_na(Chromosome, Start, Stop)
+names(qtl_no_na)[names(qtl_no_na) == 'Chromosome'] <- 'CHR'
+qtl_no_na$LOD <- as.numeric(qtl_no_na$LOD)
+
+#sweeps file
+sweeps_raw <- read.table('../data/candidate_genes/sweeps/Moran_et_al_2023_sweeps_in_at_least_one_cave.tsv', sep = '\t', header = TRUE)
+
+#sweeps were done with Amex2.0, so we have to fetch chromosome and positions via geneID/gtf
+gtf_acc <- read.table('../genome/genes_and_pos.Amex3.0_surface.txt')
+colnames(gtf_acc) <- c('ACC', 'Start', 'Stop', 'geneID')
+
+#BUT also have to rename accession chr #s to real chr #s
+chr_key <- read.table('../genome/chr_key.txt')
+colnames(chr_key) <- c('CHR','ACC')
+
+gtf_chr <- left_join(chr_key, gtf_acc, by = 'ACC') %>% select(-ACC)
+
+# Now get geneID > chr:bp, note some genes do not merge
+sweeps_genes <- left_join(gtf_chr, sweeps_raw, by = 'geneID')
+sweeps_genes <- sweeps_genes %>% filter(!(is.na(hard) & is.na(soft)))
+
+## Highlight these genes - from candidate genes
+# Could also load this data from: `data/candidate_genes/candidate_genes_start_stop.csv`
+# 5 55053986 55075090 apcdd1l
+# 13 37876360 38233238 agrn
+# 1 107974337 108000431 rpgrip1
+# 21 26381372 26421663 tubgcp3
+# 21 25499267 25504161 cx50
+
+highlight_genes <- data.frame(
+  CHR = c(5, 13, 1, 21, 21),
+  Start = c(55053986, 37876360, 107974337, 26381372, 25499267),
+  Stop = c(55075090, 38233238, 108000431, 26421663, 25504161),
+  geneID = c("apcdd1l", "agrn", "rpgrip1", "tubgcp3", "cx50")
+)
+
+
+
+pull_chr <- function(df, chr, chr_col = "CHR"){
+  df[df[[chr_col]] %in% chr, ]
+}
+
+
+
+plot_chr <- function(chr,
+                     gwas,
+                     qtl) {
+
+  # Subset data
+  gwas_chr <- gene_list_trend_test_pvalue9 %>%
+    filter(CHR == chr) %>%
+    mutate(logP = -log10(P))
+
+  qtl_chr <- qtl_no_na %>%
+    filter(CHR == chr)
+  
+  sweeps_chr <- sweeps_genes %>%
+    filter(CHR == chr) %>%
+    mutate(
+      midpoint = (Start + Stop) / 2,
+      hard_count = ifelse(
+        is.na(hard) | hard == "",
+        0,
+        str_count(hard, ",") +1
+      ),
+      soft_count = ifelse(
+        is.na(soft) | soft == "",
+        0,
+        str_count(soft, ",") +1
+      ),
+      sweep_type = ifelse(hard_count >0, "Hard", "Soft"),
+      cave_count = ifelse(hard_count >0, hard_count, soft_count)
+    ) %>%
+    filter(cave_count >0)
+  
+  gene_y = max(gwas_chr$logP, na.rm = TRUE) * 1.05
+  
+  sweeps_chr <- sweeps_chr %>%
+    mutate(y = gene_y)
+  
+  xmax <- max(c(gwas_chr$BP, qtl_chr$Start, qtl_chr$Stop, sweeps_chr$Start, sweeps_chr$Stop), na.rm = TRUE)
+  
+  highlight_chr <- highlight_genes %>%
+  filter(CHR == chr) %>%
+  mutate(midpoint = (Start + Stop) /2, 
+         y = max(gwas_chr$logP, na.rm = TRUE) *0.95)
+  
+  # Base plot
+  p_gwas <- ggplot() +
+
+    geom_point(
+      data = gwas_chr,
+      aes(x = BP, y = logP),
+      size = 1,
+      alpha = 0.7,
+      color = "black"
+    ) +
+    
+    #geom_point(data = highlight_chr,
+    #       aes(x = midpoint, y=y),
+    #       color = "green", size = 3, shape = 17) +
+    geom_vline(data = highlight_chr,
+           aes(xintercept = midpoint),
+           color = "green", line = "dashed", alpha =0.6) +
+
+    coord_cartesian(xlim = c(0, xmax)) +
+    geom_point(data = sweeps_chr %>% filter(sweep_type == "Soft"),
+               aes(x = midpoint,
+                   y = y,
+                   size = cave_count,
+                   color = sweep_type), alpha = 0.8) +
+    
+
+    
+    geom_point(
+      data = sweeps_chr %>% filter(sweep_type == "Hard"),
+      aes(
+        x = midpoint,
+        y = y,
+        size = cave_count,
+        color = sweep_type
+      )
+    ) +
+    
+    labs(
+      title = paste("Chromosome", chr),
+      x = "Position (bp)",
+      y = expression(-logP)
+    ) +
+    
+    scale_color_manual(
+      values = c(
+        Hard = "red",
+        Soft = "dodgerblue"
+      )
+    ) +
+
+    scale_size_continuous(
+      range = c(2, 8),
+      breaks = 1:4,
+      name = "Number of caves"
+    ) +
+
+    theme_bw()
+  
+  p_qtl <- ggplot(qtl_chr) +
+    geom_segment(aes(
+      x = Start,
+      xend = Stop,
+      y = LOD,
+      yend = LOD
     ),
-    fill = "grey90",
-    color = "black"
-  ) +
+    linewidth=3,
+    color = "red") +
+    labs(x = "Position (bp)",
+         y = "LOD") +
+    coord_cartesian(
+      xlim = c(0, xmax),
+      ylim = c(0, 22) 
+    ) +
+    theme_bw()
+  
+  p <- p_gwas / p_qtl +
+    plot_layout(heights = c(3,1))
 
-  # QTL intervals
-  geom_rect(
-    data = qtl,
-    aes(
-      xmin = Start,
-      xmax = Stop,
-      ymin = 0,
-      ymax = 1,
-      fill = Trait
-    )
-  ) +
+  ggsave(filename = file.path('./chr_gwas_qtl_plots', paste0("updown_Chr_", chr, ".png")), plot = p, width = 10, height = 8, dpi = 600)
+  return(p)
+}
 
-  facet_grid(
-    ~ Chromosome,
-    scales = "free_x",
-    space = "free_x"
-  ) +
+chromosomes <- sort(unique(gene_list_trend_test_pvalue9$CHR))
 
-  theme_bw() +
-  theme(
-    axis.title.y = element_blank(),
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  ) +
-  ylab(NULL)
-qtl_bar
+plots <- lapply(
+  chromosomes,
+  plot_chr,
+  gwas = gene_list_trend_test_pvalue9,
+  qtl = qtl_no_na
+)
 
-stop()
-qtl_bar <-  geom_rect(
-    data = qtl,
-    aes(
-      xmin = Start,
-      xmax = Stop,
-      ymin = -0.5,
-      ymax = 0,
-      fill = Trait
-    ),
-    inherit.aes = FALSE
-  )
-qtl_bar
+plots
 
 ```
 
+# Full genome Cochran-Armitage trend test with QTL bar below
 ```{r}
 ## Cochran-Armitage Trend test
 trend_test_only <- no_na_ca[no_na_ca$TEST %in% c('TREND'),]
@@ -269,3 +403,103 @@ p
 ggsave('CA_trend_and_QTL.svg', plot=p)
 ggsave('CA_trend_and_QTL.png', plot = p)
 ```
+
+# CHR / QTL only, no sweeps
+```{r Chrom_plots}
+### Per chromosome plot:
+# CA Trend test
+# QTL LOD
+# Sweeps hard/soft
+
+#smaller GWAS
+gene_list_trend_test_pvalue9 <- filter(trend_test_only, -log10(P) >= 8 )
+
+#Load QTL
+qtl_raw <- read.table('../data/candidate_genes/QTLs/original_QTL_analysis/wiese_eye_qtl_for_graph.csv', sep = ',', header = TRUE)
+qtl_no_na <- qtl_raw %>% drop_na(Chromosome, Start, Stop)
+names(qtl_no_na)[names(qtl_no_na) == 'Chromosome'] <- 'CHR'
+qtl_no_na$LOD <- as.numeric(qtl_no_na$LOD)
+
+#sweeps file
+sweeps_raw <- read.table('../data/candidate_genes/sweeps/Moran_et_al_2023_sweeps_in_at_least_one_cave.tsv', sep = '\t', header = TRUE)
+
+#sweeps were done with Amex2.0, so we have to fetch chromosome and positions via geneID/gtf
+gtf_acc <- read.table('../genome/genes_and_pos.Amex3.0_surface.txt')
+colnames(gtf_acc) <- c('ACC', 'Start', 'Stop', 'geneID')
+
+#BUT also have to rename accession chr #s to real chr #s
+chr_key <- read.table('../genome/chr_key.txt')
+colnames(chr_key) <- c('CHR','ACC')
+
+gtf_chr <- left_join(chr_key, gtf_acc, by = 'ACC') %>% select(-ACC)
+
+# Now get geneID > chr:bp, note some genes do not merge
+sweeps_genes <- left_join(gtf_chr, sweeps_raw, by = 'geneID')
+sweeps_genes <- sweeps_genes %>% filter(!(is.na(hard) & is.na(soft)))
+
+pull_chr <- function(df, chr, chr_col = "CHR"){
+  df[df[[chr_col]] %in% chr, ]
+}
+
+
+
+plot_chr <- function(chr,
+                     gwas,
+                     qtl) {
+
+  # Subset data
+  gwas_chr <- gene_list_trend_test_pvalue9 %>%
+    filter(CHR == chr) %>%
+    mutate(logP = -log10(P))
+
+  qtl_chr <- qtl_no_na %>%
+    filter(CHR == chr)
+
+  # Base plot
+  p <- ggplot() +
+
+    geom_point(
+      data = gwas_chr,
+      aes(x = BP, y = logP),
+      size = 1,
+      alpha = 0.7,
+      color = "black"
+    ) +
+
+    geom_segment(
+      data = qtl_chr,
+      aes(
+        x = Start,
+        xend = Stop,
+        y = 9,
+        yend = 9
+      ),
+      color = "red",
+      linewidth = 2
+    ) +
+
+    labs(
+      title = paste("Chromosome", chr),
+      x = "Position (bp)",
+      y = expression(-logP)
+    ) +
+
+    theme_bw()
+
+  ggsave(filename = file.path('./chr_gwas_qtl_plots', paste0("Chr_", chr, ".png")), plot = p, width = 10, height = 8, dpi = 600)
+  return(p)
+}
+
+chromosomes <- sort(unique(gene_list_trend_test_pvalue9$CHR))
+
+plots <- lapply(
+  chromosomes,
+  plot_chr,
+  gwas = gene_list_trend_test_pvalue9,
+  qtl = qtl_no_na
+)
+
+plots[[1]]
+
+```
+

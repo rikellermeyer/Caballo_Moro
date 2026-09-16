@@ -271,6 +271,7 @@ def cand_to_total_info():
     #GWAS
     gwas_raw_file = pd.read_csv(f'{output_path_prefix}/GWAS/GWAS_to_genes.txt')
     gwas_raw_file.rename(columns = {'gene_id':'geneID'}, inplace = True)
+    
     gwas_ready = (gwas_raw_file[gwas_raw_file['geneID'].isin(genes_list)].copy())
     gwas_ready['entry'] = (gwas_ready.groupby('geneID').cumcount())
 
@@ -283,10 +284,18 @@ def cand_to_total_info():
 
     gwas_multi = gwas_multi.set_index([('Key', 'geneID'), ('Key', 'entry')])
 
+    
+
     #QTL
     qtl_eye_genes_file = pd.read_csv(f'{output_path_prefix}/QTLs/QTL_gene_matches.txt')
     qtl_eye_genes_ready = (qtl_eye_genes_file[qtl_eye_genes_file['geneID'].isin(genes_list)].copy())
-    #print(qtl_eye_genes_ready, qtl_eye_genes_ready.columns)
+    export_col_names = ['CHR', 'geneID', 'geneStart', 'geneStop']
+
+    print(qtl_eye_genes_ready, qtl_eye_genes_ready.columns)
+
+    export_this = qtl_eye_genes_ready[export_col_names].drop_duplicates()
+    export_this.to_csv(f'{output_path_prefix}/candidate_genes_start_stop.csv', index = False)
+
 
     qtl_raw_file = pd.read_csv(f'{output_path_prefix}/QTLs/original_QTL_analysis/wiese_eye_qtl_total.csv')
     qtl_raw_file.rename(columns = {'Start':'qtlStart', 'Stop':'qtlStop', 'Chromosome':'CHR'}, inplace = True)
@@ -405,7 +414,6 @@ if __name__ == '__main__':
     zf_db_file = f'{output_path_prefix}/GOTerm/ZF_DB_eye_genes.txt'
     raw_sweeps_file = f'{output_path_prefix}/sweeps/Moran_sweeps_supp.csv'
 
-
     ### Run once to process sweeps file ###
     #process_sweeps_file(raw_sweeps_file)
 
@@ -430,5 +438,5 @@ if __name__ == '__main__':
             file.write(f'###{key}\n{'\n'.join(value)}\n\n')
 
     #This just pulls out the information from each dataset for the top candidate genes and outputs it to an excel.
-    #cand_to_total_info()
+    cand_to_total_info()
 
