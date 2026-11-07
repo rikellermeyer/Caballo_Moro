@@ -9,10 +9,7 @@ date: "2024-04-02"
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-#knitr::opts_chunk$set(dev = 'svg') # set output device to svg
 knitr::opts_chunk$set(echo = TRUE, fig.path="./", dev='svg')
-#knitr::opts_knit$set(root.dir = '/n/projects/rk2643/caballo_moro_genomics/streamlined/data/molino2/popgen')
-#/n/projects/rk2643/caballo_moro_genomics/streamlined/data/molino2/popgen
 library(BiocManager)
 library(tidyverse)
 library(plotly)
@@ -29,85 +26,102 @@ library(gghighlight)
 library(VennDiagram)
 library(limma)
 library(eulerr)
-library(FactoMineR)
+#library(FactoMineR) #needed for kmeans but dependentcy issues
 library(cluster)
-library(factoextra)
+#library(factoextra)
 library(glue)
 ```
 
 
+# Fst and Dxy
 Stats were generated from [popgenWindows.py](https://github.com/simonhmartin/genomics_general/blob/master/popgenWindows.py) at 50kb intervals
 
 ```{r popgenstats}
-#load data
+#Plot Fst and Dxy along the chromosomes 
+
+#load data from popgenwindows
 all_raw_stats <- read.table("../data/popgen/Amex3.0_surface.50kwin.output.csv", sep=',', header=TRUE)
-
-# make a new table with average pi of each population
-
-### genome-wide nucleotide diversity/pi
-eyeless_mean_pi = mean(all_raw_stats$pi_eyeless, na.rm=TRUE)
-#eyeless_density = density(eyeless_mean)
-
-eyed_mean_pi = mean(all_raw_stats$pi_eyed, na.rm=TRUE)
-
-surface_mean_pi = mean(all_raw_stats$pi_surface, na.rm=TRUE)
-
-
-### Rachels' initial data: "levels of differentiation between populations"
-# has a figure of Dxy by chromosome with each population overlayed
-# is a table of Dxy and Fst with iterative population comparisons (eyed vs eyeless, all CM vs sf.. etc)
-
-
-
-### Absolute sequence divergence/Dxy
-
-# Dxy is inherently comparative between populations
-# stats already have eyed vs eyeless; eyed vs sf ;eyeless vs sf
-# plot by chromosome
 
 #remove nas
 no_na_all_stats <- drop_na(all_raw_stats)
 
 #rename chromosomes
-chromosome_key <- read.table('../data/variant_calling/variants/Amex3.0_surface.renamechr.txt')
+chromosome_key <- read.table('../data/variant_calling/variants/Amex3.0_surface.renamechr.txt', header = TRUE)
 
-fixed_chr_name <- inner_join(no_na_all_stats, chromosome_key, by=c("scaffold" = "V1")) 
-fixed_chr_name$V2 <- as.numeric(fixed_chr_name$V2)
-fixed_all_stats <- fixed_chr_name %>% filter(V2 <=25)
+fixed_chr_name <- inner_join(no_na_all_stats, chromosome_key, by=c("scaffold" = "RefSeq.seq.accession")) 
+fixed_chr_name$Chromosome.name <- as.numeric(fixed_chr_name$Chromosome.name)
+fixed_all_stats <- fixed_chr_name %>% filter(Chromosome.name <=25)
 
 
-#make this a function for each chromosome #
+# For each chromosome, plot >95th percentile fst and dxy
+#filter to top 95% for each column
 
-chr21_only <- fixed_all_stats %>% filter(V2 == '21')
-gja8b_subset <- subset(chr21_only, mid == "25525014")
+fst_dxy_plot <- function(chr) {
+  #subset to chr
+  chr_only <- fixed_all_stats %>%
+    filter(Chromosome.name == chr)
+  chr_length <- max(chr_only$end)
+  
+  #top percentile
+  cols <- c("dxy_eyeless_eyed", "dxy_eyeless_surface", "dxy_eyed_surface", "Fst_eyeless_eyed", "Fst_eyeless_surface", "Fst_eyed_surface")
+  
+  top5_dxy <- chr_only %>% 
+    mutate(across(all_of(cols), ~ .x > quantile(.x, 0.95, na.rm = TRUE),.names = "{.col}_top5"))
+  
+  
+  plot_df <- top5_dxy %>%
+    pivot_longer(
+      cols = ends_with("_top5"),
+      names_to = "comparison",
+      values_to = "top5"
+    ) %>%
+    filter(top5) %>%
+    mutate(
+      comparison = factor(comparison)
+    )
+  
+  plot_this <- ggplot(plot_df, aes(x = mid, y = comparison, color = comparison)) +
+    geom_segment(
+      data = distinct(plot_df, comparison),
+      aes(
+        x = 0,
+        xend = chr_length,
+        y = comparison,
+        yend = comparison
+      ),
+      inherit.aes = FALSE,
+      color = "grey70",
+      linewidth = 2
+    ) +
+    geom_point(size = 3) +
+    theme_classic() +
+    labs(
+      title = paste0("Chr", chr),
+      x = "Chromosome position (bp)",
+      y = NULL,
+      color = "Comparison"
+    )
+  plot_this
+}
+
+chrs <- as.list(fixed_all_stats$Chromosome.name)
+lapply(chrs, fst_dxy_plot)
+
+
+
+#chr21_only <- fixed_all_stats %>% filter(V2 == '21')
+#gja8b_subset <- subset(chr21_only, mid == "25525014")
 
 #gja8b start:25500001 stop:25550000 mid:25525014
-chr21_plot <- ggplot(chr21_only, aes(x=mid, y=dxy_eyeless_surface)) +
-  geom_line() +
-  geom_point(data=gja8b_subset, colour = "red") 
+#chr21_plot <- ggplot(chr21_only, aes(x=mid, y=dxy_eyeless_surface)) +
+#  geom_line() +
+#  geom_point(data=gja8b_subset, colour = "red") 
 
-chr21_plot
+#chr21_plot
 #fixed_all_stats <- no_na_all_stats$chr[match(chromosome_key$V1, no_na_all_stats$)]
 
-bychr_plot <- ggplot(fixed_all_stats, aes(x=as.factor(V2), y=dxy_eyed_surface), fill=factor(sites)) +
-  geom_line() +
-  scale_color_manual(values = rep(c("grey", "orange3"), 22 )) 
 
 
-bychr_plot
-
-#calculate mean pairwise
-mean_dxy_eyeless_eyed = mean(all_raw_stats$dxy_eyeless_eyed, na.rm=TRUE)
-
-mean_dxy_eyeless_sf = mean(all_raw_stats$dxy_eyeless_surface, na.rm = TRUE)
-
-mean_dxy_eyed_sf = mean(all_raw_stats$dxy_eyed_surface, na.rm = TRUE)
-
-mean_fst_eyeless_eyed = mean(all_raw_stats$Fst_eyeless_eyed, na.rm=TRUE)
-
-mean_fst_eyeless_sf = mean(all_raw_stats$Fst_eyeless_surface, na.rm= TRUE)
-
-mean_fst_eyed_sf = mean(all_raw_stats$Fst_eyed_surface, na.rm=TRUE)
 
 
 ```
@@ -115,12 +129,13 @@ mean_fst_eyed_sf = mean(all_raw_stats$Fst_eyed_surface, na.rm=TRUE)
 
 
 
-Followed this tutorial for plotting PCAs: https://speciationgenomics.github.io/pca/
+# PCA
 
-```{r pca, echo=FALSE}
+```{r pca_dataframe, echo=FALSE}
+#Followed this tutorial for plotting PCAs: https://speciationgenomics.github.io/pca/
+
+#read in the data and make a nice, labeled dataframe
 #load data
-## removed M2 while running plink, major outlier
-#setwd("../data/molino2/popgen/pca")
 pca <- read.table("../data/popgen/pca/pruned.Amex3.0_surface.50.win.eigenvec", header =FALSE)
 
 eigenval <- scan("../data/popgen/pca/pruned.Amex3.0_surface.50.win.eigenval")
@@ -171,8 +186,6 @@ PC1
 PC2
 
 
-
-
 ### calculate k-means with euclidean distance
 # looking at: https://www.cfholbert.com/blog/cluster-pca/ for guidance
 
@@ -181,6 +194,7 @@ pc_12_only <- cbind(pca_df$PC1,pca_df$PC2)
 pca_12<- prcomp(pc_12_only, scale=FALSE, center=TRUE)
 summary(pca_12)
 
+#Calculate K-means clustering
 kmeans_12 <- kmeans(scale(pc_12_only),centers=3)$cluster
 
 kmeans_plot <- plot(pc_12_only, col=kmeans_12)
@@ -190,11 +204,7 @@ pc_12_df <- data.frame(pc_12_only)
 colnames(pc_12_df) <- c("PC1", "PC2")
 pc_12_df$groups <- pca_df$population
 
-#df_12.x <- as.data.frame(pca_12$x)
-#df_12.x$groups <- pca_df$population
-#centroids <- aggregate(df_12.x[,1:2],list(Type=df_12.x$groups),mean)
-#sem_centroids <- aggregate(df_12.x[,1:2],list(Type=df_12.x$groups),sd)
-
+#Calculate centroids for distance measurements between populations - needs and x,y center and SEM
 centroids <- aggregate(pc_12_df[,1:2],list(Type=pc_12_df$groups),mean)
 sem_centroids <- aggregate(pc_12_df[,1:2],list(Type=pc_12_df$groups),sd)
 min_centers_PC1 <- centroids$PC1 - sem_centroids$PC1
@@ -218,12 +228,6 @@ try_center_df$Type <- factor(try_center_df$Type, levels=c("Eyeless","Eyed","Surf
 try_center_df = try_center_df[order(try_center_df$Type),]
 rownames(try_center_df)<- 1:nrow(try_center_df)
 
-#DATA$This <- factor(DATA$This, levels=c("60", "90", "120", "OG"))
-#tab12 = tab12[order(tab12$Sector), ]
-#df %>% 
-#  mutate(sector = factor(sector, levels = c("Other", "Public", "Private"))) %>% 
-#  arrange(sector)
-#> rownames(df2_sample)<-1:nrow(df2_sample)
 
 center_df
 
@@ -299,7 +303,7 @@ ggsave(file='pca_with_errorplots.svg', plot=new_df)
 
 ```
 
-Admixture code from Garth
+# Admixture
 ```{r load_admixture}
 getwd()
 # make barplots of the admixture for below.
@@ -408,10 +412,12 @@ list_of_plots <- lapply(files_per_window, plot_per_window)
 
 ```
 
+# GWAS
+Most of these aren't great. See `CMC_GWAS.Rmd` for better
 ```{r qqplots}
 
 #input raw trend table
-qq_input <- read_table('../data/molino2/popgen/gwas/tests/CA_trend.model')
+qq_input <- read_table('../data/popgen/gwas/tests/CA_trend.model')
 no_na_ca <- drop_na(qq_input)
 trend_only <- no_na_ca[no_na_ca$TEST %in% c('TREND'),]
 trend_only <- trend_only %>% mutate_at(c('CHR','P'), as.numeric)
