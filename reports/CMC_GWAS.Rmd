@@ -33,65 +33,7 @@ trend_test_only <- trend_test_only %>%
 trend_test_only <- trend_test_only %>% mutate_at(c('CHR','P', 'BP'), as.numeric)
 ```
 
-# 
-```{r Manhattan_plot}
 
-gene_list_trend_test_pvalue <- filter(trend_test_only, -log10(P) >= 2.5 )
-
-
-chr_lengths <- read_table('../genome/per_chr_total_BP.tsv', col_names = c('Chromosome','length'))
-
-qtl <- read_table('../data/candidate_genes/QTLs/original_QTL_analysis/wiese_eye_intervals.txt')
-
-ca_plot <- ggplot(data = gene_list_trend_test_pvalue, aes(x=as.factor(BP), y=-log10(P), colour = as.factor(CHR))) +
-  geom_point() +
-  geom_hline(yintercept = 9) +
-  #facet_grid(~CHR, scales = 'free_x', space = 'free_x', switch = 'x') 
-  geom_rect(
-    data = qtl,
-    aes(
-      xmin = Start,
-      xmax = Stop,
-      ymin = -0.5,
-      ymax = 0,
-      fill = Trait
-    ),
-    inherit.aes = FALSE
-  ) +
-
-  facet_grid(
-    ~CHR,
-    scales = "free_x",
-    space = "free_x",
-    switch = "x"
-  ) +
-  coord_cartesian(ylim = c(-0.5, NA))
-ca_plot
-#ggsave('Cochran-Armitage_trend_test_wQTL.svg', plot=ca_plot)
-
-
-
-stop()
-#make chr different colors
-ca_plot <- ggplot(data=trend_test_only, aes(x=as.factor(BP), y=-log10(P), colour=factor(CHR))) +  #x as factor can either parses/spaces by SNP/BP or by CHR #fill=?
-  scale_color_manual(values = rep(c("grey", "orange3"), 22 )) +
-  geom_hline(yintercept = 9, linetype="dotted") + #makes a p-value cut off
-  geom_point(stat="identity") +
-  geom_point(aes(colour = -log10(P) > 9),
-             show.legend = FALSE) +
-  facet_grid(~CHR, scales = 'free_x', space = 'free_x', switch = 'x') + #makes the x axis have chr squares?
-  theme_classic() + 
-  theme(axis.text.x = element_blank(),
-        axis.ticks.x = element_blank(),
-        panel.spacing = unit(0, "lines")) +
-  #scale_x_continuous(expand = c(0, 0)) + #try with or without
-
-  labs(x="CHR", title="Cochran-Armitage")
-#ca_plot
-gene_list = subset(trend_test_only, P<= 1e-9)
-ggsave('Cochran-Armitage trend test.png', plot=ca_plot)
-
-```
 
 
 
@@ -145,13 +87,13 @@ highlight_genes <- data.frame(
 )
 
 
-
+#subset data to each chromosome
 pull_chr <- function(df, chr, chr_col = "CHR"){
   df[df[[chr_col]] %in% chr, ]
 }
 
 
-
+# Function to plot each chromosome
 plot_chr <- function(chr,
                      gwas,
                      qtl) {
@@ -164,6 +106,8 @@ plot_chr <- function(chr,
   qtl_chr <- qtl_no_na %>%
     filter(CHR == chr)
   
+  # use the midpoint for each sweep
+  # and plot Hard and Soft
   sweeps_chr <- sweeps_genes %>%
     filter(CHR == chr) %>%
     mutate(
@@ -183,11 +127,13 @@ plot_chr <- function(chr,
     ) %>%
     filter(cave_count >0)
   
+  #Set the max y value for each chromosome to standardize the y-axis
   gene_y = max(gwas_chr$logP, na.rm = TRUE) * 1.05
   
   sweeps_chr <- sweeps_chr %>%
     mutate(y = gene_y)
   
+  #same with the x - keep the max x value from all datasets for x-axis definition
   xmax <- max(c(gwas_chr$BP, qtl_chr$Start, qtl_chr$Stop, sweeps_chr$Start, sweeps_chr$Stop), na.rm = TRUE)
   
   highlight_chr <- highlight_genes %>%
@@ -206,32 +152,28 @@ plot_chr <- function(chr,
       color = "black"
     ) +
     
-    #geom_point(data = highlight_chr,
-    #       aes(x = midpoint, y=y),
-    #       color = "green", size = 3, shape = 17) +
+    #vertical dashed line for highlighted genes
     geom_vline(data = highlight_chr,
            aes(xintercept = midpoint),
-           color = "green", line = "dashed", alpha =0.6) +
+           color = "darkgreen", line = "dashed", alpha =0.6) +
 
     coord_cartesian(xlim = c(0, xmax)) +
-    geom_point(data = sweeps_chr %>% filter(sweep_type == "Soft"),
+    geom_text(data = sweeps_chr %>% filter(sweep_type == "Soft"),
                aes(x = midpoint,
                    y = y,
+                   label= "|",
                    size = cave_count,
                    color = sweep_type), alpha = 0.8) +
-    
 
-    
-    geom_point(
-      data = sweeps_chr %>% filter(sweep_type == "Hard"),
-      aes(
-        x = midpoint,
+    geom_text(data = sweeps_chr %>% filter(sweep_type == "Hard"),
+      aes(x = midpoint,
         y = y,
+        label = "|",
         size = cave_count,
         color = sweep_type
       )
     ) +
-    
+    guides(size = guide_legend(override.aes = list(label = "|")), color = guide_legend(override.aes = list(label = "|")))+
     labs(
       title = paste("Chromosome", chr),
       x = "Position (bp)",
@@ -240,8 +182,8 @@ plot_chr <- function(chr,
     
     scale_color_manual(
       values = c(
-        Hard = "red",
-        Soft = "dodgerblue"
+        Hard = "darkblue",
+        Soft = "pink"
       )
     ) +
 
@@ -291,7 +233,7 @@ plots
 ```
 
 # Full genome Cochran-Armitage trend test with QTL bar below
-```{r}
+```{r CA_and_QTL}
 ## Cochran-Armitage Trend test
 trend_test_only <- no_na_ca[no_na_ca$TEST %in% c('TREND'),]
 
@@ -307,7 +249,7 @@ gene_list_trend_test_pvalue <- filter(trend_test_only, -log10(P) >= 2.5 )
 
 chr_lengths <- read_table('../genome/per_chr_total_BP.tsv', col_names = c('CHR','length'))
 
-qtl <- read_table('../data/candidate_genes/original_QTL_analysis/wiese_eye_intervals.txt')
+qtl <- read_table('../data/candidate_genes/QTLs/original_QTL_analysis/wiese_eye_intervals.txt')
 colnames(qtl) <- c('Trait', 'CHR', 'Start', 'Stop')
 
 col_names = c('Trait', 'CHR', 'Start', 'Stop')
@@ -403,7 +345,7 @@ p
 ggsave('CA_trend_and_QTL.svg', plot=p)
 ggsave('CA_trend_and_QTL.png', plot = p)
 ```
-
+# Depreciated
 # CHR / QTL only, no sweeps
 ```{r Chrom_plots}
 ### Per chromosome plot:
@@ -503,3 +445,64 @@ plots[[1]]
 
 ```
 
+
+
+# GWAS + QTL
+```{r Manhattan_plot}
+
+gene_list_trend_test_pvalue <- filter(trend_test_only, -log10(P) >= 5 )
+
+
+chr_lengths <- read_table('../genome/per_chr_total_BP.tsv', col_names = c('Chromosome','length'))
+
+qtl <- read_table('../data/candidate_genes/QTLs/original_QTL_analysis/wiese_eye_intervals.txt')
+
+ca_plot <- ggplot(data = gene_list_trend_test_pvalue, aes(x=as.factor(BP), y=-log10(P), colour = as.factor(CHR))) +
+  geom_point() +
+  geom_hline(yintercept = 9) +
+  #facet_grid(~CHR, scales = 'free_x', space = 'free_x', switch = 'x') 
+  geom_rect(
+    data = qtl,
+    aes(
+      xmin = Start,
+      xmax = Stop,
+      ymin = -0.5,
+      ymax = 0,
+      fill = Trait
+    ),
+    inherit.aes = FALSE
+  ) +
+
+  facet_grid(
+    ~CHR,
+    scales = "free_x",
+    space = "free_x",
+    switch = "x"
+  ) +
+  coord_cartesian(ylim = c(-0.5, NA))
+ca_plot
+#ggsave('Cochran-Armitage_trend_test_wQTL.svg', plot=ca_plot)
+
+
+
+stop()
+#make chr different colors
+ca_plot <- ggplot(data=trend_test_only, aes(x=as.factor(BP), y=-log10(P), colour=factor(CHR))) +  #x as factor can either parses/spaces by SNP/BP or by CHR #fill=?
+  scale_color_manual(values = rep(c("grey", "orange3"), 22 )) +
+  geom_hline(yintercept = 9, linetype="dotted") + #makes a p-value cut off
+  geom_point(stat="identity") +
+  geom_point(aes(colour = -log10(P) > 9),
+             show.legend = FALSE) +
+  facet_grid(~CHR, scales = 'free_x', space = 'free_x', switch = 'x') + #makes the x axis have chr squares?
+  theme_classic() + 
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        panel.spacing = unit(0, "lines")) +
+  #scale_x_continuous(expand = c(0, 0)) + #try with or without
+
+  labs(x="CHR", title="Cochran-Armitage")
+#ca_plot
+gene_list = subset(trend_test_only, P<= 1e-9)
+ggsave('Cochran-Armitage trend test.png', plot=ca_plot)
+
+```

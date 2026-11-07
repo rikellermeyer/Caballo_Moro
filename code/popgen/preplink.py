@@ -338,13 +338,13 @@ if __name__=='__main__':
     #print('generating common plink scripts')
     #common_preplink()
 
-    #print('making pca scripts')
-    #pca_plink()
+    print('making pca scripts')
+    pca_plink()
 
     #plot_cv()
 
-    print('making gwas scripts')
-    gwas_plink()
+    #print('making gwas scripts')
+    #gwas_plink()
 
     
 
