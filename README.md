@@ -1,5 +1,5 @@
 # Caballo Moro pipeline
-The Caballo Moro Astyanax mexicanus cave population consists of both eyed and eyeless individuals. The purpose of this pipeline is to compare/contrast genomic differences within this population. We sequenced 42 indiviudals- eyed cavefish (E series sample names), eyeless cavefish (C series sample names), and surface fish (S and Sr sample names). 
+The Caballo Moro Astyanax mexicanus cave population consists of both eyed and eyeless individuals. The purpose of this pipeline is to compare/contrast genomic differences within this population. We sequenced 42 indiviudals- eyed cavefish (E series sample names), eyeless cavefish (C series sample names), and surface fish (S and Sr sample names). The purpose of this pipeline is to align these new individuals to the AstMex3_surface (GCA_023375975.1) genome, conduct variant calling, evaluate the population genetics, and identify candidate genes that are specific to the eyeless phenotype. 
 
 `config.yaml` is easily editable to define new genomes, paths, samples, etc. 
 
